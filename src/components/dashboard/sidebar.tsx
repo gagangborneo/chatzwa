@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { useI18n } from '@/lib/i18n'
 import {
   BarChart3,
   MessageSquare,
   Database,
-  TrendingUp,
+  RefreshCw,
   Settings,
   Users,
   FileText,
@@ -15,7 +16,8 @@ import {
   Smartphone,
   Globe,
   MessageCircle,
-  Facebook
+  Facebook,
+  CreditCard
 } from 'lucide-react'
 import {
   Sidebar,
@@ -34,17 +36,16 @@ import {
 } from '@/components/ui/sidebar'
 import LanguageDropdown from './language-dropdown'
 
-const navigationItems = [
-  {
-    titleKey: 'nav.dashboard',
-    icon: BarChart3,
-    href: '/dashboard',
-    isActive: true
-  },
+const chatbotItems = [
   {
     titleKey: 'nav.chatAnalytics',
     icon: MessageSquare,
     href: '/dashboard/chat',
+  },
+  {
+    titleKey: 'nav.persona',
+    icon: Cpu,
+    href: '/dashboard/persona',
   },
   {
     titleKey: 'nav.knowledgeBase',
@@ -52,32 +53,32 @@ const navigationItems = [
     href: '/dashboard/knowledge',
   },
   {
-    titleKey: 'nav.tokenUsage',
-    icon: TrendingUp,
-    href: '/dashboard/tokens',
+    titleKey: 'nav.dataSync',
+    icon: RefreshCw,
+    href: '/dashboard/sync',
   },
 ]
 
 const managementItems = [
   {
-    titleKey: 'nav.users',
+    titleKey: 'nav.account',
     icon: Users,
-    href: '/dashboard/users',
+    href: '/dashboard/account',
   },
   {
-    titleKey: 'nav.documents',
-    icon: FileText,
-    href: '/dashboard/documents',
-  },
-  {
-    titleKey: 'nav.aiModels',
-    icon: Cpu,
-    href: '/dashboard/models',
+    titleKey: 'nav.billing',
+    icon: CreditCard,
+    href: '/dashboard/billing',
   },
   {
     titleKey: 'nav.settings',
     icon: Settings,
     href: '/dashboard/settings',
+  },
+  {
+    titleKey: 'nav.help',
+    icon: FileText,
+    href: '/dashboard/help',
   },
 ]
 
@@ -101,11 +102,13 @@ const integrationItems = [
     titleKey: 'nav.instagram',
     icon: MessageCircle,
     href: '/dashboard/integrations/instagram',
+    isComingSoon: true,
   },
   {
     titleKey: 'nav.facebook',
     icon: Facebook,
     href: '/dashboard/integrations/facebook',
+    isComingSoon: true,
   },
 ]
 
@@ -115,7 +118,24 @@ interface DashboardSidebarProps {
 
 export default function DashboardSidebar({ children }: DashboardSidebarProps) {
   const { t } = useI18n()
+  const pathname = usePathname()
   const [activeItem, setActiveItem] = useState('Dashboard')
+
+  // Update active item based on current pathname
+  useEffect(() => {
+    // Check if main dashboard
+    if (pathname === '/dashboard') {
+      setActiveItem(t('nav.dashboard'))
+      return
+    }
+
+    const allNavItems = [...chatbotItems, ...managementItems, ...integrationItems]
+    const activeNav = allNavItems.find(item => pathname.startsWith(item.href))
+
+    if (activeNav) {
+      setActiveItem(t(activeNav.titleKey))
+    }
+  }, [pathname, t])
 
   return (
     <SidebarProvider>
@@ -127,35 +147,34 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold text-gray-900">{t('dashboard.title')}</span>
-              <span className="text-xs text-gray-500">Analytics Hub</span>
+              <span className="text-xs text-gray-500">Chatbot AI</span>
             </div>
           </div>
         </SidebarHeader>
 
         <SidebarContent>
+          {/* Dashboard - Menu Utama */}
           <SidebarGroup>
-            <SidebarGroupLabel>{t('dashboard.analytics')}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {navigationItems.map((item) => (
-                  <SidebarMenuItem key={item.titleKey}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={activeItem === t(item.titleKey)}
-                      onClick={() => setActiveItem(t(item.titleKey))}
-                      className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
-                    >
-                      <a href={item.href} className="flex items-center gap-3">
-                        <item.icon className="h-4 w-4" />
-                        <span>{t(item.titleKey)}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={activeItem === t('nav.dashboard')}
+                    onClick={() => setActiveItem(t('nav.dashboard'))}
+                    className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
+                  >
+                    <a href="/dashboard" className="flex items-center gap-3">
+                      <BarChart3 className="h-4 w-4" />
+                      <span>{t('nav.dashboard')}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
 
+          {/* Management */}
           <SidebarGroup>
             <SidebarGroupLabel>{t('dashboard.management')}</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -179,6 +198,31 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
             </SidebarGroupContent>
           </SidebarGroup>
 
+          {/* Chatbot AI */}
+          <SidebarGroup>
+            <SidebarGroupLabel>{t('dashboard.chatbotAI')}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {chatbotItems.map((item) => (
+                  <SidebarMenuItem key={item.titleKey}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={activeItem === t(item.titleKey)}
+                      onClick={() => setActiveItem(t(item.titleKey))}
+                      className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
+                    >
+                      <a href={item.href} className="flex items-center gap-3">
+                        <item.icon className="h-4 w-4" />
+                        <span>{t(item.titleKey)}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          {/* Integrations */}
           <SidebarGroup>
             <SidebarGroupLabel className="flex items-center gap-2">
               <Plug className="h-4 w-4" />
@@ -197,6 +241,11 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
                       <a href={item.href} className="flex items-center gap-3">
                         <item.icon className="h-4 w-4" />
                         <span>{t(item.titleKey)}</span>
+                        {item.isComingSoon && (
+                          <span className="ml-auto text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                            {t('nav.comingSoon')}
+                          </span>
+                        )}
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

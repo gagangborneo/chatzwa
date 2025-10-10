@@ -5,7 +5,8 @@ import { useI18n } from '@/lib/i18n'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Send } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { Send, Bot } from 'lucide-react'
 
 interface Message {
   id: string
@@ -43,8 +44,41 @@ export default function ChatInterface() {
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [persona, setPersona] = useState<any>(null)
+  const [personaLoading, setPersonaLoading] = useState(true)
   const scrollRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Load active persona on component mount
+  useEffect(() => {
+    loadActivePersona()
+  }, [])
+
+  const loadActivePersona = async () => {
+    try {
+      setPersonaLoading(true)
+      const response = await fetch('/api/persona?active=true')
+      const data = await response.json()
+
+      if (data.success && data.data) {
+        setPersona(data.data)
+
+        // Update welcome message with persona's welcome message
+        setMessages([
+          {
+            id: '1',
+            content: data.data.welcomeMessage || t('chat.welcome'),
+            role: 'assistant',
+            timestamp: new Date()
+          }
+        ])
+      }
+    } catch (error) {
+      console.error('Error loading persona:', error)
+    } finally {
+      setPersonaLoading(false)
+    }
+  }
 
   // Message length limit
   const MAX_MESSAGE_LENGTH = 1000
@@ -138,11 +172,34 @@ export default function ChatInterface() {
     <div className="w-full max-w-4xl mx-auto h-[85vh] flex flex-col bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 border-b border-gray-100 flex-shrink-0 px-6 py-4">
-        <div className="flex items-center gap-2 text-white">
-          <div className="flex flex-col">
-            <span className="text-lg font-semibold">{t('chat.title')}</span>
-            <span className="text-xs text-green-100 opacity-90">{t('chat.subtitle')}</span>
+        <div className="flex items-center justify-between text-white">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center">
+                <Bot className="h-4 w-4" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-semibold">
+                  {personaLoading ? 'Loading...' : (persona?.name || t('chat.title'))}
+                </span>
+                <span className="text-xs text-green-100 opacity-90">
+                  {persona ? `${persona.selectedProfile === 'islamic_educator' ? 'Pendidik Islam' :
+                               persona.selectedProfile === 'customer_service' ? 'Layanan Pelanggan' :
+                               persona.selectedProfile === 'academic_assistant' ? 'Asisten Akademik' :
+                               persona.selectedProfile === 'friendly_guide' ? 'Pemandu Ramah' :
+                               persona.selectedProfile === 'professional_advisor' ? 'Penasihat Profesional' : 'Assistant'}` : t('chat.subtitle')}
+                </span>
+              </div>
+            </div>
           </div>
+
+          {persona && !personaLoading && (
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                Active
+              </Badge>
+            </div>
+          )}
         </div>
       </div>
       
@@ -161,7 +218,9 @@ export default function ChatInterface() {
                 }`}
               >
                 {message.role === 'assistant' && (
-                  <span className="text-xs text-gray-500 mb-1">Attallah</span>
+                  <span className="text-xs text-gray-500 mb-1">
+                    {persona?.name || 'Attallah'}
+                  </span>
                 )}
                 
                 <div
@@ -195,7 +254,9 @@ export default function ChatInterface() {
             
             {isLoading && (
               <div className="flex flex-col items-start">
-                <span className="text-xs text-gray-500 mb-1">Attallah</span>
+                <span className="text-xs text-gray-500 mb-1">
+                  {persona?.name || 'Attallah'}
+                </span>
                 <div className="bg-white text-gray-800 rounded-2xl rounded-bl-none px-4 md:px-5 py-3 md:py-4 border border-gray-100 shadow-sm">
                   <div className="flex items-center gap-2">
                     <div className="flex gap-1">

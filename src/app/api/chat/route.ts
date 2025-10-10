@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getActivePersona } from '@/lib/persona-service'
 
 // Check if we should use Ollama or ZAI based on environment variables
 const USE_OLLAMA = process.env.OLLAMA_BASE_URL && process.env.OLLAMA_MODEL
@@ -52,14 +53,11 @@ async function callOllamaAPI(messages: OllamaMessage[]): Promise<string> {
   }
 }
 
-// Function to call ZAI API
-async function callZAIAPI(message: string): Promise<string> {
-  try {
-    // Dynamic import to avoid issues if ZAI is not available
-    const ZAI = (await import('z-ai-web-dev-sdk')).default
-    const zai = await ZAI.create()
-
-    const systemPrompt = `Anda adalah Attallah, asisten digital Yayasan Pendidikan Islam yang profesional, ramah, dan berpengetahuan luas. 
+// Generate dynamic system prompt based on active persona
+function generateSystemPrompt(persona: any): string {
+  if (!persona) {
+    // Fallback to default persona
+    return `Anda adalah Attallah, asisten digital Yayasan Pendidikan Islam yang profesional, ramah, dan berpengetahuan luas.
     Tugas Anda adalah membantu pengguna seputar:
     1. **Program Pendidikan**: Informasi tentang kurikulum, pendaftaran, jadwal, biaya, dan fasilitas pendidikan
     2. **Transaksi**: Bantuan terkait pembayaran, donasi, dan administrasi keuangan
@@ -67,7 +65,7 @@ async function callZAIAPI(message: string): Promise<string> {
     4. **Kajian**: Jadwal kajian Islam, materi, dan informasi pemateri
     5. **Program Donasi**: Informasi tentang program donasi, cara berdonasi, dan dampak donasi
     6. **Ilmu Al-Quran**: Bantuan terkait pembelajaran Al-Quran, tajwid, dan tafsir
-    
+
     **Guidelines:**
     - Gunakan bahasa Indonesia yang formal namun hangat dan bersahabat
     - Mulai respons dengan salam Islami (Assalamualaikum) jika memungkinkan
@@ -75,8 +73,123 @@ async function callZAIAPI(message: string): Promise<string> {
     - Berikan informasi yang akurat dan bermanfaat
     - Jika tidak tahu jawabannya, katakan dengan jujur dan tawarkan bantuan alternatif
     - Bersikap sabar, empatik, dan profesional
-    
+
     Jawablah dengan singkat, jelas, dan langsung ke inti masalah.`
+  }
+
+  // Build persona-based system prompt
+  const formalityMap = {
+    casual: 'santai dan informal',
+    professional: 'profesional namun ramah',
+    formal: 'sangat formal dan akademis'
+  }
+
+  const enthusiasmMap = {
+    low: 'tenang dan bijaksana',
+    medium: 'antusias dan bersemangat',
+    high: 'sangat bersemangat dan energik'
+  }
+
+  const empathyMap = {
+    low: 'fokus pada fakta dan solusi',
+    medium: 'perhatian dan empatik',
+    high: 'sangat empatik dan peduli'
+  }
+
+  const knowledgeDomainText =
+    persona.knowledgeDomain === 'islamic_education' ? 'Pendidikan Islam dan studi agama' :
+    persona.knowledgeDomain === 'education' ? 'Pendidikan umum dan akademis' :
+    persona.knowledgeDomain === 'religious' ? 'Studi keagamaan' : 'Umum dan berbagai topik'
+
+  const languageStyleText =
+    persona.languageStyle === 'friendly' ? 'Ramah dan akrab' :
+    persona.languageStyle === 'professional' ? 'Profesional dan terstruktur' :
+    persona.languageStyle === 'academic' ? 'Akademis dan formal' : 'Kasual dan santai'
+
+  const culturalContextText =
+    persona.culturalContext === 'islamic' ? 'Islami dengan nilai-nilai Islam' :
+    persona.culturalContext === 'indonesian' ? 'Indonesia dengan budaya lokal' :
+    persona.culturalContext === 'western' ? 'Modern dan internasional' : 'Netral dan universal'
+
+  const expertiseText =
+    persona.expertise === 'general' ? 'Pengetahuan umum' :
+    persona.expertise === 'intermediate' ? 'Menengah dengan pengalaman' :
+    persona.expertise === 'expert' ? 'Ahli mendalam' : 'Sarjana akademis'
+
+  const personalityText =
+    persona.personality === 'helpful' ? 'Suka membantu dan suportif' :
+    persona.personality === 'formal' ? 'Formal dan terstruktur' :
+    persona.personality === 'friendly' ? 'Ramah dan hangat' :
+    persona.personality === 'teacher' ? 'Gaya mengajar yang sabar' : 'Pemandu yang informatif'
+
+  const humorText =
+    persona.humor === 'high' ? 'suka humor ringan' :
+    persona.humor === 'medium' ? 'humor sesekali' : 'serius dan fokus'
+
+  const verbosityText =
+    persona.verbosity === 'concise' ? 'singkat dan padat' :
+    persona.verbosity === 'detailed' ? 'detail dan komprehensif' : 'seimbang'
+
+  const systemPrompt = `Anda adalah ${persona.name}, asisten AI profesional yang berdedikasi untuk membantu pengguna.
+
+**Kepribadian Anda:**
+- Nama: ${persona.name}
+- Gaya bahasa: ${formalityMap[persona.formality] || formalityMap.professional}
+- Tingkat keantusiasan: ${enthusiasmMap[persona.enthusiasm] || enthusiasmMap.medium}
+- Tingkat empati: ${empathyMap[persona.empathy] || empathyMap.medium}
+- Selera humor: ${humorText}
+- Verbositas: ${verbosityText}
+
+**Domain Keahlian:**
+- Pengetahuan: ${knowledgeDomainText}
+- Gaya bahasa: ${languageStyleText}
+- Konteks budaya: ${culturalContextText}
+- Tingkat keahlian: ${expertiseText}
+- Personalitas: ${personalityText}
+
+**Pesan Pembuka:**
+${persona.welcomeMessage}
+
+**Pedoman Interaksi:**
+- Gunakan nama "${persona.name}" saat memperkenalkan diri
+- Sesuaikan gaya bahasa dengan kepribadian Anda di atas
+- ${persona.useEmojis ? 'Gunakan emoji yang sesuai untuk membuat percakapan lebih hidup' : 'Hindari penggunaan emoji'}
+- ${persona.includeGreeting ? 'Mulai respons dengan sapaan yang hangat' : 'Langsung ke inti pembicaraan'}
+- ${persona.askFollowUp ? 'Akhiri respons dengan pertanyaan lanjutan jika relevan' : 'Berikan respons lengkap tanpa perlu pertanyaan lanjutan'}
+- Batasi respons hingga ${persona.maxLength} kata
+- Respon dalam waktu ${persona.minResponseTime}-${persona.maxResponseTime} detik untuk simulasi berpikir
+
+${persona.systemPrompt ? `\n**Instruksi Khusus:**\n${persona.systemPrompt}` : ''}
+${persona.customInstructions ? `\n**Instruksi Tambahan:**\n${persona.customInstructions}` : ''}
+
+**Tugas Utama:**
+Bantu pengguna seputar:
+1. **Program Pendidikan**: Informasi kurikulum, pendaftaran, jadwal, biaya, dan fasilitas
+2. **Transaksi**: Bantuan pembayaran, donasi, dan administrasi keuangan
+3. **Data**: Informasi data siswa, alumni, dan statistik yayasan
+4. **Kajian**: Jadwal kajian Islam, materi, dan informasi pemateri
+5. **Program Donasi**: Informasi program donasi, cara berdonasi, dan dampaknya
+6. **Ilmu Al-Quran**: Bantuan pembelajaran Al-Quran, tajwid, dan tafsir
+
+**Prinsip Dasar:**
+- Berikan informasi yang akurat dan bermanfaat
+- Jika tidak tahu jawabannya, katakan dengan jujur
+- Bersikap sabar, empatik, dan profesional
+- ${persona.culturalContext === 'islamic' ? 'Sertakan referensi Al-Quran atau Hadits jika relevan' : 'Berikan informasi yang terpercaya dan dapat diverifikasi'}
+
+Jawablah sesuai kepribadian Anda di atas!`
+
+  return systemPrompt
+}
+
+// Function to call ZAI API
+async function callZAIAPI(message: string, persona: any): Promise<string> {
+  try {
+    // Dynamic import to avoid issues if ZAI is not available
+    const ZAI = (await import('z-ai-web-dev-sdk')).default
+    const zai = await ZAI.create()
+
+    const systemPrompt = generateSystemPrompt(persona)
 
     const completion = await zai.chat.completions.create({
       messages: [
@@ -90,7 +203,7 @@ async function callZAIAPI(message: string): Promise<string> {
         }
       ],
       temperature: 0.7,
-      max_tokens: 500
+      max_tokens: persona?.maxLength || 500
     })
 
     return completion.choices[0]?.message?.content || 'Maaf, saya tidak dapat merespons saat ini.'
@@ -111,52 +224,60 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Get active persona
+    const activePersona = await getActivePersona()
+
+    if (!activePersona) {
+      console.warn('No active persona found, using default settings')
+    }
+
     let response: string
 
     // Use Ollama if environment variables are set, otherwise use ZAI
     if (USE_OLLAMA) {
-      console.log('Using Ollama API...')
+      console.log('Using Ollama API with persona:', activePersona?.name || 'Default')
+      const systemPrompt = generateSystemPrompt(activePersona)
+
       const messages: OllamaMessage[] = [
         {
           role: 'system',
-          content: `Anda adalah Attallah, asisten digital Yayasan Pendidikan Islam yang profesional, ramah, dan berpengetahuan luas. 
-    Tugas Anda adalah membantu pengguna seputar:
-    1. **Program Pendidikan**: Informasi tentang kurikulum, pendaftaran, jadwal, biaya, dan fasilitas pendidikan
-    2. **Transaksi**: Bantuan terkait pembayaran, donasi, dan administrasi keuangan
-    3. **Data**: Informasi tentang data siswa, alumni, dan statistik yayasan
-    4. **Kajian**: Jadwal kajian Islam, materi, dan informasi pemateri
-    5. **Program Donasi**: Informasi tentang program donasi, cara berdonasi, dan dampak donasi
-    6. **Ilmu Al-Quran**: Bantuan terkait pembelajaran Al-Quran, tajwid, dan tafsir
-    
-    **Guidelines:**
-    - Gunakan bahasa Indonesia yang formal namun hangat dan bersahabat
-    - Mulai respons dengan salam Islami (Assalamualaikum) jika memungkinkan
-    - Sertakan referensi Al-Quran atau Hadits jika relevan dengan topik
-    - Berikan informasi yang akurat dan bermanfaat
-    - Jika tidak tahu jawabannya, katakan dengan jujur dan tawarkan bantuan alternatif
-    - Bersikap sabar, empatik, dan profesional
-    
-    Jawablah dengan singkat, jelas, dan langsung ke inti masalah.`
+          content: systemPrompt
         },
         {
           role: 'user',
           content: message
         }
       ]
-      
+
       response = await callOllamaAPI(messages)
     } else {
-      console.log('Using ZAI API...')
-      response = await callZAIAPI(message)
+      console.log('Using ZAI API with persona:', activePersona?.name || 'Default')
+      response = await callZAIAPI(message, activePersona)
     }
 
-    return NextResponse.json({ response })
+    // Simulate response time based on persona settings
+    if (activePersona && (activePersona.minResponseTime || activePersona.maxResponseTime)) {
+      const minTime = activePersona.minResponseTime || 1.0
+      const maxTime = activePersona.maxResponseTime || 5.0
+      const responseTime = Math.random() * (maxTime - minTime) + minTime
+
+      // Add artificial delay to simulate response time
+      await new Promise(resolve => setTimeout(resolve, responseTime * 1000))
+    }
+
+    return NextResponse.json({
+      response,
+      persona: {
+        name: activePersona?.name || 'Default Assistant',
+        profile: activePersona?.selectedProfile || 'default'
+      }
+    })
 
   } catch (error) {
     console.error('Chat API Error:', error)
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Internal server error',
         response: 'Maaf, terjadi kesalahan pada sistem. Silakan coba lagi nanti.'
       },

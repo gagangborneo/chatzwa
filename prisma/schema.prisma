@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -19,6 +19,9 @@ model User {
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relations
+  personas  Persona[]
 }
 
 model Post {
@@ -29,4 +32,51 @@ model Post {
   authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Persona {
+  id                   String   @id @default(cuid())
+  name                 String
+  welcomeMessage       String
+  selectedProfile      String   @default("islamic_educator")
+
+  // Text Style Settings
+  formality            String   @default("professional") // casual, professional, formal
+  empathy              String   @default("high")          // low, medium, high
+  enthusiasm           String   @default("medium")       // low, medium, high
+  humor                String   @default("low")          // low, medium, high
+  verbosity            String   @default("medium")       // concise, medium, detailed
+
+  // Behavior Settings
+  knowledgeDomain      String   @default("islamic_education") // islamic_education, general, education, religious
+  languageStyle        String   @default("friendly")          // friendly, professional, academic, casual
+  culturalContext      String   @default("indonesian")        // indonesian, islamic, western, neutral
+  expertise            String   @default("general")           // general, intermediate, expert, scholar
+  personality          String   @default("helpful")           // helpful, formal, friendly, teacher, guide
+
+  // Response Settings
+  maxLength            Int      @default(500)
+  minResponseTime      Float    @default(1.0)
+  maxResponseTime      Float    @default(5.0)
+  useEmojis            Boolean  @default(true)
+  includeGreeting      Boolean  @default(true)
+  askFollowUp          Boolean  @default(true)
+
+  // AI Settings
+  systemPrompt         String   @default("")
+  customInstructions   String   @default("")
+
+  // Metadata
+  isActive             Boolean  @default(false)
+  createdBy            String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // Relations
+  userId               String?
+  user                 User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([isActive])
+  @@index([selectedProfile])
 }

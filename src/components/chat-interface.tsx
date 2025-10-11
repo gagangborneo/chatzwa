@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Badge } from '@/components/ui/badge'
-import { Send, Bot } from 'lucide-react'
+import { Send, Bot, RotateCcw } from 'lucide-react'
+import { ChatStorage } from '@/lib/chat-storage'
 
 interface Message {
   id: string
@@ -34,25 +35,53 @@ const formatMarkdown = (text: string): string => {
 
 export default function ChatInterface() {
   const { t } = useI18n()
-  const [messages, setMessages] = useState<Message[]>([
-    {
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [persona, setPersona] = useState<any>(null)
+  const [personaLoading, setPersonaLoading] = useState(true)
+  const [storageAvailable, setStorageAvailable] = useState(true)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Initialize component: load persona and conversation
+  useEffect(() => {
+    initializeChat()
+  }, [])
+
+  // Auto-save messages whenever they change
+  useEffect(() => {
+    if (messages.length > 1 && storageAvailable) { // Only save if there are actual messages beyond welcome
+      ChatStorage.saveConversation(messages)
+    }
+  }, [messages, storageAvailable])
+
+  const initializeChat = async () => {
+    // Check if localStorage is available
+    const isStorageAvailable = ChatStorage.isStorageAvailable()
+    setStorageAvailable(isStorageAvailable)
+
+    // Load active persona
+    await loadActivePersona()
+
+    // Load saved conversation if available
+    if (isStorageAvailable) {
+      const savedMessages = ChatStorage.loadConversation()
+      if (savedMessages && savedMessages.length > 0) {
+        setMessages(savedMessages)
+        return // Don't add welcome message if we have saved conversation
+      }
+    }
+
+    // Add welcome message if no saved conversation
+    const welcomeMessage: Message = {
       id: '1',
       content: t('chat.welcome'),
       role: 'assistant',
       timestamp: new Date()
     }
-  ])
-  const [input, setInput] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [persona, setPersona] = useState<any>(null)
-  const [personaLoading, setPersonaLoading] = useState(true)
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-
-  // Load active persona on component mount
-  useEffect(() => {
-    loadActivePersona()
-  }, [])
+    setMessages([welcomeMessage])
+  }
 
   const loadActivePersona = async () => {
     try {
@@ -63,21 +92,38 @@ export default function ChatInterface() {
       if (data.success && data.data) {
         setPersona(data.data)
 
-        // Update welcome message with persona's welcome message
-        setMessages([
-          {
-            id: '1',
-            content: data.data.welcomeMessage || t('chat.welcome'),
-            role: 'assistant',
-            timestamp: new Date()
-          }
-        ])
+        // Update welcome message with persona's welcome message only if no saved conversation
+        if (messages.length === 0 || (messages.length === 1 && messages[0].id === '1')) {
+          setMessages([
+            {
+              id: '1',
+              content: data.data.welcomeMessage || t('chat.welcome'),
+              role: 'assistant',
+              timestamp: new Date()
+            }
+          ])
+        }
       }
     } catch (error) {
       console.error('Error loading persona:', error)
     } finally {
       setPersonaLoading(false)
     }
+  }
+
+  const clearConversation = () => {
+    if (storageAvailable) {
+      ChatStorage.clearUserConversation()
+    }
+
+    // Reset to welcome message
+    const welcomeMessage: Message = {
+      id: '1',
+      content: persona?.welcomeMessage || t('chat.welcome'),
+      role: 'assistant',
+      timestamp: new Date()
+    }
+    setMessages([welcomeMessage])
   }
 
   // Message length limit
@@ -193,13 +239,25 @@ export default function ChatInterface() {
             </div>
           </div>
 
-          {persona && !personaLoading && (
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            {storageAvailable && messages.length > 1 && (
+              <Button
+                onClick={clearConversation}
+                variant="ghost"
+                size="sm"
+                className="text-white/80 hover:text-white hover:bg-white/20 transition-colors"
+                title="Hapus percakapan"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+            )}
+
+            {persona && !personaLoading && (
               <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
                 Active
               </Badge>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       
@@ -296,9 +354,16 @@ export default function ChatInterface() {
             </Button>
           </div>
           <div className="flex justify-between items-center mt-2">
-            <p className="text-xs text-gray-400">
-              {t('chat.sendInstructions')}
-            </p>
+            <div className="flex items-center gap-3">
+              <p className="text-xs text-gray-400">
+                {t('chat.sendInstructions')}
+              </p>
+              {storageAvailable && (
+                <p className="text-xs text-gray-400">
+                  💾 {messages.length > 1 ? 'Percakapan tersimpan' : 'Siap menyimpan'}
+                </p>
+              )}
+            </div>
             <p className={`text-xs ${input.length > MAX_MESSAGE_LENGTH * 0.9 ? 'text-red-500' : 'text-gray-400'}`}>
               {t('chat.characterCount', { current: input.length, max: MAX_MESSAGE_LENGTH })}
             </p>

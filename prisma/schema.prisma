@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -22,6 +22,8 @@ model User {
 
   // Relations
   personas  Persona[]
+  chatMessages ChatMessage[]
+  whatsappIntegrations WhatsAppIntegration[]
 }
 
 model Post {
@@ -75,8 +77,122 @@ model Persona {
   // Relations
   userId               String?
   user                 User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  chatMessages         ChatMessage[]
 
   @@index([userId])
   @@index([isActive])
   @@index([selectedProfile])
+}
+
+model ChatMessage {
+  id            String   @id @default(cuid())
+  sessionId     String
+  message       String
+  response      String
+  personaId     String?
+  userId        String?
+  source        String   @default("web") // web, whatsapp, etc
+  whatsappId    String?  // WhatsApp message ID
+
+  // Metadata
+  ip            String?
+  userAgent     String?
+  timestamp     DateTime @default(now())
+
+  // Relations
+  persona       Persona?             @relation(fields: [personaId], references: [id], onDelete: SetNull)
+  user          User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+  whatsappIntegration WhatsAppIntegration? @relation(fields: [whatsappId], references: [id], onDelete: SetNull)
+  whatsappContact WhatsAppContact?  @relation(fields: [whatsappId], references: [id], onDelete: SetNull)
+
+  @@index([sessionId])
+  @@index([timestamp])
+  @@index([userId])
+  @@index([personaId])
+  @@index([source])
+  @@index([whatsappId])
+}
+
+model WhatsAppIntegration {
+  id            String   @id @default(cuid())
+  name          String
+  phoneNumber   String   @unique
+  businessId    String?  // WhatsApp Business API ID
+  accessToken   String?  // Encrypted access token
+  apiKey        String?  // Encrypted API key
+  webhookSecret String?  // Encrypted webhook secret
+  status        String   @default("disconnected") // connected, disconnected, error, connecting
+  lastSyncAt    DateTime @default(now())
+
+  // Configuration
+  autoRespond    Boolean  @default(true)
+  welcomeMessage String   @default("")
+  defaultMessage  String   @default("")
+
+  // Statistics
+  totalMessages  Int      @default(0)
+  totalMedia     Int      @default(0)
+  activeChats    Int      @default(0)
+
+  // Metadata
+  createdBy    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  contacts     WhatsAppContact[]
+  media        WhatsAppMedia[]
+  chatMessages ChatMessage[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([phoneNumber])
+  @@index([lastSyncAt])
+}
+
+model WhatsAppContact {
+  id              String   @id @default(cuid())
+  integrationId   String
+  phoneNumber     String   @unique
+  name            String?
+  profilePicture   String?
+  isBlocked       Boolean  @default(false)
+  isBusiness     Boolean  @default(false)
+  lastMessageAt    DateTime?
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  integration     WhatsAppIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  messages        ChatMessage[]
+
+  @@index([integrationId])
+  @@index([phoneNumber])
+  @@index([isBlocked])
+}
+
+model WhatsAppMedia {
+  id              String   @id @default(cuid())
+  integrationId   String
+  messageId       String   // WhatsApp message ID
+  contactId       String?
+  mediaType       String   // image, video, audio, document, etc.
+  mediaUrl        String   // Cloud storage URL
+  originalName    String?
+  mimeType       String?
+  fileSize       Int?
+  thumbnailUrl    String?
+
+  // Metadata
+  createdAt       DateTime @default(now())
+
+  // Relations
+  integration     WhatsAppIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+
+  @@index([integrationId])
+  @@index([mediaType])
 }

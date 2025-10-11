@@ -1,0 +1,22 @@
+{
+  "sessionId": "MTI3LjAuMC4xLWN1",
+  "messages": [
+    {
+      "message": "Halo, ini adalah test untuk chat storage. Apakah saya bisa menyimpan percakapan kita?",
+      "response": "Assalamualaikum,\n\nTentu Anda dapat menyimpan percakapan ini. Namun, ChatGPT tidak menyimpan riwayat percakapan secara permanen setelah sesi berakhir. Untuk menyimpannya, Anda dapat:\n\n1. **Salin & tempel** ke dokumen teks/word/email.\n2. **Gunakan fungsi “Save chat”** (jika tersedia di platform yang Anda pakai).\n3. **Ambil screenshot** atau cetak ke PDF.\n\nJika Anda memerlukan bantuan lebih lanjut tentang cara menyimpan atau mengelola percakapan, beri tahu saya saja!",
+      "timestamp": 1760198314547
+    },
+    {
+      "message": "Bagus! Sekarang coba kita kirim pesan kedua untuk test penyimpanan multiple messages.",
+      "response": "Assalamualaikum,\n\nTerima kasih atas uji coba Anda. Silakan kirim pesan kedua, dan saya akan mencatatnya untuk memastikan penyimpanan multiple messages berjalan lancar.  \n\nSalam hangat,  \nAttallah  \nYayasan Pendidikan Islam 🇮🇩",
+      "timestamp": 1760198344042
+    },
+    {
+      "message": "Build sudah berhasil! Chat storage system sekarang sudah bisa berjalan dengan baik di production.",
+      "response": "Assalamualaikum!  \nSelamat atas keberhasilan build dan peluncuran sistem penyimpanan chat di production. 🎉\n\nApabila ada kebutuhan tambahan—misalnya pengaturan backup, optimasi performa, atau integrasi dengan modul lain—silakan beri tahu saya. Saya siap membantu!",
+      "timestamp": 1760200789646
+    }
+  ],
+  "createdAt": 1760198314547,
+  "lastAccessed": 1760200789646
+}

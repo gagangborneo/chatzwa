@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getActivePersona } from '@/lib/persona-service'
+import { chatStorage } from '@/lib/chat-storage'
 
-// Check if we should use Ollama or ZAI based on environment variables
+// Check if we should use Ollama or OpenRouter based on environment variables
 const USE_OLLAMA = process.env.OLLAMA_BASE_URL && process.env.OLLAMA_MODEL
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
 const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://localhost:11434'
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama2'
+const OPENROUTER_MODEL = process.env.DEFAULT_AI_MODEL || process.env.OPENROUTER_MODEL || 'openai/gpt-oss-20b:free'
+const OPENROUTER_BASE_URL = process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1'
+
 
 interface OllamaMessage {
   role: string
@@ -22,6 +27,40 @@ interface OllamaResponse {
   created_at: string
   response: string
   done: boolean
+}
+
+interface OpenRouterMessage {
+  role: string
+  content: string
+}
+
+interface OpenRouterRequest {
+  model: string
+  messages: OpenRouterMessage[]
+  temperature?: number
+  max_tokens?: number
+  stream?: boolean
+}
+
+interface OpenRouterChoice {
+  message: {
+    role: string
+    content: string
+  }
+  finish_reason: string
+}
+
+interface OpenRouterResponse {
+  id: string
+  object: string
+  created: number
+  model: string
+  choices: OpenRouterChoice[]
+  usage?: {
+    prompt_tokens: number
+    completion_tokens: number
+    total_tokens: number
+  }
 }
 
 // Function to call Ollama API
@@ -182,16 +221,13 @@ Jawablah sesuai kepribadian Anda di atas!`
   return systemPrompt
 }
 
-// Function to call ZAI API
-async function callZAIAPI(message: string, persona: any): Promise<string> {
+// Function to call OpenRouter API
+async function callOpenRouterAPI(message: string, persona: any): Promise<string> {
   try {
-    // Dynamic import to avoid issues if ZAI is not available
-    const ZAI = (await import('z-ai-web-dev-sdk')).default
-    const zai = await ZAI.create()
-
     const systemPrompt = generateSystemPrompt(persona)
 
-    const completion = await zai.chat.completions.create({
+    const openRouterRequest: OpenRouterRequest = {
+      model: OPENROUTER_MODEL,
       messages: [
         {
           role: 'system',
@@ -203,17 +239,37 @@ async function callZAIAPI(message: string, persona: any): Promise<string> {
         }
       ],
       temperature: 0.7,
-      max_tokens: persona?.maxLength || 500
+      max_tokens: persona?.maxLength || 500,
+      stream: false
+    }
+
+    const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+        'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+        'X-Title': process.env.NEXT_PUBLIC_APP_NAME || 'AI Chatbot'
+      },
+      body: JSON.stringify(openRouterRequest)
     })
 
-    return completion.choices[0]?.message?.content || 'Maaf, saya tidak dapat merespons saat ini.'
+    if (!response.ok) {
+      throw new Error(`OpenRouter API error: ${response.status} ${response.statusText}`)
+    }
+
+    const data: OpenRouterResponse = await response.json()
+    return data.choices[0]?.message?.content || 'Maaf, saya tidak dapat merespons saat ini.'
   } catch (error) {
-    console.error('ZAI API Error:', error)
-    throw new Error('Failed to get response from ZAI')
+    console.error('OpenRouter API Error:', error)
+    throw new Error('Failed to get response from OpenRouter')
   }
 }
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now()
+  let sessionId: string | null = null
+
   try {
     const { message } = await request.json()
 
@@ -224,6 +280,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Get or create session ID
+    sessionId = chatStorage.getSessionId(request)
+
     // Get active persona
     const activePersona = await getActivePersona()
 
@@ -233,7 +292,7 @@ export async function POST(request: NextRequest) {
 
     let response: string
 
-    // Use Ollama if environment variables are set, otherwise use ZAI
+    // Use Ollama if environment variables are set, otherwise use OpenRouter
     if (USE_OLLAMA) {
       console.log('Using Ollama API with persona:', activePersona?.name || 'Default')
       const systemPrompt = generateSystemPrompt(activePersona)
@@ -250,9 +309,12 @@ export async function POST(request: NextRequest) {
       ]
 
       response = await callOllamaAPI(messages)
+    } else if (OPENROUTER_API_KEY) {
+      console.log('Using OpenRouter API with persona:', activePersona?.name || 'Default')
+      response = await callOpenRouterAPI(message, activePersona)
     } else {
-      console.log('Using ZAI API with persona:', activePersona?.name || 'Default')
-      response = await callZAIAPI(message, activePersona)
+      console.error('No AI service configured. Please set OLLAMA_BASE_URL & OLLAMA_MODEL for Ollama or OPENROUTER_API_KEY for OpenRouter.')
+      throw new Error('No AI service configured')
     }
 
     // Simulate response time based on persona settings
@@ -265,12 +327,29 @@ export async function POST(request: NextRequest) {
       await new Promise(resolve => setTimeout(resolve, responseTime * 1000))
     }
 
+    // Save conversation to both local storage and database (non-blocking)
+    if (sessionId && response) {
+      // Don't wait for storage to complete for better user experience
+      chatStorage.saveMessage(
+        sessionId,
+        message,
+        response,
+        activePersona?.id,
+        undefined, // userId (can be added later when auth is implemented)
+        request
+      ).catch(error => {
+        console.error('Failed to save conversation:', error)
+      })
+    }
+
     return NextResponse.json({
       response,
       persona: {
         name: activePersona?.name || 'Default Assistant',
         profile: activePersona?.selectedProfile || 'default'
-      }
+      },
+      sessionId, // Return session ID for client-side tracking
+      processingTime: Date.now() - startTime
     })
 
   } catch (error) {
@@ -279,7 +358,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Internal server error',
-        response: 'Maaf, terjadi kesalahan pada sistem. Silakan coba lagi nanti.'
+        response: 'Maaf, terjadi kesalahan pada sistem. Silakan coba lagi nanti.',
+        sessionId
       },
       { status: 500 }
     )

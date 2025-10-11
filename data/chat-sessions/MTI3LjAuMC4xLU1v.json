@@ -1,0 +1,17 @@
+{
+  "sessionId": "MTI3LjAuMC4xLU1v",
+  "messages": [
+    {
+      "message": "halo",
+      "response": "Assalamualaikum warahmatullahi wabarakatuh!  \nSelamat datang di layanan Attallah.  \nAda informasi atau bantuan apa yang dapat saya bantu hari ini?",
+      "timestamp": 1760220437649
+    },
+    {
+      "message": "hallo",
+      "response": "Assalamualaikum warahmatullahi wabarakatuh!  \nTerima kasih sudah menghubungi Yayasan Pendidikan Islam. Ada yang bisa saya bantu hari ini?",
+      "timestamp": 1760220841616
+    }
+  ],
+  "createdAt": 1760220437649,
+  "lastAccessed": 1760220841616
+}

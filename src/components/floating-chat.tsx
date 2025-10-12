@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardFloat, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -37,8 +37,21 @@ export default function FloatingChat() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [unreadCount, setUnreadCount] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      setIsMobile(isMobileDevice)
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -202,8 +215,16 @@ export default function FloatingChat() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-4 right-4 z-50 transition-all duration-300 ease-in-out">
-          <Card className={`shadow-2xl border-0 bg-white ${isMinimized ? 'w-80' : 'w-96 h-[600px]'} transition-all duration-300`}>
+        <div className={`z-50 transition-all duration-300 ease-in-out ${
+          isMobile
+            ? 'fixed inset-0 w-full h-full'
+            : 'fixed bottom-4 right-4'
+        }`}>
+          <CardFloat className={`shadow-2xl border-0 bg-white ${
+            isMobile
+              ? 'w-full h-full rounded-none'
+              : `${isMinimized ? 'w-80' : 'w-96 h-[600px]'}`
+          } transition-all duration-300`}>
             {/* Header */}
             <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 pb-3">
               <div className="flex items-center justify-between">
@@ -252,15 +273,19 @@ export default function FloatingChat() {
             {!isMinimized && (
               <>
                 {/* Messages Area */}
-                <CardContent className="p-0 h-[480px]">
-                  <ScrollArea className="h-full px-4">
-                    <div className="space-y-4 py-4">
+                <CardContent className={`p-0 ${
+                  isMobile
+                    ? 'h-[calc(100vh-8rem)]'
+                    : 'h-[480px]'
+                }`}>
+                  <ScrollArea className={`h-full ${isMobile ? 'px-2' : 'px-4'}`}>
+                    <div className={`space-y-4 ${isMobile ? 'py-2' : 'py-4'}`}>
                       {messages.map((msg) => (
                         <div
                           key={msg.id}
                           className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}
                         >
-                          <div className={`flex gap-2 max-w-[80%] ${msg.isUser ? 'flex-row-reverse' : ''}`}>
+                          <div className={`flex gap-2 ${isMobile ? 'max-w-[90%]' : 'max-w-[80%]'} ${msg.isUser ? 'flex-row-reverse' : ''}`}>
                             <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                               msg.isUser
                                 ? 'bg-green-500 text-white ml-2'
@@ -314,49 +339,53 @@ export default function FloatingChat() {
                 </CardContent>
 
                 {/* Input Area */}
-                <div className="border-t p-4 bg-gray-50">
-                  <div className="flex gap-2">
+                <div className={`border-t bg-gray-50 ${isMobile ? 'p-3' : 'p-4'}`}>
+                  <div className={`flex gap-2 ${isMobile ? 'gap-3' : 'gap-2'}`}>
                     <Input
                       ref={inputRef}
                       value={inputMessage}
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder={language === 'id' ? 'Ketik pesan...' : 'Type a message...'}
-                      className="flex-1 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      className={`flex-1 border-gray-300 focus:border-green-500 focus:ring-green-500 ${
+                        isMobile ? 'text-base py-3' : ''
+                      }`}
                       disabled={isLoading}
                       maxLength={1000}
                     />
                     <Button
                       onClick={handleSendMessage}
                       disabled={!inputMessage.trim() || isLoading}
-                      className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4"
+                      className={`bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white ${
+                        isMobile ? 'px-6' : 'px-4'
+                      }`}
                     >
-                      <Send className="w-4 h-4" />
+                      <Send className={`w-4 h-4 ${isMobile ? 'w-5 h-5' : ''}`} />
                     </Button>
                   </div>
 
                   {/* Quick Actions */}
-                  <div className="flex gap-2 mt-2">
+                  <div className={`flex gap-2 mt-2 ${isMobile ? 'flex-wrap justify-center' : ''}`}>
                     <Button
                       variant="outline"
-                      size="sm"
-                      className="text-xs"
+                      size={isMobile ? "default" : "sm"}
+                      className={`${isMobile ? 'text-sm flex-1' : 'text-xs'}`}
                       onClick={() => setInputMessage(language === 'id' ? 'Halo, saya butuh bantuan' : 'Hello, I need help')}
                     >
                       {language === 'id' ? 'Butuh Bantuan' : 'Need Help'}
                     </Button>
                     <Button
                       variant="outline"
-                      size="sm"
-                      className="text-xs"
+                      size={isMobile ? "default" : "sm"}
+                      className={`${isMobile ? 'text-sm flex-1' : 'text-xs'}`}
                       onClick={() => setInputMessage(language === 'id' ? 'Bagaimana cara kerjanya?' : 'How does it work?')}
                     >
                       {language === 'id' ? 'Cara Kerja' : 'How it Works'}
                     </Button>
                     <Button
                       variant="outline"
-                      size="sm"
-                      className="text-xs"
+                      size={isMobile ? "default" : "sm"}
+                      className={`${isMobile ? 'text-sm flex-1' : 'text-xs'}`}
                       onClick={() => setInputMessage(language === 'id' ? 'Hubungi admin' : 'Contact admin')}
                     >
                       {language === 'id' ? 'Hubungi Admin' : 'Contact Admin'}
@@ -365,29 +394,10 @@ export default function FloatingChat() {
                 </div>
               </>
             )}
-          </Card>
+          </CardFloat>
         </div>
       )}
 
-      {/* Mobile Responsive */}
-      <style jsx>{`
-        @media (max-width: 640px) {
-          .fixed.bottom-4.right-4 {
-            bottom: 1rem;
-            right: 1rem;
-          }
-
-          .w-96 {
-            width: calc(100vw - 2rem);
-            max-width: 400px;
-          }
-
-          .h-600px {
-            height: calc(100vh - 8rem);
-            max-height: 600px;
-          }
-        }
-      `}</style>
-    </>
+      </>
   )
 }

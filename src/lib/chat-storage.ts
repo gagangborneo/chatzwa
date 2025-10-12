@@ -391,7 +391,12 @@ class ChatStorage {
         const parsed = JSON.parse(data)
         // Return messages if they're not too old (7 days)
         if (Date.now() - parsed.timestamp < 7 * 24 * 60 * 60 * 1000) {
-          return parsed.messages || []
+          const messages = parsed.messages || []
+          // Convert timestamp strings back to Date objects
+          return messages.map((msg: any) => ({
+            ...msg,
+            timestamp: new Date(msg.timestamp)
+          }))
         } else {
           // Remove old data
           localStorage.removeItem('chat_conversation')

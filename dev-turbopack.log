@@ -1,0 +1,151 @@
+   ▲ Next.js 15.5.4 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.81:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 1316ms
+ ○ Compiling /admin/dashboard ...
+ ✓ Compiled /admin/dashboard in 6.7s
+ GET /admin/dashboard 200 in 7994ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 982ms
+ GET /favicon.ico?favicon.2ae9050b.ico 200 in 1395ms
+ GET /favicon.ico?favicon.2ae9050b.ico 200 in 1312ms
+ ○ Compiling /_not-found/page ...
+ ✓ Compiled /_not-found/page in 593ms
+ GET /admin/dashboard/ai-models 404 in 839ms
+ GET /admin/dashboard 200 in 471ms
+ ✓ Compiled in 903ms
+ ✓ Compiled in 448ms
+ ✓ Compiled in 471ms
+ GET /admin/dashboard 200 in 772ms
+ GET /admin/dashboard 200 in 569ms
+ ✓ Compiled in 555ms
+ GET /admin/dashboard 200 in 975ms
+ GET /admin/dashboard 200 in 278ms
+ ✓ Compiled in 469ms
+ ✓ Compiled in 504ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/i18n.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 571ms
+ GET /admin/dashboard 200 in 1309ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/i18n.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 531ms
+ GET /admin/dashboard 200 in 1215ms
+ ○ Compiling /admin/dashboard/ai-models ...
+ ✓ Compiled /admin/dashboard/ai-models in 1085ms
+ GET /admin/dashboard/ai-models 200 in 1909ms
+ ○ Compiling /admin/dashboard/transactions ...
+ ✓ Compiled /admin/dashboard/transactions in 798ms
+ GET /admin/dashboard/transactions 200 in 1699ms
+ GET /admin/dashboard 200 in 485ms
+ GET /admin/dashboard/users 404 in 295ms
+ GET /admin/dashboard 200 in 424ms
+ GET /admin/dashboard/ai-models 200 in 916ms
+ GET /admin/dashboard/ai-models 200 in 860ms
+ GET /admin/dashboard/ai-models 200 in 403ms
+ GET /admin/dashboard/transactions 200 in 1358ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/i18n.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 878ms
+ GET /admin/dashboard/transactions 200 in 1819ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/i18n.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 482ms
+ GET /admin/dashboard/transactions 200 in 1867ms
+ ○ Compiling /admin/dashboard/users ...
+ ✓ Compiled /admin/dashboard/users in 960ms
+ GET /admin/dashboard/users 200 in 2140ms
+ GET /avatars/user2.jpg 404 in 1184ms
+ GET /avatars/user3.jpg 404 in 1185ms
+ GET /avatars/user4.jpg 404 in 1185ms
+ GET /avatars/user5.jpg 404 in 1178ms
+ GET /avatars/user1.jpg 404 in 1203ms
+ ✓ Compiled in 481ms
+ ✓ Compiled in 1735ms
+ ✓ Compiled /admin/dashboard/users in 168ms
+ GET /admin/dashboard/users 200 in 2405ms
+ GET /admin/dashboard/users 200 in 3075ms
+ GET /avatars/user2.jpg 404 in 994ms
+ GET /avatars/user5.jpg 404 in 1146ms
+ GET /avatars/user3.jpg 404 in 1152ms
+ GET /avatars/user1.jpg 404 in 1166ms
+ GET /avatars/user4.jpg 404 in 1161ms
+ ✓ Compiled in 732ms
+ GET /admin/dashboard/users 200 in 1358ms
+ GET /admin/dashboard/users 200 in 356ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/i18n.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 516ms
+ GET /admin/dashboard/users 200 in 1731ms
+ GET /avatars/user2.jpg 404 in 1127ms
+ GET /avatars/user3.jpg 404 in 1127ms
+ GET /avatars/user1.jpg 404 in 1135ms
+ GET /avatars/user4.jpg 404 in 1130ms
+ GET /avatars/user5.jpg 404 in 1133ms
+ ✓ Compiled in 639ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/i18n.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /admin/dashboard/users 200 in 1475ms
+ GET /avatars/user4.jpg 404 in 1701ms
+ GET /avatars/user3.jpg 404 in 1706ms
+ GET /avatars/user1.jpg 404 in 1714ms
+ GET /avatars/user2.jpg 404 in 1713ms
+ GET /avatars/user5.jpg 404 in 1705ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/i18n.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 427ms
+ GET /admin/dashboard/users 200 in 1686ms
+ GET /avatars/user5.jpg 404 in 1033ms
+ GET /avatars/user1.jpg 404 in 1047ms
+ GET /avatars/user4.jpg 404 in 1043ms
+ GET /avatars/user3.jpg 404 in 1046ms
+ GET /avatars/user2.jpg 404 in 1051ms
+ ✓ Compiled in 576ms
+ ⚠ Fast Refresh had to perform a full reload when ./src/lib/i18n.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /admin/dashboard/users 200 in 1625ms
+ GET /avatars/user1.jpg 404 in 995ms
+ GET /avatars/user2.jpg 404 in 1180ms
+ GET /avatars/user4.jpg 404 in 1173ms
+ GET /avatars/user5.jpg 404 in 1178ms
+ GET /avatars/user3.jpg 404 in 1182ms
+ GET /admin/dashboard/users 200 in 916ms
+ GET /admin/dashboard/users 200 in 616ms
+ ✓ Compiled in 609ms
+ ✓ Compiled in 710ms
+ ✓ Compiled in 580ms
+ GET /avatars/user1.jpg 404 in 1181ms
+ GET /avatars/user2.jpg 404 in 1303ms
+ GET /avatars/user3.jpg 404 in 1299ms
+ GET /avatars/user4.jpg 404 in 1294ms
+ GET /avatars/user5.jpg 404 in 1321ms
+ ○ Compiling /admin/dashboard/pricing ...
+ ✓ Compiled /admin/dashboard/pricing in 739ms
+ GET /admin/dashboard/pricing 200 in 2200ms
+ ✓ Compiled /admin/dashboard/transactions in 80ms
+ GET /admin/dashboard/transactions 200 in 1404ms
+ GET /admin/dashboard/users 200 in 1670ms
+ GET /avatars/user3.jpg 404 in 826ms
+ GET /avatars/user1.jpg 404 in 837ms
+ GET /avatars/user4.jpg 404 in 835ms
+ GET /avatars/user2.jpg 404 in 845ms
+ GET /avatars/user5.jpg 404 in 840ms
+ ○ Compiling /admin/dashboard/users/[userId] ...
+ ✓ Compiled /admin/dashboard/users/[userId] in 842ms
+ GET /admin/dashboard/users/USR001 200 in 1895ms
+ GET /avatars/user1.jpg 404 in 200ms
+ GET /avatars/user1.jpg 404 in 187ms
+ GET /avatars/user1.jpg 404 in 572ms
+ GET /avatars/user2.jpg 404 in 570ms
+ GET /avatars/user3.jpg 404 in 651ms
+ GET /avatars/user4.jpg 404 in 640ms
+ GET /avatars/user5.jpg 404 in 665ms
+ ✓ Compiled /admin/dashboard/ai-models in 59ms
+ GET /admin/dashboard/ai-models 200 in 1176ms
+ GET /admin/dashboard/transactions 200 in 761ms
+ GET /admin/dashboard/pricing 200 in 937ms
+ GET /admin/dashboard/ai-models 200 in 652ms
+ GET /admin/dashboard/users 200 in 1000ms
+ GET /avatars/user1.jpg 404 in 563ms
+ GET /avatars/user3.jpg 404 in 560ms
+ GET /avatars/user2.jpg 404 in 677ms
+ GET /avatars/user5.jpg 404 in 674ms
+ GET /avatars/user4.jpg 404 in 678ms
+ GET /admin/dashboard/ai-models 200 in 669ms

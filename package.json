@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon --exec \"npx tsx server.ts\" --watch server.ts --watch src --ext ts,tsx,js,jsx 2>&1 | tee dev.log",
+    "dev:turbopack": "next dev --turbopack 2>&1 | tee dev-turbopack.log",
+    "dev:turbopack:server": "nodemon --exec \"npx next dev --turbopack\" --watch server.ts --watch src --ext ts,tsx,js,jsx 2>&1 | tee dev-turbopack-server.log",
     "build": "next build",
     "start": "NODE_ENV=production tsx server.ts 2>&1 | tee server.log",
     "lint": "next lint",

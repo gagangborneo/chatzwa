@@ -17,7 +17,8 @@ import {
   Code,
   Zap,
   Globe,
-  Building
+  Building,
+  Bot
 } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -27,10 +28,10 @@ const Footer = () => {
   const [email, setEmail] = useState('')
 
   const products = [
-    { name: 'WhatsApp Business', href: '/solutions#whatsapp', icon: MessageCircle },
-    { name: 'AI Chatbot', href: '/solutions#ai', icon: Code },
-    { name: 'Analytics Dashboard', href: '/solutions#analytics', icon: Globe },
-    { name: 'Developer Tools', href: '/solutions#api', icon: Code }
+    { name: 'AI Chatbot', href: '/products/ai-chatbot', icon: Bot },
+    { name: 'WhatsApp Business', href: '/products/whatsapp', icon: MessageCircle },
+    { name: 'WordPress Plugin', href: '/products/wordpress', icon: Globe },
+    { name: 'Embed Chat', href: '/products/embed-chat', icon: Code }
   ]
 
   const company = [
@@ -41,15 +42,13 @@ const Footer = () => {
   ]
 
   const solutions = [
-    { name: 'Customer Service', href: '/solutions#customer-service' },
-    { name: 'E-commerce', href: '/solutions#ecommerce' },
-    { name: 'Pendidikan', href: '/solutions#education' },
-    { name: 'Kesehatan', href: '/solutions#healthcare' }
+    { name: 'Customer Service', href: '/solutions/customer-service' },
+    { name: 'E-commerce', href: '/solutions/ecommerce' },
+    { name: 'Pendidikan', href: '/solutions/pendidikan' },
+    { name: 'Kesehatan', href: '/solutions/kesehatan' }
   ]
 
   const support = [
-    { name: 'Documentation', href: '/docs' },
-    { name: 'API Reference', href: '/api' },
     { name: 'Blog', href: '/blog' },
     { name: 'Help Center', href: '/help' }
   ]

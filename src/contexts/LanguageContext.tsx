@@ -235,6 +235,204 @@ const translations: Translations = {
   'footer.newsEmail': {
     id: 'Masukkan email Anda',
     en: 'Enter your email'
+  },
+
+  // Comparison Section
+  'comparison.title': {
+    id: 'Traditional vs AI',
+    en: 'Traditional vs AI'
+  },
+  'comparison.subtitle': {
+    id: 'Customer Service',
+    en: 'Customer Service'
+  },
+  'comparison.description': {
+    id: 'Lihat perbedaan dramatis dalam performance, cost, dan customer satisfaction',
+    en: 'See the dramatic differences in performance, cost, and customer satisfaction'
+  },
+  'comparison.benefit1': {
+    id: 'Reduction in operational costs',
+    en: 'Reduction in operational costs'
+  },
+  'comparison.benefit2': {
+    id: 'Increase in customer satisfaction',
+    en: 'Increase in customer satisfaction'
+  },
+  'comparison.benefit3': {
+    id: 'More inquiries handled',
+    en: 'More inquiries handled'
+  },
+  'comparison.benefit4': {
+    id: 'Support availability',
+    en: 'Support availability'
+  },
+  'comparison.tableTitle': {
+    id: 'Head-to-Head Comparison',
+    en: 'Head-to-Head Comparison'
+  },
+  'comparison.aspect': {
+    id: 'Aspect',
+    en: 'Aspect'
+  },
+  'comparison.traditional': {
+    id: 'Traditional',
+    en: 'Traditional'
+  },
+  'comparison.aiPowered': {
+    id: 'AI-Powered',
+    en: 'AI-Powered'
+  },
+  'comparison.improvement': {
+    id: 'Improvement',
+    en: 'Improvement'
+  },
+  'comparison.responseTime': {
+    id: 'Response Time',
+    en: 'Response Time'
+  },
+  'comparison.operatingHours': {
+    id: 'Operating Hours',
+    en: 'Operating Hours'
+  },
+  'comparison.costPerInquiry': {
+    id: 'Cost per Inquiry',
+    en: 'Cost per Inquiry'
+  },
+  'comparison.customerSatisfaction': {
+    id: 'Customer Satisfaction',
+    en: 'Customer Satisfaction'
+  },
+  'comparison.scalability': {
+    id: 'Scalability',
+    en: 'Scalability'
+  },
+  'comparison.consistency': {
+    id: 'Consistency',
+    en: 'Consistency'
+  },
+  'comparison.traditionalCategory': {
+    id: 'Traditional Customer Service',
+    en: 'Traditional Customer Service'
+  },
+  'comparison.aiCategory': {
+    id: 'AI-Powered Customer Service',
+    en: 'AI-Powered Customer Service'
+  },
+  'comparison.manualProcess': {
+    id: 'Manual Process',
+    en: 'Manual Process'
+  },
+  'comparison.manualProcessDesc': {
+    id: 'Semua interaksi harus ditangani oleh agen manusia',
+    en: 'All interactions must be handled by human agents'
+  },
+  'comparison.limitedHours': {
+    id: 'Limited Hours',
+    en: 'Limited Hours'
+  },
+  'comparison.limitedHoursDesc': {
+    id: 'Pelayanan hanya tersedia di jam kerja normal',
+    en: 'Service only available during normal business hours'
+  },
+  'comparison.inconsistentQuality': {
+    id: 'Inconsistent Quality',
+    en: 'Inconsistent Quality'
+  },
+  'comparison.inconsistentQualityDesc': {
+    id: 'Kualitas respons bergantung pada agen dan mood',
+    en: 'Response quality depends on agent and mood'
+  },
+  'comparison.highCost': {
+    id: 'High Operational Cost',
+    en: 'High Operational Cost'
+  },
+  'comparison.highCostDesc': {
+    id: 'Biaya gaji, training, dan infrastructure yang tinggi',
+    en: 'High salary, training, and infrastructure costs'
+  },
+  'comparison.scalabilityIssues': {
+    id: 'Scalability Issues',
+    en: 'Scalability Issues'
+  },
+  'comparison.scalabilityIssuesDesc': {
+    id: 'Sulit untuk scale saat volume tinggi',
+    en: 'Difficult to scale during high volume'
+  },
+  'comparison.slowResponse': {
+    id: 'Slow Response Time',
+    en: 'Slow Response Time'
+  },
+  'comparison.slowResponseDesc': {
+    id: 'Waktu respons yang lama untuk setiap inquiry',
+    en: 'Long response time for each inquiry'
+  },
+  'comparison.instantAutomation': {
+    id: 'Instant Automation',
+    en: 'Instant Automation'
+  },
+  'comparison.instantAutomationDesc': {
+    id: 'AI memberikan respons otomatis untuk inquiry yang umum',
+    en: 'AI provides automatic responses for common inquiries'
+  },
+  'comparison.availability247': {
+    id: '24/7 Availability',
+    en: '24/7 Availability'
+  },
+  'comparison.availability247Desc': {
+    id: 'Pelayanan non-stop tanpa tambahan biaya',
+    en: 'Non-stop service without additional costs'
+  },
+  'comparison.consistentQuality': {
+    id: 'Consistent Quality',
+    en: 'Consistent Quality'
+  },
+  'comparison.consistentQualityDesc': {
+    id: 'Kualitas respons yang terstandaris dan konsisten',
+    en: 'Standardized and consistent response quality'
+  },
+  'comparison.costEffective': {
+    id: 'Cost Effective',
+    en: 'Cost Effective'
+  },
+  'comparison.costEffectiveDesc': {
+    id: 'Biaya operasional yang jauh lebih rendah',
+    en: 'Much lower operational costs'
+  },
+  'comparison.infiniteScalability': {
+    id: 'Infinite Scalability',
+    en: 'Infinite Scalability'
+  },
+  'comparison.infiniteScalabilityDesc': {
+    id: 'Sistem yang bisa scale sesuai kebutuhan',
+    en: 'System that can scale according to needs'
+  },
+  'comparison.smartEscalation': {
+    id: 'Smart Escalation',
+    en: 'Smart Escalation'
+  },
+  'comparison.smartEscalationDesc': {
+    id: 'Auto-escalate ke manusia untuk kasus kompleks',
+    en: 'Auto-escalate to humans for complex cases'
+  },
+  'comparison.testimonialsTitle': {
+    id: 'Real Results from Real Customers',
+    en: 'Real Results from Real Customers'
+  },
+  'comparison.testimonialsSubtitle': {
+    id: 'Lihat bagaimana AI customer service transform bisnis nyata',
+    en: 'See how AI customer service transforms real businesses'
+  },
+  'comparison.ctaTitle': {
+    id: 'Siap transform customer service bisnis Anda dengan AI?',
+    en: 'Ready to transform your business customer service with AI?'
+  },
+  'comparison.cta1': {
+    id: 'Explore AI Solutions',
+    en: 'Explore AI Solutions'
+  },
+  'comparison.cta2': {
+    id: 'Customer Service Solution',
+    en: 'Customer Service Solution'
   }
 }
 

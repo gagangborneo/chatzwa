@@ -12,7 +12,9 @@ import {
   Bot,
   BarChart3,
   Settings,
-  Languages
+  Languages,
+  Globe,
+  Code
 } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -34,10 +36,10 @@ const Navigation = () => {
   }, [])
 
   const products = [
-    { name: 'AI Chatbot', icon: Bot, href: '#features' },
-    { name: 'WhatsApp Business', icon: MessageCircle, href: '#features' },
-    { name: 'Analytics', icon: BarChart3, href: '#features' },
-    { name: 'Settings', icon: Settings, href: '#features' }
+    { name: 'AI Chatbot', icon: Bot, href: '/products/ai-chatbot' },
+    { name: 'WhatsApp Business', icon: MessageCircle, href: '/products/whatsapp' },
+    { name: 'WordPress Plugin', icon: Globe, href: '/products/wordpress' },
+    { name: 'Embed Chat', icon: Code, href: '/products/embed-chat' }
   ]
 
   const navigation = [
@@ -113,7 +115,7 @@ const Navigation = () => {
                               <product.icon className="w-5 h-5 text-green-500" />
                               <div>
                                 <div className="font-medium">{product.name}</div>
-                                <div className="text-xs text-gray-500">Learn more</div>
+                                <div className="text-xs text-gray-500">View details</div>
                               </div>
                             </Link>
                           ))}
@@ -168,13 +170,47 @@ const Navigation = () => {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden text-gray-900 transition-colors duration-200"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile Right Side Items */}
+            <div className="lg:hidden flex items-center gap-3">
+              {/* Mobile Language Switcher */}
+              <div className="flex items-center gap-1 px-2 py-1.5 bg-gray-100 rounded-lg">
+                <button
+                  onClick={() => setLanguage('id')}
+                  className={`px-2 py-1 text-xs font-medium rounded transition-all duration-300 ${
+                    language === 'id'
+                      ? 'bg-green-500 text-white shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  ID
+                </button>
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`px-2 py-1 text-xs font-medium rounded transition-all duration-300 ${
+                    language === 'en'
+                      ? 'bg-green-500 text-white shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  EN
+                </button>
+              </div>
+
+              {/* Mobile Sign In Button */}
+              <Link href="/login">
+                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1.5 rounded-lg text-sm">
+                  {t('nav.signIn')}
+                </Button>
+              </Link>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="text-gray-900 transition-colors duration-200"
+              >
+                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -189,36 +225,6 @@ const Navigation = () => {
               className={`lg:hidden border-t ${scrolled ? 'bg-white/95 border-gray-200' : 'bg-white/95 border-gray-200'} backdrop-blur-md`}
             >
               <div className="container mx-auto px-6 py-6 space-y-4">
-                {/* Mobile Language Switcher */}
-                <div className="flex items-center justify-between px-4 py-3 bg-gray-100 rounded-xl">
-                  <div className="flex items-center gap-2">
-                    <Languages className="w-4 h-4 text-gray-600" />
-                    <span className="text-sm font-medium text-gray-700">Language</span>
-                  </div>
-                  <div className="flex gap-1">
-                    <button
-                      onClick={() => setLanguage('id')}
-                      className={`px-2 py-1 text-sm font-medium rounded-md transition-all duration-300 ${
-                        language === 'id'
-                          ? 'bg-green-500 text-white shadow-sm'
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
-                    >
-                      ID
-                    </button>
-                    <button
-                      onClick={() => setLanguage('en')}
-                      className={`px-2 py-1 text-sm font-medium rounded-md transition-all duration-300 ${
-                        language === 'en'
-                          ? 'bg-green-500 text-white shadow-sm'
-                          : 'text-gray-600 hover:text-gray-900'
-                      }`}
-                    >
-                      EN
-                    </button>
-                  </div>
-                </div>
-
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
@@ -230,12 +236,7 @@ const Navigation = () => {
                   </Link>
                 ))}
 
-                <div className="pt-4 border-t border-gray-200 space-y-4">
-                  <Link href="/login" onClick={() => setIsOpen(false)}>
-                    <Button variant="ghost" className="w-full text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-xl justify-start">
-                      {t('nav.signIn')}
-                    </Button>
-                  </Link>
+                <div className="pt-4 border-t border-gray-200">
                   <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                     <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl">
                       {t('nav.getStarted')}

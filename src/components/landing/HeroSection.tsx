@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import {
   MessageCircle,
@@ -23,17 +22,6 @@ import AuroraBackground from './AuroraBackground'
 const HeroSection = () => {
   const { t } = useLanguage()
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
-
   const features = [
     { icon: Bot, text: t('hero.feature1') },
     { icon: Smartphone, text: t('hero.feature2') },
@@ -45,19 +33,6 @@ const HeroSection = () => {
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-white via-green-50 to-emerald-50">
       {/* Aurora Background */}
       <AuroraBackground />
-
-      {/* Interactive mouse gradient for light theme */}
-      <div
-        className="absolute opacity-30 pointer-events-none"
-        style={{
-          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(34, 197, 94, 0.2) 0%, transparent 50%)`,
-          width: '600px',
-          height: '600px',
-          left: mousePosition.x - 300,
-          top: mousePosition.y - 300,
-          transition: 'all 0.3s ease-out'
-        }}
-      />
 
       <div className="relative z-10 container mx-auto px-6 py-20">
         <div className="text-center">

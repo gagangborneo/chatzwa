@@ -45,6 +45,7 @@
       this.chatWindow = null;
       this.inputField = null;
       this.sendButton = null;
+      this.backdropElement = null;
 
       this.init();
     }
@@ -473,14 +474,77 @@
           }
         }
 
+        /* Tablet styles */
+        @media (max-width: 768px) {
+          .embed-chat-window {
+            width: calc(100vw - 32px);
+            height: 70vh;
+            right: 16px !important;
+            left: 16px !important;
+            bottom: 80px !important;
+            top: 16px !important;
+            border-radius: 12px;
+          }
+
+          .embed-chat-button {
+            width: 65px;
+            height: 65px;
+            font-size: 26px;
+          }
+
+          .embed-chat-bubble {
+            font-size: 14px;
+            padding: 12px 18px;
+          }
+
+          .embed-chat-header {
+            padding: 16px 20px;
+          }
+
+          .embed-chat-header-avatar {
+            width: 34px;
+            height: 34px;
+            font-size: 15px;
+          }
+
+          .embed-chat-messages {
+            padding: 20px;
+          }
+
+          .embed-chat-input {
+            padding: 18px 20px;
+          }
+
+          .embed-chat-input-field {
+            padding: 13px 17px;
+            min-height: 46px;
+            font-size: 15px;
+          }
+
+          .embed-chat-send {
+            width: 46px;
+            height: 46px;
+          }
+        }
+
+        /* Mobile styles - Full screen for small devices */
         @media (max-width: 480px) {
           .embed-chat-window {
-            width: calc(100vw - 24px);
-            height: 75vh;
-            right: 12px !important;
-            left: 12px !important;
-            bottom: 80px !important;
-            top: 12px !important;
+            position: fixed !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            right: 0 !important;
+            left: 0 !important;
+            bottom: 0 !important;
+            top: 0 !important;
+            border-radius: 0 !important;
+            max-width: none !important;
+            max-height: none !important;
+            z-index: 9999999 !important;
+          }
+
+          .embed-chat-window.open {
+            transform: scale(1) translateY(0) !important;
           }
 
           .embed-chat-button {
@@ -492,10 +556,20 @@
           .embed-chat-bubble {
             font-size: 13px;
             padding: 10px 16px;
+            max-width: calc(100vw - 100px);
           }
 
           .embed-chat-header {
             padding: 14px 18px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+          }
+
+          .embed-chat-header-info h3 {
+            font-size: 16px;
+          }
+
+          .embed-chat-header-info p {
+            font-size: 12px;
           }
 
           .embed-chat-header-avatar {
@@ -504,23 +578,172 @@
             font-size: 14px;
           }
 
+          .embed-chat-close {
+            width: 32px;
+            height: 32px;
+            font-size: 18px;
+          }
+
           .embed-chat-messages {
             padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+          }
+
+          .embed-chat-message {
+            max-width: 90%;
+          }
+
+          .embed-chat-message-content {
+            font-size: 15px;
+            padding: 11px 16px;
+            line-height: 1.4;
+          }
+
+          .embed-chat-message-sender {
+            font-size: 11px;
+            margin-bottom: 5px;
           }
 
           .embed-chat-input {
             padding: 16px;
+            border-top: 1px solid #f3f4f6;
+            background: white;
+            flex-shrink: 0;
+          }
+
+          .embed-chat-input-container {
+            gap: 10px;
           }
 
           .embed-chat-input-field {
             padding: 12px 16px;
             min-height: 44px;
             font-size: 16px; /* Prevents zoom on iOS */
+            border-radius: 22px;
           }
 
           .embed-chat-send {
             width: 44px;
             height: 44px;
+            flex-shrink: 0;
+          }
+
+          .embed-chat-send svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        /* Small mobile optimization */
+        @media (max-width: 360px) {
+          .embed-chat-header {
+            padding: 12px 16px;
+          }
+
+          .embed-chat-header-info h3 {
+            font-size: 15px;
+          }
+
+          .embed-chat-header-avatar {
+            width: 28px;
+            height: 28px;
+            font-size: 13px;
+          }
+
+          .embed-chat-messages {
+            padding: 12px;
+          }
+
+          .embed-chat-input {
+            padding: 12px 16px;
+          }
+
+          .embed-chat-input-field {
+            padding: 10px 14px;
+            min-height: 40px;
+            font-size: 15px;
+          }
+
+          .embed-chat-send {
+            width: 40px;
+            height: 40px;
+          }
+
+          .embed-chat-message-content {
+            font-size: 14px;
+            padding: 10px 14px;
+          }
+        }
+
+        /* Touch-friendly improvements for mobile */
+        @media (hover: none) and (pointer: coarse) {
+          .embed-chat-button {
+            min-width: 44px;
+            min-height: 44px;
+          }
+
+          .embed-chat-send {
+            min-width: 44px;
+            min-height: 44px;
+          }
+
+          .embed-chat-close {
+            min-width: 44px;
+            min-height: 44px;
+            padding: 8px;
+          }
+
+          .embed-chat-input-field {
+            font-size: 16px; /* Prevents zoom on iOS */
+          }
+
+          /* Remove hover effects on touch devices */
+          .embed-chat-button:hover {
+            transform: none;
+          }
+
+          .embed-chat-send:hover:not(:disabled) {
+            transform: none;
+          }
+
+          .embed-chat-bubble:hover {
+            transform: translateY(-2px);
+          }
+        }
+
+        /* Mobile-specific animations */
+        @media (max-width: 480px) {
+          @keyframes embed-chat-mobile-slide-up {
+            from {
+              transform: translateY(100%);
+            }
+            to {
+              transform: translateY(0);
+            }
+          }
+
+          .embed-chat-window.open {
+            animation: embed-chat-mobile-slide-up 0.3s ease-out;
+          }
+        }
+
+        /* Landscape mode adjustments */
+        @media (max-height: 500px) and (max-width: 768px) {
+          .embed-chat-window {
+            height: 100vh !important;
+          }
+
+          .embed-chat-header {
+            padding: 12px 16px;
+          }
+
+          .embed-chat-messages {
+            padding: 12px;
+          }
+
+          .embed-chat-input {
+            padding: 12px 16px;
           }
         }
 
@@ -762,6 +985,15 @@
           this.closeChat();
         }
       });
+
+      // Handle orientation changes
+      window.addEventListener('orientationchange', () => {
+        this.handleOrientationChange();
+      });
+
+      window.addEventListener('resize', () => {
+        this.handleOrientationChange();
+      });
     }
 
     showWidget() {
@@ -793,11 +1025,27 @@
       if (bubble) {
         bubble.classList.add('hidden');
       }
+
+      // Add mobile backdrop overlay for small screens
+      this.addMobileBackdrop();
+
+      // Prevent body scroll on mobile when chat is open
+      if (this.isMobile()) {
+        document.body.style.overflow = 'hidden';
+      }
     }
 
     closeChat() {
       this.isOpen = false;
       this.chatWindow.classList.remove('open');
+
+      // Remove mobile backdrop overlay
+      this.removeMobileBackdrop();
+
+      // Restore body scroll on mobile
+      if (this.isMobile()) {
+        document.body.style.overflow = '';
+      }
     }
 
     async sendMessage() {
@@ -908,6 +1156,89 @@
       }
 
       return await response.json();
+    }
+
+    // Mobile detection helper
+    isMobile() {
+      return window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Add mobile backdrop overlay
+    addMobileBackdrop() {
+      if (this.isMobile() && !document.querySelector('.embed-chat-backdrop')) {
+        const backdrop = document.createElement('div');
+        backdrop.className = 'embed-chat-backdrop';
+        backdrop.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 9999998;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        `;
+
+        // Add backdrop styles to page
+        const backdropStyle = document.createElement('style');
+        backdropStyle.textContent = `
+          .embed-chat-backdrop.show {
+            opacity: 1 !important;
+          }
+        `;
+        document.head.appendChild(backdropStyle);
+
+        document.body.appendChild(backdrop);
+
+        // Show backdrop with fade in
+        setTimeout(() => {
+          backdrop.classList.add('show');
+        }, 10);
+
+        // Close chat when backdrop is clicked
+        backdrop.addEventListener('click', () => {
+          this.closeChat();
+        });
+
+        this.backdropElement = backdrop;
+      }
+    }
+
+    // Remove mobile backdrop overlay
+    removeMobileBackdrop() {
+      if (this.backdropElement) {
+        this.backdropElement.classList.remove('show');
+        setTimeout(() => {
+          if (this.backdropElement && this.backdropElement.parentNode) {
+            this.backdropElement.parentNode.removeChild(this.backdropElement);
+          }
+          this.backdropElement = null;
+        }, 300);
+      }
+    }
+
+    // Handle orientation changes
+    handleOrientationChange() {
+      if (this.isOpen) {
+        setTimeout(() => {
+          this.inputField.focus();
+          // Adjust window position if needed
+          if (this.isMobile()) {
+            this.chatWindow.style.cssText = `
+              position: fixed !important;
+              width: 100vw !important;
+              height: 100vh !important;
+              right: 0 !important;
+              left: 0 !important;
+              bottom: 0 !important;
+              top: 0 !important;
+              border-radius: 0 !important;
+              z-index: 9999999 !important;
+            `;
+          }
+        }, 100);
+      }
     }
   }
 

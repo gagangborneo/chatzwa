@@ -17,6 +17,10 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
+  password  String   // Hashed password
+  role      String   @default("user") // admin, user
+  isActive  Boolean  @default(true)
+  lastLoginAt DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -24,6 +28,31 @@ model User {
   personas  Persona[]
   chatMessages ChatMessage[]
   whatsappIntegrations WhatsAppIntegration[]
+  sessions  UserSession[]
+  knowledgeCategories KnowledgeCategory[]
+  knowledgeDocuments  KnowledgeDocument[]
+  documentUploads     DocumentUpload[]
+}
+
+// User Sessions for authentication
+model UserSession {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique // Session token
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([isActive])
 }
 
 model Post {
@@ -38,6 +67,7 @@ model Post {
 
 model Persona {
   id                   String   @id @default(cuid())
+  slug                 String?  @unique
   name                 String
   welcomeMessage       String
   selectedProfile      String   @default("islamic_educator")
@@ -80,6 +110,7 @@ model Persona {
   chatMessages         ChatMessage[]
 
   @@index([userId])
+  @@index([slug])
   @@index([isActive])
   @@index([selectedProfile])
 }
@@ -195,4 +226,111 @@ model WhatsAppMedia {
 
   @@index([integrationId])
   @@index([mediaType])
+}
+
+// Knowledge Management System
+model KnowledgeCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  color       String   @default("#6B7280") // Hex color code
+  icon        String?  // Icon name or emoji
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+
+  // Metadata
+  createdBy   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  documents   KnowledgeDocument[]
+  creator     User?       @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+
+  @@index([isActive])
+  @@index([sortOrder])
+}
+
+model KnowledgeDocument {
+  id            String   @id @default(cuid())
+  title         String
+  content       String   // Full text content
+  description   String?  // Short description
+  categoryId    String?
+  author        String?  // Document author/uploader
+  source        String?  // Source of document (web, upload, sync, etc.)
+  filePath      String?  // File path if uploaded
+  fileName      String?  // Original file name
+  fileSize      Int?     // File size in bytes
+  mimeType      String?  // MIME type
+  format        String?  // Document format (PDF, DOCX, TXT, etc.)
+  status        String   @default("draft") // draft, published, archived, processing
+  isIndexed     Boolean  @default(false) // Whether document is indexed in RAG
+  embeddingCount Int     @default(0)     // Number of embeddings created
+  viewCount     Int      @default(0)     // Number of times viewed
+
+  // RAG Integration
+  ragDocumentId String?  // Document ID in RAG system
+  lastIndexedAt DateTime? // Last time document was indexed
+
+  // Search and SEO
+  tags          String?  // Comma-separated tags
+  keywords      String?  // Search keywords
+  priority      Int      @default(0) // Search priority
+
+  // Metadata
+  createdBy     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  publishedAt   DateTime?
+
+  // Relations
+  category      KnowledgeCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  creator       User?               @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  uploadRecords DocumentUpload[]
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([isIndexed])
+  @@index([createdAt])
+  @@index([publishedAt])
+  @@index([source])
+}
+
+model DocumentUpload {
+  id            String   @id @default(cuid())
+  fileName      String
+  originalName  String
+  fileSize      Int
+  mimeType      String
+  filePath      String
+  status        String   @default("uploading") // uploading, processing, completed, failed
+  errorMessage  String?
+  processingLog String? // JSON log of processing steps
+
+  // Processing Configuration
+  autoIndex     Boolean  @default(true)
+  categoryId    String?
+  extractText   Boolean  @default(true) // Whether to extract text from file
+
+  // Upload Metadata
+  uploadSource  String   @default("manual") // manual, sync, api, etc.
+  uploaderIp    String?
+  userAgent     String?
+
+  // Metadata
+  createdBy     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  completedAt   DateTime?
+
+  // Relations
+  document       KnowledgeDocument? @relation(fields: [documentId], references: [id])
+  documentId     String?
+  uploader       User?               @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([createdBy])
+  @@index([createdAt])
+  @@index([documentId])
 }

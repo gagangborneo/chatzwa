@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useI18n } from '@/lib/i18n'
+import { useAuth } from '@/hooks/useAuth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -32,6 +33,7 @@ import {
 
 export default function PersonaPage() {
   const { t } = useI18n()
+  const { user, loading: authLoading } = useAuth()
   const [activeTab, setActiveTab] = useState('identity')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -41,6 +43,7 @@ export default function PersonaPage() {
   const [hasChanges, setHasChanges] = useState(false)
 
   // State for persona settings
+  const [slug, setSlug] = useState('')
   const [aiName, setAiName] = useState('Attallah Assistant')
   const [welcomeMessage, setWelcomeMessage] = useState('Assalamualaikum! Saya adalah Attallah, asisten digital Yayasan Pendidikan Islam. Saya siap membantu Anda seputar informasi program pendidikan, transaksi, data, kajian, program donasi, dan ilmu Al-Quran. Ada yang bisa saya bantu? 🌟')
 
@@ -74,10 +77,12 @@ export default function PersonaPage() {
   const [systemPrompt, setSystemPrompt] = useState('Anda adalah asisten AI profesional untuk Yayasan Pendidikan Islam. Selalu berikan jawaban yang sopan, informatif, dan sesuai dengan nilai-nilai Islam. Gunakan bahasa Indonesia yang baik dan benar. Berikan informasi yang akurat tentang program pendidikan, kegiatan yayasan, dan layanan lainnya.')
   const [customInstructions, setCustomInstructions] = useState('')
 
-  // Load active persona on component mount
+  // Load active persona when user is available
   useEffect(() => {
-    loadActivePersona()
-  }, [])
+    if (user && !authLoading) {
+      loadActivePersona()
+    }
+  }, [user, authLoading])
 
   // Load active persona from database
   const loadActivePersona = async () => {
@@ -85,7 +90,11 @@ export default function PersonaPage() {
       setLoading(true)
       setError(null)
 
-      const response = await fetch('/api/persona?active=true')
+      if (!user) {
+        throw new Error('User not authenticated')
+      }
+
+      const response = await fetch(`/api/persona?active=true&userId=${user.id}`)
       const data = await response.json()
 
       if (data.success && data.data) {
@@ -106,6 +115,7 @@ export default function PersonaPage() {
 
   // Load persona data into component state
   const loadPersonaIntoState = (persona: any) => {
+    setSlug(persona.slug || '')
     setAiName(persona.name || 'Attallah Assistant')
     setWelcomeMessage(persona.welcomeMessage || 'Assalamualaikum! Saya adalah Attallah...')
     setSelectedProfile(persona.selectedProfile || 'islamic_educator')
@@ -145,7 +155,13 @@ export default function PersonaPage() {
       setSaving(true)
       setError(null)
 
+      if (!user) {
+        throw new Error('User not authenticated')
+      }
+
       const personaData = {
+        userId: user.id,
+        slug: slug.trim() || undefined,
         name: aiName,
         welcomeMessage: welcomeMessage,
         selectedProfile: selectedProfile,
@@ -207,12 +223,16 @@ export default function PersonaPage() {
   // Activate persona
   const activatePersona = async (personaId: string) => {
     try {
+      if (!user) {
+        throw new Error('User not authenticated')
+      }
+
       const response = await fetch(`/api/persona/${personaId}/activate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ userId: user.id }),
       })
 
       const data = await response.json()
@@ -239,7 +259,12 @@ export default function PersonaPage() {
       setLoading(true)
       setError(null)
 
+      if (!user) {
+        throw new Error('User not authenticated')
+      }
+
       // Reset to defaults
+      setSlug('')
       setAiName('Attallah Assistant')
       setWelcomeMessage('Assalamualaikum! Saya adalah Attallah, asisten digital Yayasan Pendidikan Islam. Saya siap membantu Anda seputar informasi program pendidikan, transaksi, data, kajian, program donasi, dan ilmu Al-Quran. Ada yang bisa saya bantu? 🌟')
       setSelectedProfile('islamic_educator')
@@ -324,6 +349,13 @@ export default function PersonaPage() {
     trackChanges()
   }
 
+  const updateSlug = (value: string) => {
+    // Only allow alphanumeric characters, hyphens, and underscores
+    const sanitizedSlug = value.toLowerCase().replace(/[^a-z0-9-_]/g, '')
+    setSlug(sanitizedSlug)
+    trackChanges()
+  }
+
   const profiles = [
     {
       id: 'islamic_educator',
@@ -402,7 +434,7 @@ export default function PersonaPage() {
         <div>
           <h2 className="text-3xl font-bold tracking-tight">{t('persona.title')}</h2>
           <p className="text-muted-foreground">{t('persona.subtitle')}</p>
-          {loading && (
+          {(loading || authLoading) && (
             <p className="text-sm text-muted-foreground mt-1">Memuat persona...</p>
           )}
           {currentPersonaId && (
@@ -412,13 +444,13 @@ export default function PersonaPage() {
           )}
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" onClick={resetSettings} disabled={loading || saving} className="flex items-center gap-2">
+          <Button variant="outline" onClick={resetSettings} disabled={loading || authLoading || saving} className="flex items-center gap-2">
             <RotateCcw className="h-4 w-4" />
-            {loading ? 'Memuat...' : t('persona.reset')}
+            {(loading || authLoading) ? 'Memuat...' : t('persona.reset')}
           </Button>
           <Button
             onClick={saveSettings}
-            disabled={loading || saving || !hasChanges}
+            disabled={loading || authLoading || saving || !hasChanges}
             className="flex items-center gap-2"
           >
             {saving ? (
@@ -553,6 +585,27 @@ export default function PersonaPage() {
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
                     <span>{t('persona.nameCharacterCount', { current: aiName.length, max: 50 })}</span>
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="slug">URL Slug (Username Chat)</Label>
+                  <Input
+                    id="slug"
+                    value={slug}
+                    onChange={(e) => updateSlug(e.target.value)}
+                    placeholder="contoh: assistant-ai"
+                    maxLength={50}
+                    disabled={loading}
+                  />
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <span>Chat URL: /chat/{slug || 'slug-anda'}</span>
+                    {slug && (
+                      <span className="text-green-600">✓ Tersedia</span>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Hanya huruf kecil, angka, dan strip (-) yang diperbolehkan. Slug akan digunakan sebagai URL chat khusus untuk bot Anda.
+                  </p>
                 </div>
 
                 <div className="space-y-2">

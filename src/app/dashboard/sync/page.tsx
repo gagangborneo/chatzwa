@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useI18n } from '@/lib/i18n'
+import { getRAGService } from '@/lib/rag-service'
+import { ragDataSynchronizer, syncHistoryManager } from '@/lib/sync-history'
+import type { SyncHistory } from '@/lib/rag-service'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -45,6 +48,14 @@ export default function DataSyncPage() {
   const [syncProgress, setSyncProgress] = useState(0)
   const [selectedDataSource, setSelectedDataSource] = useState('all')
   const [autoSyncEnabled, setAutoSyncEnabled] = useState(true)
+  const [syncHistory, setSyncHistory] = useState<SyncHistory[]>([])
+  const [syncStatus, setSyncStatus] = useState<{
+    ollamaAvailable: boolean
+    chromaAvailable: boolean
+    collectionExists: boolean
+    totalDocuments: number
+    lastSync?: SyncHistory
+  } | null>(null)
 
   // Mock data untuk demonstrasi
   const syncStats = {
@@ -143,10 +154,54 @@ export default function DataSyncPage() {
     }
   ]
 
+  // Load sync history and status on mount
+  useEffect(() => {
+    loadSyncData()
+  }, [])
+
+  const loadSyncData = async () => {
+    try {
+      // Load sync history from API
+      const historyResponse = await fetch('/api/sync/history?limit=50')
+      if (historyResponse.ok) {
+        const historyData = await historyResponse.json()
+        setSyncHistory(historyData.data || [])
+      }
+
+      // Load sync status from RAG synchronizer
+      const status = await ragDataSynchronizer.getSyncStatus()
+      setSyncStatus(status)
+
+      // Update sync stats based on real data
+      if (status.lastSync) {
+        // Update mock data with real sync info
+        const lastSync = status.lastSync
+        syncStats.totalDocuments = status.totalDocuments
+        syncStats.syncedDocuments = lastSync.documents_processed
+        syncStats.embeddingsGenerated = lastSync.embeddings_created
+        syncStats.lastSync = formatRelativeTime(lastSync.timestamp)
+      }
+    } catch (error) {
+      console.error('Failed to load sync data:', error)
+    }
+  }
+
+  const formatRelativeTime = (timestamp: string): string => {
+    const date = new Date(timestamp)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+
+    if (diffMins < 1) return 'Baru saja'
+    if (diffMins < 60) return `${diffMins} menit yang lalu`
+    if (diffMins < 1440) return `${Math.floor(diffMins / 60)} jam yang lalu`
+    return `${Math.floor(diffMins / 1440)} hari yang lalu`
+  }
+
   const embeddingModels = [
     {
-      name: 'text-embedding-ada-002',
-      provider: 'OpenAI',
+      name: 'nomic-embed-text',
+      provider: 'Ollama',
       status: 'active',
       dimensions: 1536,
       usage: 45832,
@@ -170,28 +225,68 @@ export default function DataSyncPage() {
     }
   ]
 
-  const handleManualSync = () => {
+  const handleManualSync = async () => {
     setIsSyncing(true)
     setSyncProgress(0)
 
-    // Simulate sync progress
-    const interval = setInterval(() => {
-      setSyncProgress(prev => {
-        if (prev >= 90) {
-          clearInterval(interval)
-          return 90
-        }
-        return prev + 10
-      })
-    }, 500)
+    try {
+      // Use RAG synchronizer
+      const result = await ragDataSynchronizer.synchronizeData(
+        selectedDataSource === 'all' ? 'database' : selectedDataSource,
+        'incremental'
+      )
 
-    setTimeout(() => {
+      // Update progress based on result
       setSyncProgress(100)
+
+      // Create sync history entry via API
+      if (result.success) {
+        await fetch('/api/sync/history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            dataSource: selectedDataSource === 'all' ? 'database' : selectedDataSource,
+            syncType: 'incremental',
+            status: 'completed',
+            documentsProcessed: result.processed,
+            embeddingsCreated: result.embeddingsCreated || 0,
+            duration: result.duration || 0
+          })
+        })
+      } else {
+        await fetch('/api/sync/history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            dataSource: selectedDataSource === 'all' ? 'database' : selectedDataSource,
+            syncType: 'incremental',
+            status: 'failed',
+            documentsProcessed: result.processed,
+            embeddingsCreated: 0,
+            errorMessage: result.errors?.join(', ') || 'Unknown error',
+            duration: result.duration || 0
+          })
+        })
+      }
+
+      // Reload data to show updated stats
+      await loadSyncData()
+
+      // Show result to user (you could add a toast notification here)
+      if (result.success) {
+        console.log(`Sync completed: ${result.processed} documents processed`)
+      } else {
+        console.error('Sync failed:', result.errors)
+      }
+
+    } catch (error) {
+      console.error('Sync error:', error)
+    } finally {
       setTimeout(() => {
         setIsSyncing(false)
         setSyncProgress(0)
       }, 1000)
-    }, 5000)
+    }
   }
 
   const getStatusColor = (status: string) => {
@@ -445,42 +540,50 @@ export default function DataSyncPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {recentSyncs.map((sync) => (
-                    <TableRow key={sync.id}>
-                      <TableCell className="font-medium">{sync.source}</TableCell>
-                      <TableCell>
-                        <Badge variant="outline">
-                          {t(`sync.type.${sync.type}`)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          {getStatusIcon(sync.status)}
-                          <Badge className={getStatusColor(sync.status)}>
-                            {t(`sync.status.${sync.status}`)}
+                  {syncHistory.length > 0 ? (
+                    syncHistory.map((sync) => (
+                      <TableRow key={sync.id}>
+                        <TableCell className="font-medium">{sync.data_source}</TableCell>
+                        <TableCell>
+                          <Badge variant="outline">
+                            {sync.sync_type === 'full' ? 'Full Sync' : 'Incremental'}
                           </Badge>
-                        </div>
-                      </TableCell>
-                      <TableCell>{formatDuration(sync.startTime, sync.endTime)}</TableCell>
-                      <TableCell>{sync.documentsProcessed.toLocaleString()}</TableCell>
-                      <TableCell>{sync.embeddingsGenerated.toLocaleString()}</TableCell>
-                      <TableCell>
-                        {sync.errors > 0 ? (
-                          <Badge variant="destructive">{sync.errors}</Badge>
-                        ) : (
-                          <Badge variant="secondary">0</Badge>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-sm">
-                          <div>{new Date(sync.startTime).toLocaleDateString()}</div>
-                          <div className="text-muted-foreground">
-                            {new Date(sync.startTime).toLocaleTimeString()}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            {getStatusIcon(sync.status)}
+                            <Badge className={getStatusColor(sync.status)}>
+                              {sync.status.charAt(0).toUpperCase() + sync.status.slice(1)}
+                            </Badge>
                           </div>
-                        </div>
+                        </TableCell>
+                        <TableCell>{Math.round(sync.duration / 1000)}s</TableCell>
+                        <TableCell>{sync.documents_processed.toLocaleString()}</TableCell>
+                        <TableCell>{sync.embeddings_created.toLocaleString()}</TableCell>
+                        <TableCell>
+                          {sync.error_message ? (
+                            <Badge variant="destructive">Error</Badge>
+                          ) : (
+                            <Badge variant="secondary">0</Badge>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-sm">
+                            <div>{new Date(sync.timestamp).toLocaleDateString()}</div>
+                            <div className="text-muted-foreground">
+                              {new Date(sync.timestamp).toLocaleTimeString()}
+                            </div>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={8} className="text-center text-muted-foreground">
+                        No sync history available
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </CardContent>
@@ -529,10 +632,13 @@ export default function DataSyncPage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium">{t('sync.totalEmbeddings')}</span>
-                    <span className="text-sm">45,832</span>
+                    <span className="text-sm">{syncStats.embeddingsGenerated.toLocaleString()}</span>
                   </div>
                   <div className="h-2 w-full bg-muted rounded-full">
-                    <div className="h-2 w-3/4 bg-blue-500 rounded-full"></div>
+                    <div
+                      className="h-2 bg-blue-500 rounded-full"
+                      style={{ width: `${Math.min((syncStats.embeddingsGenerated / 50000) * 100, 100)}%` }}
+                    ></div>
                   </div>
                 </div>
 

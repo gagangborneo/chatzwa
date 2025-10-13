@@ -1,10 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 import {
-  Zap,
+  MessageCircle,
   Mail,
   Phone,
   MapPin,
@@ -14,49 +12,53 @@ import {
   Github,
   Instagram,
   ChevronRight,
-  MessageCircle,
   Shield,
   Users,
-  Code
+  Code,
+  Zap,
+  Globe,
+  Building
 } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 const Footer = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1
-  })
-
   const [email, setEmail] = useState('')
 
   const products = [
-    { name: 'Messaging API', href: '#messaging', icon: MessageCircle },
-    { name: 'Voice Solutions', href: '#voice', icon: Phone },
-    { name: 'Video Platform', href: '#video', icon: Users },
-    { name: 'Developer Tools', href: '#developer', icon: Code }
+    { name: 'WhatsApp Business', href: '/solutions#whatsapp', icon: MessageCircle },
+    { name: 'AI Chatbot', href: '/solutions#ai', icon: Code },
+    { name: 'Analytics Dashboard', href: '/solutions#analytics', icon: Globe },
+    { name: 'Developer Tools', href: '/solutions#api', icon: Code }
   ]
 
   const company = [
-    { name: 'About Us', href: '#about' },
-    { name: 'Careers', href: '#careers' },
-    { name: 'Partners', href: '#partners' },
-    { name: 'Press', href: '#press' }
+    { name: 'Tentang Kami', href: '/about' },
+    { name: 'Karir', href: '/careers' },
+    { name: 'Mitra', href: '/partners' },
+    { name: 'Press', href: '/press' }
   ]
 
-  const resources = [
-    { name: 'Documentation', href: '#docs' },
-    { name: 'API Reference', href: '#api' },
-    { name: 'Blog', href: '#blog' },
-    { name: 'Community', href: '#community' }
+  const solutions = [
+    { name: 'Customer Service', href: '/solutions#customer-service' },
+    { name: 'E-commerce', href: '/solutions#ecommerce' },
+    { name: 'Pendidikan', href: '/solutions#education' },
+    { name: 'Kesehatan', href: '/solutions#healthcare' }
+  ]
+
+  const support = [
+    { name: 'Documentation', href: '/docs' },
+    { name: 'API Reference', href: '/api' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Help Center', href: '/help' }
   ]
 
   const legal = [
-    { name: 'Privacy Policy', href: '#privacy' },
-    { name: 'Terms of Service', href: '#terms' },
-    { name: 'Cookie Policy', href: '#cookies' },
-    { name: 'Compliance', href: '#compliance' }
+    { name: 'Kebijakan Privasi', href: '/privacy' },
+    { name: 'Syarat & Ketentuan', href: '/terms' },
+    { name: 'Kebijakan Cookie', href: '/cookies' },
+    { name: 'Compliance', href: '/compliance' }
   ]
 
   const socialLinks = [
@@ -74,47 +76,42 @@ const Footer = () => {
   }
 
   return (
-    <footer ref={ref} className="relative bg-slate-900 border-t border-white/10">
+    <footer className="relative bg-slate-900 border-t border-white/10">
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-purple-900/20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-black" />
 
       <div className="relative z-10">
         <div className="container mx-auto px-6 py-16">
           {/* Main Footer Content */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
             {/* Brand Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="lg:col-span-2"
-            >
+            <div className="lg:col-span-2">
               <Link href="/" className="flex items-center gap-2 mb-6 inline-block">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center">
+                  <MessageCircle className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-2xl font-bold text-white">CPaaS Pro</span>
+                <span className="text-2xl font-bold text-white">7connect</span>
               </Link>
 
               <p className="text-gray-300 mb-6 leading-relaxed">
-                The next-generation communications platform that empowers businesses to connect, engage, and grow at global scale.
+                Platform komunikasi generasi berikutnya yang memberdayakan bisnis untuk terhubung, berinteraksi, dan tumbuh dalam skala global dengan solusi AI chatbot yang cerdas.
               </p>
 
               {/* Newsletter */}
               <form onSubmit={handleNewsletterSubmit} className="mb-6">
-                <h4 className="text-white font-semibold mb-3">Stay Updated</h4>
+                <h4 className="text-white font-semibold mb-3">Dapatkan Update Terbaru</h4>
                 <div className="flex gap-2">
                   <Input
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="Masukkan email Anda"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white placeholder-gray-400 rounded-xl flex-1 focus:border-purple-500 focus:ring-purple-500"
+                    className="bg-white/5 border-white/10 text-white placeholder-gray-400 rounded-xl flex-1 focus:border-green-500 focus:ring-green-500"
                     required
                   />
                   <Button
                     type="submit"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl px-4"
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl px-4"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </Button>
@@ -134,21 +131,17 @@ const Footer = () => {
                   </Link>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Products */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <h3 className="text-white font-semibold mb-4">Products</h3>
+            <div>
+              <h3 className="text-white font-semibold mb-4">Produk</h3>
               <ul className="space-y-3">
                 {products.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors duration-200"
+                      className="flex items-center gap-2 text-gray-300 hover:text-green-400 transition-colors duration-200"
                     >
                       <item.icon className="w-4 h-4" />
                       {item.name}
@@ -156,82 +149,65 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
-            {/* Company */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <h3 className="text-white font-semibold mb-4">Company</h3>
+            {/* Solutions */}
+            <div>
+              <h3 className="text-white font-semibold mb-4">Solusi</h3>
               <ul className="space-y-3">
-                {company.map((item) => (
+                {solutions.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="text-gray-300 hover:text-purple-400 transition-colors duration-200"
+                      className="text-gray-300 hover:text-green-400 transition-colors duration-200"
                     >
                       {item.name}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
-            {/* Resources */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <h3 className="text-white font-semibold mb-4">Resources</h3>
+            {/* Support */}
+            <div>
+              <h3 className="text-white font-semibold mb-4">Support</h3>
               <ul className="space-y-3">
-                {resources.map((item) => (
+                {support.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="text-gray-300 hover:text-purple-400 transition-colors duration-200"
+                      className="text-gray-300 hover:text-green-400 transition-colors duration-200"
                     >
                       {item.name}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
             {/* Legal */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
+            <div>
               <h3 className="text-white font-semibold mb-4">Legal</h3>
               <ul className="space-y-3">
                 {legal.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="text-gray-300 hover:text-purple-400 transition-colors duration-200"
+                      className="text-gray-300 hover:text-green-400 transition-colors duration-200"
                     >
                       {item.name}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </div>
 
           {/* Bottom Section */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="pt-8 border-t border-white/10"
-          >
+          <div className="pt-8 border-t border-white/10">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="text-gray-400 text-sm">
-                © 2024 CPaaS Pro. All rights reserved.
+                © 2024 7connect. All rights reserved.
               </div>
 
               <div className="flex items-center gap-6 text-sm text-gray-400">
@@ -241,15 +217,42 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center gap-1">
                   <MapPin className="w-4 h-4 text-blue-400" />
-                  <span>Global Coverage</span>
+                  <span>Indonesia & Global</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Users className="w-4 h-4 text-purple-400" />
-                  <span>10K+ Customers</span>
+                  <Users className="w-4 h-4 text-green-400" />
+                  <span>10K+ Pelanggan</span>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
+
+          {/* Contact Info Bar */}
+          <div className="mt-8 p-6 bg-white/5 rounded-xl border border-white/10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+              <div className="flex items-center justify-center gap-3">
+                <Mail className="w-5 h-5 text-green-400" />
+                <div>
+                  <div className="text-white font-medium">Email</div>
+                  <div className="text-gray-300 text-sm">hello@7connect.id</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-3">
+                <Phone className="w-5 h-5 text-green-400" />
+                <div>
+                  <div className="text-white font-medium">Telepon</div>
+                  <div className="text-gray-300 text-sm">+62 21 1234 5678</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-3">
+                <Building className="w-5 h-5 text-green-400" />
+                <div>
+                  <div className="text-white font-medium">Kantor</div>
+                  <div className="text-gray-300 text-sm">Jakarta, Indonesia</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

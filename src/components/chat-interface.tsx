@@ -33,7 +33,11 @@ const formatMarkdown = (text: string): string => {
     .replace(/^(\d+)\. (.*?)$/gm, '$1. $2')
 }
 
-export default function ChatInterface() {
+interface ChatInterfaceProps {
+  personaOverride?: any
+}
+
+export default function ChatInterface({ personaOverride }: ChatInterfaceProps = {}) {
   const { t } = useI18n()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -47,7 +51,7 @@ export default function ChatInterface() {
   // Initialize component: load persona and conversation
   useEffect(() => {
     initializeChat()
-  }, [])
+  }, [personaOverride])
 
   // Auto-save messages whenever they change
   useEffect(() => {
@@ -61,8 +65,24 @@ export default function ChatInterface() {
     const isStorageAvailable = ChatStorage.isStorageAvailable()
     setStorageAvailable(isStorageAvailable)
 
-    // Load active persona
-    await loadActivePersona()
+    // Use persona override if provided, otherwise load active persona
+    if (personaOverride) {
+      setPersona(personaOverride)
+      setPersonaLoading(false)
+
+      // Add welcome message with persona override
+      const welcomeMessage: Message = {
+        id: '1',
+        content: personaOverride.welcomeMessage || t('chat.welcome'),
+        role: 'assistant',
+        timestamp: new Date()
+      }
+      setMessages([welcomeMessage])
+      return
+    } else {
+      // Load active persona
+      await loadActivePersona()
+    }
 
     // Load saved conversation if available
     if (isStorageAvailable) {

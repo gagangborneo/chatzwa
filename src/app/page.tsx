@@ -1,11 +1,23 @@
-import ChatInterface from '@/components/chat-interface'
+'use client'
+
+import Navigation from '@/components/landing/Navigation'
+import HeroSection from '@/components/landing/HeroSection'
+import FeaturesSection from '@/components/landing/FeaturesSection'
+import TestimonialSection from '@/components/landing/TestimonialSection'
+import PricingSection from '@/components/landing/PricingSection'
+import ContactSection from '@/components/landing/ContactSection'
+import Footer from '@/components/landing/Footer'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 p-2 md:p-4">
-      <div className="container mx-auto h-screen py-2 md:py-4 flex items-center">
-        <ChatInterface />
-      </div>
+    <div className="min-h-screen bg-slate-900">
+      <Navigation />
+      <HeroSection />
+      <FeaturesSection />
+      <TestimonialSection />
+      <PricingSection />
+      <ContactSection />
+      <Footer />
     </div>
   )
 }

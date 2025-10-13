@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { savePersona, getAllPersonas, getActivePersona, searchPersonas } from '@/lib/persona-service'
+import { savePersona, getAllPersonas, getActivePersona, searchPersonas, getPersonaBySlug } from '@/lib/persona-service'
 
 // GET - Fetch personas
 export async function GET(request: NextRequest) {
@@ -9,10 +9,15 @@ export async function GET(request: NextRequest) {
     const active = searchParams.get('active')
     const search = searchParams.get('search')
     const profile = searchParams.get('profile')
+    const slug = searchParams.get('slug')
 
     let personas
 
-    if (active === 'true') {
+    if (slug) {
+      // Get persona by slug
+      personas = await getPersonaBySlug(slug)
+      return NextResponse.json({ success: true, data: personas })
+    } else if (active === 'true') {
       // Get active persona
       personas = await getActivePersona(userId || undefined)
       return NextResponse.json({ success: true, data: personas })

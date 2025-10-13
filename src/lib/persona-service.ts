@@ -1,8 +1,42 @@
 import { db } from '@/lib/db'
 
+// Utility functions
+export function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '') || 'unnamed'
+}
+
+export async function generateUniqueSlug(baseSlug: string, userId?: string, excludeId?: string): Promise<string> {
+  let slug = baseSlug
+  let counter = 1
+
+  while (true) {
+    const existing = await db.persona.findFirst({
+      where: {
+        slug,
+        ...(userId && { userId }),
+        ...(excludeId && { id: { not: excludeId } })
+      }
+    })
+
+    if (!existing) {
+      return slug
+    }
+
+    slug = `${baseSlug}-${counter}`
+    counter++
+  }
+}
+
 // Types
 export interface PersonaData {
   id?: string
+  slug?: string
   name: string
   welcomeMessage: string
   selectedProfile?: string
@@ -31,7 +65,18 @@ export interface PersonaData {
 // Create or Update Persona
 export async function savePersona(data: PersonaData, userId?: string) {
   try {
+    // Generate slug if not provided
+    let slug = data.slug
+    if (!slug) {
+      const baseSlug = generateSlug(data.name)
+      slug = await generateUniqueSlug(baseSlug, userId, data.id)
+    } else {
+      // Ensure slug is unique if provided
+      slug = await generateUniqueSlug(slug, userId, data.id)
+    }
+
     const personaData = {
+      slug,
       name: data.name,
       welcomeMessage: data.welcomeMessage,
       selectedProfile: data.selectedProfile || 'islamic_educator',
@@ -96,6 +141,28 @@ export async function getPersonaById(id: string) {
   } catch (error) {
     console.error('Error getting persona:', error)
     throw new Error('Failed to get persona')
+  }
+}
+
+// Get Persona by Slug
+export async function getPersonaBySlug(slug: string) {
+  try {
+    const persona = await db.persona.findUnique({
+      where: { slug },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    })
+    return persona
+  } catch (error) {
+    console.error('Error getting persona by slug:', error)
+    throw new Error('Failed to get persona by slug')
   }
 }
 

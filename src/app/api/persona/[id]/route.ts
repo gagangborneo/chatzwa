@@ -41,6 +41,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
     const { userId, ...personaData } = body
 
@@ -56,7 +57,7 @@ export async function PUT(
     }
 
     const persona = await savePersona(
-      { ...personaData, id: params.id },
+      { ...personaData, id },
       userId || undefined
     )
 

@@ -11,8 +11,10 @@ const publicRoutes = [
   '/api/test-rag',
   '/api/debug-ollama',
   '/api/knowledge/seed',
+  '/api/embed-chat', // Embed chat API for external websites
   '/login', // Login page
   '/register', // Register page
+  '/demo', // Demo page for embed chat
 ]
 
 

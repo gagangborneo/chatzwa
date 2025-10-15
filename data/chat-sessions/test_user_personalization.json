@@ -1,0 +1,12 @@
+{
+  "sessionId": "test_user_personalization",
+  "messages": [
+    {
+      "message": "halo, saya mau tanya",
+      "response": "Halo Test User! 🎉  \nSelamat datang di 7connect. Saya **Updated AI Assistant**, siap membantu kamu dengan semua layanan kami—dari AI Chatbot, WhatsApp Business API, sampai plugin WordPress dan widget embed. 🚀\n\nAda yang spesifik yang ingin kamu tanyakan?  \n- Apakah kamu ingin tahu tentang **fitur AI Chatbot** 24/7?  \n- Atau sedang cari info tentang **integrasi WhatsApp Business API** untuk bisnis kamu?  \n- Mungkin kamu butuh panduan tentang **WordPress Plugin** atau **Embed Chat**?  \n- Atau butuh bantuan teknis, instalasi, dan konfigurasi?  \n- Atau tertarik dengan **paket harga** dan detail biaya?\n\nSampaikan saja, dan saya akan langsung memberikan info yang paling relevan buatmu! 🌟  \n\n**Ada yang kamu butuh kabar sekarang?**",
+      "timestamp": 1760402184750
+    }
+  ],
+  "createdAt": 1760402184749,
+  "lastAccessed": 1760402184749
+}

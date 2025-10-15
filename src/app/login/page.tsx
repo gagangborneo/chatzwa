@@ -25,11 +25,30 @@ export default function LoginPage() {
   const [successMessage, setSuccessMessage] = useState('')
 
   useEffect(() => {
-    const message = searchParams.get('message')
-    if (message === 'registrasi-berhasil') {
-      setSuccessMessage('Registrasi berhasil! Silakan login dengan akun Anda.')
+    // Check if user is already logged in
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch('/api/auth/login')
+        const data = await response.json()
+
+        if (data.authenticated) {
+          // User is already logged in, redirect to dashboard
+          router.push('/dashboard')
+          return
+        }
+      } catch (error) {
+        console.error('Auth check error:', error)
+      }
+
+      // If not logged in, check for registration success message
+      const message = searchParams.get('message')
+      if (message === 'registrasi-berhasil') {
+        setSuccessMessage('Registrasi berhasil! Silakan login dengan akun Anda.')
+      }
     }
-  }, [searchParams])
+
+    checkAuthStatus()
+  }, [searchParams, router])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target

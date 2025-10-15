@@ -10,8 +10,13 @@
       "message": "hallo",
       "response": "Assalamualaikum warahmatullahi wabarakatuh!  \nTerima kasih sudah menghubungi Yayasan Pendidikan Islam. Ada yang bisa saya bantu hari ini?",
       "timestamp": 1760220841616
+    },
+    {
+      "message": "halo kamu siapa",
+      "response": "Assalamualaikum,  \nSaya Attallah, asisten digital Yayasan Pendidikan Islam. Saya siap membantu Anda terkait program pendidikan, transaksi, data siswa, kajian Islam, program donasi, serta ilmu Al‑Quran. Ada yang bisa saya bantu hari ini?",
+      "timestamp": 1760342817339
     }
   ],
   "createdAt": 1760220437649,
-  "lastAccessed": 1760220841616
+  "lastAccessed": 1760342817339
 }

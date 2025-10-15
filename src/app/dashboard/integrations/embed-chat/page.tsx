@@ -32,7 +32,8 @@ import {
   Play,
   Square,
   ExternalLink,
-  Download
+  Download,
+  Headphones
 } from 'lucide-react'
 import { useI18n } from '@/lib/i18n'
 
@@ -101,26 +102,28 @@ export default function EmbedChatIntegration() {
 
   const generateEmbedCode = () => {
     const config = {
-      apiKey: apiKey,
-      position: widgetSettings.position,
-      theme: widgetSettings.theme,
+      widgetId: apiKey,
+      position: widgetSettings.position === 'bottomRight' ? 'bottom-right' :
+                 widgetSettings.position === 'bottomLeft' ? 'bottom-left' :
+                 widgetSettings.position === 'topRight' ? 'top-right' : 'top-left',
+      theme: widgetSettings.theme === 'auto' ? 'light' : widgetSettings.theme,
       primaryColor: widgetSettings.primaryColor,
-      backgroundColor: widgetSettings.backgroundColor,
-      textColor: widgetSettings.textColor,
+      title: 'Customer Support',
+      subtitle: 'Kami siap membantu Anda',
       welcomeMessage: widgetSettings.welcomeMessage,
-      autoOpen: widgetSettings.autoOpen,
-      responseDelay: widgetSettings.responseDelay,
-      showTimestamp: widgetSettings.showTimestamp,
-      allowFileUpload: widgetSettings.allowFileUpload,
-      mobileOptimized: widgetSettings.mobileOptimized
+      placeholder: 'Ketik pesan Anda...',
+      showOnLoad: widgetSettings.autoOpen,
+      delay: widgetSettings.responseDelay * 1000,
+      badgeText: widgetSettings.autoOpen ? '' : 'Ada yang bisa saya bantu?'
     }
 
-    const code = `<!-- Attalah AI Chat Widget -->
+    const domain = window.location.origin;
+    const code = `<!-- 7connect Embed Chat Widget -->
 <script>
-  window.AttalahChatConfig = ${JSON.stringify(config, null, 2)};
+  window.EMBED_CHAT_CONFIG = ${JSON.stringify(config, null, 2)};
 </script>
-<script src="https://cdn.attalah.ai/chat-widget.js" async></script>
-<!-- End Attalah AI Chat Widget -->`
+<script src="${domain}/embed-chat.js" async></script>
+<!-- End 7connect Embed Chat Widget -->`
 
     setEmbedCode(code)
   }
@@ -751,6 +754,103 @@ export default function EmbedChatIntegration() {
                   <Download className="w-4 h-4 mr-2" />
                   Download as HTML
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Demo & Testing */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Play className="w-5 h-5" />
+                Test Widget Anda
+              </CardTitle>
+              <CardDescription>
+                Preview dan test widget sebelum mengimplementasikannya
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Live Demo */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Live Preview</h3>
+                <div className="border rounded-lg p-4 bg-gray-50 min-h-[400px] relative">
+                  <div className="text-center text-gray-500 mb-8">
+                    <Globe className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <p>Website Demo</p>
+                    <p className="text-sm mt-2">Widget akan muncul di sudut kanan bawah</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Test Messages */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Test Messages</h3>
+                <div className="space-y-2">
+                  <Button variant="outline" className="w-full justify-start" onClick={() => {
+                    console.log('Test message: pricing inquiry')
+                  }}>
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    "Apa saja harga paket yang tersedia?"
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start" onClick={() => {
+                    console.log('Test message: features')
+                  }}>
+                    <Settings className="w-4 h-4 mr-2" />
+                    "Fitur apa saja yang didapatkan?"
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start" onClick={() => {
+                    console.log('Test message: support')
+                  }}>
+                    <Headphones className="w-4 h-4 mr-2" />
+                    "Bagaimana cara menghubungi support?"
+                  </Button>
+                </div>
+              </div>
+
+              {/* Implementation Guide */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Platform Implementation</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">WordPress</h4>
+                    <ol className="text-sm text-muted-foreground space-y-1">
+                      <li>1. Install plugin 7connect</li>
+                      <li>2. Masukkan API key</li>
+                      <li>3. Konfigurasi widget</li>
+                      <li>4. Publish</li>
+                    </ol>
+                    <Button variant="outline" size="sm" className="mt-2">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      WordPress Plugin
+                    </Button>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">HTML/CSS/JS</h4>
+                    <ol className="text-sm text-muted-foreground space-y-1">
+                      <li>1. Copy script di atas</li>
+                      <li>2. Paste sebelum &lt;/body&gt;</li>
+                      <li>3. Customisasi konfigurasi</li>
+                      <li>4. Test di browser</li>
+                    </ol>
+                    <Button variant="outline" size="sm" className="mt-2">
+                      <Code className="w-4 h-4 mr-2" />
+                      Custom Integration
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Browser Compatibility */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Browser Compatibility</h3>
+                <div className="flex gap-2 flex-wrap">
+                  <Badge variant="outline">Chrome 80+</Badge>
+                  <Badge variant="outline">Firefox 75+</Badge>
+                  <Badge variant="outline">Safari 13+</Badge>
+                  <Badge variant="outline">Edge 80+</Badge>
+                  <Badge variant="outline">Mobile Safari</Badge>
+                  <Badge variant="outline">Chrome Mobile</Badge>
+                </div>
               </div>
             </CardContent>
           </Card>

@@ -8,8 +8,20 @@
 
   // Configuration
   const CONFIG = {
-    API_URL: window.location.origin, // Automatically detect current domain
+    API_URL: (() => {
+      // Try to detect the correct API URL
+      const origin = window.location.origin;
+
+      // If we're on localhost, default to 3000 (Next.js default)
+      if (origin.includes('localhost:5000')) {
+        return 'http://localhost:3000';
+      }
+
+      // Otherwise use the current origin
+      return origin;
+    })(),
     WIDGET_ID: null,
+    USER_ID: null, // User ID for personalized responses
     POSITION: 'bottom-right', // bottom-right, bottom-left, top-right, top-left
     THEME: 'light', // light, dark
     PRIMARY_COLOR: '#22c55e',
@@ -37,6 +49,12 @@
   class EmbedChat {
     constructor(config) {
       this.config = { ...CONFIG, ...config };
+
+      // Generate widget ID if not provided
+      if (!this.config.WIDGET_ID) {
+        this.config.WIDGET_ID = this.generateWidgetId();
+      }
+
       this.isOpen = false;
       this.messages = [];
       this.sessionId = this.generateSessionId();
@@ -52,6 +70,10 @@
 
     generateSessionId() {
       return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    generateWidgetId() {
+      return 'widget_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
 
     init() {
@@ -471,6 +493,15 @@
           50% {
             opacity: 0.6;
             transform: scale(0.8);
+          }
+        }
+
+        @keyframes embed-chat-spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
           }
         }
 
@@ -1055,29 +1086,53 @@
       // Add user message
       this.addMessage(message, 'user');
       this.inputField.value = '';
+      this.inputField.style.height = 'auto'; // Reset textarea height
       this.sendButton.disabled = true;
 
-      // Show typing indicator
+      // Show typing indicator with loading state
       this.showTypingIndicator();
+      this.setSendButtonLoading(true);
 
       try {
-        // Send to API
+        // Send to API with timeout
         const response = await this.sendToAPI(message);
 
         // Remove typing indicator
         this.hideTypingIndicator();
+        this.setSendButtonLoading(false);
 
         // Add bot response
         if (response.message) {
           this.addMessage(response.message, 'bot');
+        } else {
+          this.addMessage('Maaf, saya tidak dapat memproses pesan Anda saat ini.', 'bot');
         }
       } catch (error) {
         console.error('Error sending message:', error);
         this.hideTypingIndicator();
-        this.addMessage('Maaf, terjadi kesalahan. Silakan coba lagi nanti.', 'bot');
+        this.setSendButtonLoading(false);
+
+        // Show specific error messages based on error type
+        let errorMessage = 'Maaf, terjadi kesalahan. Silakan coba lagi nanti.';
+
+        if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+          errorMessage = 'Maaf, tidak dapat terhubung ke server. Periksa koneksi internet Anda.';
+        } else if (error.message.includes('HTTP error! status: 500')) {
+          errorMessage = 'Maaf, terjadi kesalahan pada server. Silakan coba lagi dalam beberapa saat.';
+        } else if (error.message.includes('HTTP error! status: 400')) {
+          errorMessage = 'Maaf, permintaan tidak valid. Silakan coba lagi.';
+        } else if (error.message.includes('timeout')) {
+          errorMessage = 'Maaf, server terlalu lama merespons. Silakan coba lagi.';
+        } else if (error.message.includes('Invalid JSON response')) {
+          errorMessage = 'Maaf, server mengembalikan format yang tidak valid. Silakan coba lagi.';
+        }
+
+        this.addMessage(errorMessage, 'bot');
+        this.addRetryOption(message);
       }
 
       this.sendButton.disabled = false;
+      this.inputField.focus();
     }
 
     addMessage(text, sender) {
@@ -1137,25 +1192,162 @@
     }
 
     async sendToAPI(message) {
-      const response = await fetch(`${this.config.API_URL}/api/embed-chat`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: message,
-          sessionId: this.sessionId,
-          widgetId: this.config.WIDGET_ID,
-          url: window.location.href,
-          userAgent: navigator.userAgent
-        })
+      console.log('Embed Chat: Sending message to API:', {
+        message: message,
+        sessionId: this.sessionId,
+        widgetId: this.config.WIDGET_ID,
+        userId: this.config.USER_ID,
+        apiUrl: this.config.API_URL,
+        url: window.location.href
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
+      try {
+        const response = await fetch(`${this.config.API_URL}/api/embed-chat`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: message,
+            sessionId: this.sessionId,
+            widgetId: this.config.WIDGET_ID,
+            url: window.location.href,
+            userAgent: navigator.userAgent,
+            userId: this.config.USER_ID
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+        console.log('Embed Chat: API Response status:', response.status);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Embed Chat: API Error:', {
+            status: response.status,
+            statusText: response.statusText,
+            errorText: errorText
+          });
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        let result;
+        try {
+          result = await response.json();
+          console.log('Embed Chat: API Response:', result);
+        } catch (jsonError) {
+          console.error('Embed Chat: JSON Parse Error:', jsonError);
+          console.log('Embed Chat: Raw Response Text:', await response.text());
+          throw new Error('Invalid JSON response from server');
+        }
+
+        // Validate response structure
+        if (!result || typeof result.message !== 'string') {
+          console.error('Embed Chat: Invalid response structure:', result);
+          throw new Error('Invalid response format from server');
+        }
+
+        return result;
+
+      } catch (error) {
+        clearTimeout(timeoutId);
+        if (error.name === 'AbortError') {
+          throw new Error('timeout');
+        }
+        throw error;
+      }
+    }
+
+    // Set send button loading state
+    setSendButtonLoading(isLoading) {
+      if (isLoading) {
+        this.sendButton.innerHTML = `
+          <div class="embed-chat-loading-spinner">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12a9 9 0 11-6.219-8.56"/>
+            </svg>
+          </div>
+        `;
+        this.sendButton.style.animation = 'embed-chat-spin 1s linear infinite';
+      } else {
+        this.sendButton.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+          </svg>
+        `;
+        this.sendButton.style.animation = '';
+      }
+    }
+
+    // Add retry option for failed messages
+    addRetryOption(originalMessage) {
+      const retryDiv = document.createElement('div');
+      retryDiv.className = 'embed-chat-retry-container';
+      retryDiv.style.cssText = `
+        text-align: center;
+        margin-top: 10px;
+        padding: 8px;
+        background: #fef3c7;
+        border-radius: 8px;
+        border: 1px solid #f59e0b;
+      `;
+
+      const retryButton = document.createElement('button');
+      retryButton.textContent = 'Coba Lagi';
+      retryButton.style.cssText = `
+        background: ${this.config.PRIMARY_COLOR};
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-top: 4px;
+      `;
+
+      retryButton.addEventListener('click', () => {
+        retryDiv.remove();
+        this.sendMessageWithRetry(originalMessage);
+      });
+
+      retryDiv.appendChild(document.createTextNode('Kirim ulang pesan? '));
+      retryDiv.appendChild(retryButton);
+      this.messagesContainer.appendChild(retryDiv);
+      this.scrollToBottom();
+    }
+
+    // Send message with retry (for retry button)
+    async sendMessageWithRetry(message) {
+      this.addMessage(message, 'user');
+      this.sendButton.disabled = true;
+      this.showTypingIndicator();
+      this.setSendButtonLoading(true);
+
+      try {
+        const response = await this.sendToAPI(message);
+        this.hideTypingIndicator();
+        this.setSendButtonLoading(false);
+
+        if (response.message) {
+          this.addMessage(response.message, 'bot');
+        } else {
+          this.addMessage('Maaf, saya tidak dapat memproses pesan Anda saat ini.', 'bot');
+        }
+      } catch (error) {
+        console.error('Error retrying message:', error);
+        this.hideTypingIndicator();
+        this.setSendButtonLoading(false);
+        this.addMessage('Maaf, masih terjadi kesalahan. Silakan coba lagi nanti.', 'bot');
+        this.addRetryOption(message);
       }
 
-      return await response.json();
+      this.sendButton.disabled = false;
+      this.inputField.focus();
     }
 
     // Mobile detection helper

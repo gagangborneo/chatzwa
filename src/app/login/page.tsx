@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 // import { Input } from '@/components/ui/input'
@@ -9,10 +9,10 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
+import AuthSuspenseWrapper from '@/components/auth-suspense-wrapper'
 
-export default function LoginPage() {
+function LoginContent({ successMessage, setSuccessMessage }: { successMessage: string; setSuccessMessage: (msg: string) => void }) {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -22,33 +22,6 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [loginError, setLoginError] = useState('')
-  const [successMessage, setSuccessMessage] = useState('')
-
-  useEffect(() => {
-    // Check if user is already logged in
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch('/api/auth/login')
-        const data = await response.json()
-
-        if (data.authenticated) {
-          // User is already logged in, redirect to dashboard
-          router.push('/dashboard')
-          return
-        }
-      } catch (error) {
-        console.error('Auth check error:', error)
-      }
-
-      // If not logged in, check for registration success message
-      const message = searchParams.get('message')
-      if (message === 'registrasi-berhasil') {
-        setSuccessMessage('Registrasi berhasil! Silakan login dengan akun Anda.')
-      }
-    }
-
-    checkAuthStatus()
-  }, [searchParams, router])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -249,5 +222,15 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <AuthSuspenseWrapper>
+      {({ successMessage, setSuccessMessage }) => (
+        <LoginContent successMessage={successMessage} setSuccessMessage={setSuccessMessage} />
+      )}
+    </AuthSuspenseWrapper>
   )
 }

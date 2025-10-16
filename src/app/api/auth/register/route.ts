@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-import { hashPassword } from '@/lib/auth'
+import { unifiedAuth } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,61 +34,32 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    const prisma = new PrismaClient()
-
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() }
-    })
-
-    if (existingUser) {
-      return NextResponse.json({
-        success: false,
-        error: 'Email sudah terdaftar. Gunakan email lain atau login.'
-      }, { status: 409 })
-    }
-
-    // Hash password
-    const hashedPassword = await hashPassword(password)
-
-    // Create user
-    const user = await prisma.user.create({
-      data: {
-        email: email.toLowerCase(),
-        name: name?.trim() || null,
-        password: hashedPassword,
-        role: 'user', // Default role
-        isActive: true
-      }
-    })
-
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user
+    // Use unified auth to create user (works with both local and Supabase)
+    const user = await unifiedAuth.createUser(email, password, name, 'user')
 
     return NextResponse.json({
       success: true,
       message: 'Registrasi berhasil! Silakan login untuk melanjutkan.',
       data: {
-        user: userWithoutPassword
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          isActive: user.isActive
+        },
+        authProvider: unifiedAuth.getAuthProvider()
       }
     }, { status: 201 })
 
   } catch (error) {
     console.error('Register error:', error)
 
-    // Handle Prisma errors
-    if (error instanceof Error) {
-      if (error.message.includes('Unique constraint')) {
-        return NextResponse.json({
-          success: false,
-          error: 'Email sudah terdaftar. Gunakan email lain atau login.'
-        }, { status: 409 })
-      }
-    }
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat registrasi. Silakan coba lagi.'
 
     return NextResponse.json({
       success: false,
-      error: 'Terjadi kesalahan saat registrasi. Silakan coba lagi.'
+      error: errorMessage
     }, { status: 500 })
   }
 }

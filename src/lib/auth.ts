@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs'
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { shouldUseSupabase, supabaseAuth } from './auth-supabase'
+import { supabaseAuthFallback } from './auth-supabase-fallback'
 
 // Types
 export interface JWTPayload {
@@ -165,6 +167,38 @@ export const validateSession = async (token: string): Promise<AuthUser | null> =
 
   console.log('✅ Token verified, payload:', { userId: payload.userId, email: payload.email })
 
+  // For local auth mode, check if this is a hardcoded user
+  const hardcodedUsers = [
+    {
+      userId: 'admin_user_id',
+      email: 'admin@admin.com',
+      name: 'Admin User',
+      role: 'admin'
+    },
+    {
+      userId: 'regular_user_id',
+      email: 'user@7connect.id',
+      name: 'Regular User',
+      role: 'user'
+    }
+  ]
+
+  const hardcodedUser = hardcodedUsers.find(u => u.userId === payload.userId)
+  if (hardcodedUser) {
+    console.log('✅ Local auth mode - returning hardcoded user:', hardcodedUser.email)
+    return {
+      id: hardcodedUser.userId,
+      email: hardcodedUser.email,
+      name: hardcodedUser.name,
+      role: hardcodedUser.role,
+      password: '', // Not included in JWT
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  }
+
+  // For database users, check session in database
   const { PrismaClient } = await import('@prisma/client')
   const prisma = new PrismaClient()
 
@@ -230,6 +264,11 @@ export const invalidateAllUserSessions = async (userId: string): Promise<void> =
 
 // Clean up expired sessions
 export const cleanupExpiredSessions = async (): Promise<void> => {
+  if (shouldUseSupabase()) {
+    await supabaseAuth.cleanupExpiredSessions()
+    return
+  }
+
   const { PrismaClient } = await import('@prisma/client')
   const prisma = new PrismaClient()
 
@@ -241,4 +280,180 @@ export const cleanupExpiredSessions = async (): Promise<void> => {
     },
     data: { isActive: false }
   })
+}
+
+// Unified authentication functions that work with both local and Supabase
+export const unifiedAuth = {
+  // Sign in user (works with both auth systems)
+  async signIn(email: string, password: string, ipAddress?: string, userAgent?: string) {
+    if (shouldUseSupabase()) {
+      try {
+        return await supabaseAuth.signIn(email, password, ipAddress, userAgent)
+      } catch (error) {
+        // Fallback to Supabase auth without custom tables if schema not set up
+        console.log('⚠️  Schema not found, using Supabase auth fallback mode')
+        return await supabaseAuthFallback.signIn(email, password, ipAddress, userAgent)
+      }
+    }
+
+    // Local auth implementation
+    const { PrismaClient } = await import('@prisma/client')
+    const prisma = new PrismaClient()
+
+    // Mock user validation (in production, use real database)
+    const validCredentials = [
+      {
+        email: 'admin@admin.com',
+        password: 'admin',
+        userId: 'admin_user_id',
+        name: 'Admin User',
+        role: 'admin'
+      },
+      {
+        email: 'user@7connect.id',
+        password: 'user123',
+        userId: 'regular_user_id',
+        name: 'Regular User',
+        role: 'user'
+      }
+    ]
+
+    const credentials = validCredentials.find(cred =>
+      cred.email === email.toLowerCase() && cred.password === password
+    )
+
+    if (!credentials) {
+      throw new Error('Email atau password salah')
+    }
+
+    // Create JWT token
+    const token = await generateToken({
+      userId: credentials.userId,
+      email: credentials.email,
+      role: credentials.role,
+      name: credentials.name
+    })
+
+    // Skip database session creation for hardcoded users (local auth mode)
+    console.log('🔧 Local auth mode - skipping database session creation for:', credentials.email)
+
+    return {
+      user: {
+        id: credentials.userId,
+        email: credentials.email,
+        name: credentials.name,
+        role: credentials.role,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      token
+    }
+  },
+
+  // Sign out user
+  async signOut(token: string): Promise<boolean> {
+    if (shouldUseSupabase()) {
+      try {
+        return await supabaseAuth.signOut(token)
+      } catch (error) {
+        // Fallback to Supabase auth without custom tables if schema not set up
+        console.log('⚠️  Schema not found, using Supabase auth fallback mode for signout')
+        return await supabaseAuthFallback.signOut(token)
+      }
+    }
+
+    return invalidateSession(token)
+  },
+
+  // Get current user
+  async getCurrentUser(token: string) {
+    console.log('🔍 unifiedAuth.getCurrentUser called')
+    console.log('📋 shouldUseSupabase():', shouldUseSupabase())
+
+    if (shouldUseSupabase()) {
+      try {
+        console.log('🔍 Trying supabaseAuth.getCurrentUser...')
+        const result = await supabaseAuth.getCurrentUser(token)
+        console.log('✅ supabaseAuth.getCurrentUser result:', !!result)
+        return result
+      } catch (error) {
+        // Fallback to Supabase auth without custom tables if schema not set up
+        console.log('⚠️  Schema not found, using Supabase auth fallback mode for getCurrentUser')
+        console.log('📋 Error:', error.message)
+        try {
+          const fallbackResult = await supabaseAuthFallback.getCurrentUser(token)
+          console.log('✅ supabaseAuthFallback.getCurrentUser result:', !!fallbackResult)
+          return fallbackResult
+        } catch (fallbackError) {
+          console.log('❌ Fallback also failed:', fallbackError.message)
+          return null
+        }
+      }
+    }
+
+    console.log('🔍 Using local validateSession...')
+    return validateSession(token)
+  },
+
+  // Validate session
+  async validateSession(token: string) {
+    if (shouldUseSupabase()) {
+      return supabaseAuth.validateSession(token)
+    }
+
+    return validateSession(token)
+  },
+
+  // Create user (registration)
+  async createUser(email: string, password: string, name?: string, role: string = 'user') {
+    if (shouldUseSupabase()) {
+      try {
+        return await supabaseAuth.createUser(email, password, name, role)
+      } catch (error) {
+        // Fallback to Supabase auth without custom tables if schema not set up
+        console.log('⚠️  Schema not found, using Supabase auth fallback mode for registration')
+        return await supabaseAuthFallback.createUser(email, password, name, role)
+      }
+    }
+
+    throw new Error('User registration is only available when Supabase is enabled')
+  },
+
+  // Invalidate session
+  async invalidateSession(token: string): Promise<boolean> {
+    if (shouldUseSupabase()) {
+      return supabaseAuth.invalidateSession(token)
+    }
+
+    return invalidateSession(token)
+  },
+
+  // Invalidate all user sessions
+  async invalidateAllUserSessions(userId: string): Promise<boolean> {
+    if (shouldUseSupabase()) {
+      return supabaseAuth.invalidateAllUserSessions(userId)
+    }
+
+    return invalidateAllUserSessions(userId)
+  },
+
+  // Update user profile
+  async updateUser(userId: string, updates: { name?: string; role?: string }) {
+    if (shouldUseSupabase()) {
+      return supabaseAuth.updateUser(userId, updates)
+    }
+
+    throw new Error('User profile updates are only available when Supabase is enabled')
+  },
+
+  // Check if auth system is available
+  isAuthAvailable(): boolean {
+    return shouldUseSupabase() || true // Local auth is always available
+  },
+
+  // Get auth provider info
+  getAuthProvider(): 'supabase' | 'local' {
+    return shouldUseSupabase() ? 'supabase' : 'local'
+  }
 }

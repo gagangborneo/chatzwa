@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAuthToken, validateSession } from '@/lib/auth'
+import { getAuthToken, unifiedAuth } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,7 +13,8 @@ export async function GET(request: NextRequest) {
       }, { status: 401 })
     }
 
-    const user = await validateSession(token)
+    // Use unified auth to get current user (works with both local and Supabase)
+    const user = await unifiedAuth.getCurrentUser(token)
 
     if (!user) {
       return NextResponse.json({
@@ -23,14 +24,18 @@ export async function GET(request: NextRequest) {
       }, { status: 401 })
     }
 
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user
-
     return NextResponse.json({
       success: true,
       authenticated: true,
       data: {
-        user: userWithoutPassword
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          isActive: user.isActive
+        },
+        authProvider: unifiedAuth.getAuthProvider()
       }
     })
 

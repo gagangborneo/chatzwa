@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAuthToken, invalidateSession } from '@/lib/auth'
+import { getAuthToken, unifiedAuth } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,8 +12,18 @@ export async function POST(request: NextRequest) {
       }, { status: 401 })
     }
 
-    // Invalidate session
-    await invalidateSession(token)
+    // Get user info before logout for logging
+    const user = await unifiedAuth.getCurrentUser(token)
+
+    // Use unified auth logout (works with both local and Supabase)
+    const logoutSuccess = await unifiedAuth.signOut(token)
+
+    if (!logoutSuccess) {
+      return NextResponse.json({
+        success: false,
+        error: 'Gagal logout. Silakan coba lagi.'
+      }, { status: 500 })
+    }
 
     // Clear auth cookie
     const response = NextResponse.json({
@@ -27,6 +37,10 @@ export async function POST(request: NextRequest) {
       sameSite: 'lax',
       path: '/',
     })
+
+    const userEmail = user?.email || 'unknown user'
+    const authProvider = unifiedAuth.getAuthProvider()
+    console.log(`✅ Logout successful for: ${userEmail} (Provider: ${authProvider})`)
 
     return response
 

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
-import { comparePassword, createSession, AuthUser } from '@/lib/auth'
+import { unifiedAuth } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,68 +13,32 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Mock user database for demo (in production, use your actual database)
-    const users = [
-      {
-        id: 1,
-        email: 'admin@admin.com',
-        password: 'admin', // In production, this would be hashed
-        name: 'Admin User',
-        role: 'admin',
-        isActive: true
-      },
-      {
-        id: 2,
-        email: 'user@7connect.id',
-        password: 'user123',
-        name: 'Regular User',
-        role: 'user',
-        isActive: true
-      }
-    ]
+    // Get user agent and IP address for session tracking
+    const userAgent = request.headers.get('user-agent') || undefined
+    const ipAddress = request.ip || request.headers.get('x-forwarded-for') || undefined
 
-    // Find user by email
-    const user = users.find(u => u.email === email.toLowerCase())
-
-    if (!user) {
-      return NextResponse.json({
-        success: false,
-        error: 'Email atau password salah'
-      }, { status: 401 })
-    }
-
-    // Check if user is active
-    if (!user.isActive) {
-      return NextResponse.json({
-        success: false,
-        error: 'Akun Anda tidak aktif. Silakan hubungi administrator.'
-      }, { status: 403 })
-    }
-
-    // Check password (in production, use proper password hashing)
-    if (user.password !== password) {
-      return NextResponse.json({
-        success: false,
-        error: 'Email atau password salah'
-      }, { status: 401 })
-    }
-
-    // Create session token (in production, use JWT or secure session management)
-    const sessionToken = 'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 15)
-
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user
+    // Use unified auth (works with both local and Supabase)
+    const authResult = await unifiedAuth.signIn(email, password, ipAddress, userAgent)
 
     // Return success with user data and session token
     const response = {
       success: true,
-      user: userWithoutPassword,
-      token: sessionToken
+      data: {
+        user: {
+          id: authResult.user.id,
+          email: authResult.user.email,
+          name: authResult.user.name,
+          role: authResult.user.role,
+          isActive: authResult.user.isActive
+        },
+        token: authResult.token,
+        authProvider: unifiedAuth.getAuthProvider()
+      }
     }
 
     // Set HTTP-only cookie for session
     const responseObj = NextResponse.json(response)
-    responseObj.cookies.set('auth_token', sessionToken, {
+    responseObj.cookies.set('auth-token', authResult.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -83,13 +46,17 @@ export async function POST(request: NextRequest) {
       path: '/',
     })
 
+    console.log(`✅ Login successful for: ${authResult.user.email} (Provider: ${unifiedAuth.getAuthProvider()})`)
     return responseObj
 
   } catch (error) {
     console.error('Login error:', error)
+
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan server. Silakan coba lagi.'
+
     return NextResponse.json({
       success: false,
-      error: 'Terjadi kesalahan server'
-    }, { status: 500 })
+      error: errorMessage
+    }, { status: 401 })
   }
 }

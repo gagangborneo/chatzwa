@@ -94,15 +94,17 @@ export default function EmbedChatIntegration() {
   })
 
   const [apiKey, setApiKey] = useState('embed_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15))
+  const [integrationType, setIntegrationType] = useState('javascript') // javascript, vue, react
 
   // Generate embed code when settings change
   useEffect(() => {
     generateEmbedCode()
-  }, [widgetSettings, apiKey])
+  }, [widgetSettings, apiKey, integrationType])
 
   const generateEmbedCode = () => {
     const config = {
-      widgetId: apiKey,
+      apiKey: apiKey,
+      apiUrl: window.location.origin,
       position: widgetSettings.position === 'bottomRight' ? 'bottom-right' :
                  widgetSettings.position === 'bottomLeft' ? 'bottom-left' :
                  widgetSettings.position === 'topRight' ? 'top-right' : 'top-left',
@@ -112,18 +114,126 @@ export default function EmbedChatIntegration() {
       subtitle: 'Kami siap membantu Anda',
       welcomeMessage: widgetSettings.welcomeMessage,
       placeholder: 'Ketik pesan Anda...',
-      showOnLoad: widgetSettings.autoOpen,
+      autoOpen: widgetSettings.autoOpen,
       delay: widgetSettings.responseDelay * 1000,
-      badgeText: widgetSettings.autoOpen ? '' : 'Ada yang bisa saya bantu?'
+      showOnLoad: widgetSettings.autoOpen
     }
 
     const domain = window.location.origin;
-    const code = `<!-- 7connect Embed Chat Widget -->
+
+    let code = '';
+
+    switch (integrationType) {
+      case 'javascript':
+        code = `<!-- 7connect Embed Chat Widget -->
 <script>
   window.EMBED_CHAT_CONFIG = ${JSON.stringify(config, null, 2)};
 </script>
 <script src="${domain}/embed-chat.js" async></script>
-<!-- End 7connect Embed Chat Widget -->`
+<!-- End 7connect Embed Chat Widget -->`;
+        break;
+
+      case 'vue':
+        code = `<!-- 7connect Vue.js Embed Chat Widget -->
+<!-- Step 1: Download the Vue component -->
+<!-- Download: ${domain}/embed-chat-vue.vue -->
+
+<!-- Step 2: Install and use in your Vue app -->
+<template>
+  <div>
+    <!-- Your app content -->
+    <router-view />
+
+    <!-- Chat Widget -->
+    <EmbedChatWidget
+      :api-key="'${apiKey}'"
+      :position="'${config.position}'"
+      :primary-color="'${config.primaryColor}'"
+      :title="'${config.title}'"
+      :subtitle="'${config.subtitle}'"
+      :welcome-message="'${config.welcomeMessage}'"
+      :placeholder="'${config.placeholder}'"
+      :auto-open="${config.autoOpen}"
+      :delay="${config.delay}"
+      :show-on-load="${config.showOnLoad}"
+      @chat-opened="onChatOpened"
+      @chat-closed="onChatClosed"
+    />
+  </div>
+</template>
+
+<script>
+import EmbedChatWidget from './components/EmbedChatWidget.vue'
+
+export default {
+  components: {
+    EmbedChatWidget
+  },
+  methods: {
+    onChatOpened() {
+      console.log('Chat widget opened')
+    },
+    onChatClosed() {
+      console.log('Chat widget closed')
+    }
+  }
+}
+</script>
+<!-- End 7connect Vue.js Embed Chat Widget -->`;
+        break;
+
+      case 'react':
+        code = `// 7connect React Embed Chat Widget
+// Step 1: Download the React component
+// Download: ${domain}/embed-chat-react.jsx
+
+// Step 2: Install and use in your React app
+import React from 'react';
+import EmbedChatWidget from './components/EmbedChatWidget';
+
+function App() {
+  return (
+    <div className="App">
+      {/* Your app content */}
+      <header>
+        <h1>My Application</h1>
+      </header>
+
+      <main>
+        {/* Routes or content */}
+      </main>
+
+      {/* Chat Widget */}
+      <EmbedChatWidget
+        apiKey="${apiKey}"
+        position="${config.position}"
+        primaryColor="${config.primaryColor}"
+        title="${config.title}"
+        subtitle="${config.subtitle}"
+        welcomeMessage="${config.welcomeMessage}"
+        placeholder="${config.placeholder}"
+        autoOpen={${config.autoOpen}}
+        delay={${config.delay}}
+        showOnLoad={${config.showOnLoad}}
+        onChatOpened={() => console.log('Chat opened')}
+        onChatClosed={() => console.log('Chat closed')}
+      />
+    </div>
+  );
+}
+
+export default App;
+// End 7connect React Embed Chat Widget`;
+        break;
+
+      default:
+        code = `<!-- 7connect Embed Chat Widget -->
+<script>
+  window.EMBED_CHAT_CONFIG = ${JSON.stringify(config, null, 2)};
+</script>
+<script src="${domain}/embed-chat.js" async></script>
+<!-- End 7connect Embed Chat Widget -->`;
+    }
 
     setEmbedCode(code)
   }
@@ -698,13 +808,54 @@ export default function EmbedChatIntegration() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Integration Type Selection */}
+              <div className="space-y-3">
+                <Label>Pilih Jenis Integrasi</Label>
+                <div className="grid gap-3 md:grid-cols-3">
+                  <Button
+                    variant={integrationType === 'javascript' ? 'default' : 'outline'}
+                    onClick={() => setIntegrationType('javascript')}
+                    className="flex items-center gap-2 h-auto p-4"
+                  >
+                    <div className="text-left">
+                      <div className="font-medium">JavaScript</div>
+                      <div className="text-sm text-muted-foreground">Cocok untuk website statis</div>
+                    </div>
+                  </Button>
+                  <Button
+                    variant={integrationType === 'vue' ? 'default' : 'outline'}
+                    onClick={() => setIntegrationType('vue')}
+                    className="flex items-center gap-2 h-auto p-4"
+                  >
+                    <div className="text-left">
+                      <div className="font-medium">Vue.js</div>
+                      <div className="text-sm text-muted-foreground">Komponen Vue terintegrasi</div>
+                    </div>
+                  </Button>
+                  <Button
+                    variant={integrationType === 'react' ? 'default' : 'outline'}
+                    onClick={() => setIntegrationType('react')}
+                    className="flex items-center gap-2 h-auto p-4"
+                  >
+                    <div className="text-left">
+                      <div className="font-medium">React</div>
+                      <div className="text-sm text-muted-foreground">Komponen React terintegrasi</div>
+                    </div>
+                  </Button>
+                </div>
+              </div>
+
               <div className="space-y-2">
-                <Label>{t('integrations.embedChat.install.step1')}</Label>
+                <Label>
+                  {integrationType === 'javascript' ? 'Kode Embed JavaScript' :
+                   integrationType === 'vue' ? 'Kode Integrasi Vue.js' :
+                   'Kode Integrasi React'}
+                </Label>
                 <div className="relative">
                   <Textarea
                     value={embedCode}
                     readOnly
-                    rows={12}
+                    rows={integrationType === 'javascript' ? 12 : 30}
                     className="font-mono text-sm"
                   />
                   <Button
@@ -718,6 +869,47 @@ export default function EmbedChatIntegration() {
                   </Button>
                 </div>
               </div>
+
+              {/* Download Component Links */}
+              {integrationType !== 'javascript' && (
+                <div className="flex gap-2 p-4 bg-muted rounded-lg">
+                  <div className="flex-1">
+                    <h4 className="font-medium mb-2">Download Komponen</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Unduh file komponen {integrationType === 'vue' ? 'Vue.js' : 'React'} untuk mulai mengintegrasikan:
+                    </p>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const downloadUrl = `${window.location.origin}/api/embed-chat-${integrationType}`
+                          const link = document.createElement('a')
+                          link.href = downloadUrl
+                          link.download = integrationType === 'vue' ? 'embed-chat-vue.vue' : 'embed-chat-react.jsx'
+                          document.body.appendChild(link)
+                          link.click()
+                          document.body.removeChild(link)
+                        }}
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        {integrationType === 'vue' ? 'embed-chat-vue.vue' : 'embed-chat-react.jsx'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const docUrl = `${window.location.origin}/embed-chat-${integrationType}-install.md`
+                          window.open(docUrl, '_blank')
+                        }}
+                      >
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Panduan Instalasi
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-3">
                 <div className="flex gap-4 p-4 bg-muted rounded-lg">
@@ -810,7 +1002,7 @@ export default function EmbedChatIntegration() {
               {/* Implementation Guide */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Platform Implementation</h3>
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   <div className="p-4 border rounded-lg">
                     <h4 className="font-medium mb-2">WordPress</h4>
                     <ol className="text-sm text-muted-foreground space-y-1">
@@ -825,6 +1017,80 @@ export default function EmbedChatIntegration() {
                     </Button>
                   </div>
                   <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">Vue.js</h4>
+                    <ol className="text-sm text-muted-foreground space-y-1">
+                      <li>1. Download komponen Vue</li>
+                      <li>2. Import di app Anda</li>
+                      <li>3. Tambahkan ke template</li>
+                      <li>4. Konfigurasi props</li>
+                    </ol>
+                    <div className="flex gap-2 mt-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const downloadUrl = `${window.location.origin}/api/embed-chat-vue`
+                          const link = document.createElement('a')
+                          link.href = downloadUrl
+                          link.download = 'embed-chat-vue.vue'
+                          document.body.appendChild(link)
+                          link.click()
+                          document.body.removeChild(link)
+                        }}
+                      >
+                        <Download className="w-4 h-4 mr-1" />
+                        Vue
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          window.open(`${window.location.origin}/embed-chat-vue-install.md`, '_blank')
+                        }}
+                      >
+                        <ExternalLink className="w-4 h-4 mr-1" />
+                        Docs
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">React</h4>
+                    <ol className="text-sm text-muted-foreground space-y-1">
+                      <li>1. Download komponen React</li>
+                      <li>2. Import di app Anda</li>
+                      <li>3. Tambahkan ke JSX</li>
+                      <li>4. Konfigurasi props</li>
+                    </ol>
+                    <div className="flex gap-2 mt-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const downloadUrl = `${window.location.origin}/api/embed-chat-react`
+                          const link = document.createElement('a')
+                          link.href = downloadUrl
+                          link.download = 'embed-chat-react.jsx'
+                          document.body.appendChild(link)
+                          link.click()
+                          document.body.removeChild(link)
+                        }}
+                      >
+                        <Download className="w-4 h-4 mr-1" />
+                        React
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          window.open(`${window.location.origin}/embed-chat-react-install.md`, '_blank')
+                        }}
+                      >
+                        <ExternalLink className="w-4 h-4 mr-1" />
+                        Docs
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-4 border rounded-lg">
                     <h4 className="font-medium mb-2">HTML/CSS/JS</h4>
                     <ol className="text-sm text-muted-foreground space-y-1">
                       <li>1. Copy script di atas</li>
@@ -835,6 +1101,32 @@ export default function EmbedChatIntegration() {
                     <Button variant="outline" size="sm" className="mt-2">
                       <Code className="w-4 h-4 mr-2" />
                       Custom Integration
+                    </Button>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">Next.js</h4>
+                    <ol className="text-sm text-muted-foreground space-y-1">
+                      <li>1. Gunakan komponen React</li>
+                      <li>2. Import di layout/page</li>
+                      <li>3. Tambahkan ke root layout</li>
+                      <li>4. Config environment</li>
+                    </ol>
+                    <Button variant="outline" size="sm" className="mt-2">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Next.js Guide
+                    </Button>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-medium mb-2">Nuxt.js</h4>
+                    <ol className="text-sm text-muted-foreground space-y-1">
+                      <li>1. Gunakan komponen Vue</li>
+                      <li>2. Import di layouts/default</li>
+                      <li>3. Tambahkan ke template</li>
+                      <li>4. Config runtime config</li>
+                    </ol>
+                    <Button variant="outline" size="sm" className="mt-2">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Nuxt.js Guide
                     </Button>
                   </div>
                 </div>

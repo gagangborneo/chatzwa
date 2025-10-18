@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { shouldUseSupabase, supabaseAuth } from './auth-supabase'
 import { supabaseAuthFallback } from './auth-supabase-fallback'
+import { shouldUseAppwrite, appwriteAuth } from './auth-appwrite'
 
 // Types
 export interface JWTPayload {
@@ -282,10 +283,14 @@ export const cleanupExpiredSessions = async (): Promise<void> => {
   })
 }
 
-// Unified authentication functions that work with both local and Supabase
+// Unified authentication functions that work with local, Supabase, and Appwrite
 export const unifiedAuth = {
-  // Sign in user (works with both auth systems)
+  // Sign in user (works with all auth systems)
   async signIn(email: string, password: string, ipAddress?: string, userAgent?: string) {
+    if (shouldUseAppwrite()) {
+      return await appwriteAuth.signIn(email, password, ipAddress, userAgent)
+    }
+
     if (shouldUseSupabase()) {
       try {
         return await supabaseAuth.signIn(email, password, ipAddress, userAgent)
@@ -353,6 +358,10 @@ export const unifiedAuth = {
 
   // Sign out user
   async signOut(token: string): Promise<boolean> {
+    if (shouldUseAppwrite()) {
+      return await appwriteAuth.signOut(token)
+    }
+
     if (shouldUseSupabase()) {
       try {
         return await supabaseAuth.signOut(token)
@@ -369,7 +378,15 @@ export const unifiedAuth = {
   // Get current user
   async getCurrentUser(token: string) {
     console.log('🔍 unifiedAuth.getCurrentUser called')
+    console.log('📋 shouldUseAppwrite():', shouldUseAppwrite())
     console.log('📋 shouldUseSupabase():', shouldUseSupabase())
+
+    if (shouldUseAppwrite()) {
+      console.log('🔍 Trying appwriteAuth.getCurrentUser...')
+      const result = await appwriteAuth.getCurrentUser(token)
+      console.log('✅ appwriteAuth.getCurrentUser result:', !!result)
+      return result
+    }
 
     if (shouldUseSupabase()) {
       try {
@@ -449,11 +466,13 @@ export const unifiedAuth = {
 
   // Check if auth system is available
   isAuthAvailable(): boolean {
-    return shouldUseSupabase() || true // Local auth is always available
+    return shouldUseAppwrite() || shouldUseSupabase() || true // Local auth is always available
   },
 
   // Get auth provider info
-  getAuthProvider(): 'supabase' | 'local' {
-    return shouldUseSupabase() ? 'supabase' : 'local'
+  getAuthProvider(): 'appwrite' | 'supabase' | 'local' {
+    if (shouldUseAppwrite()) return 'appwrite'
+    if (shouldUseSupabase()) return 'supabase'
+    return 'local'
   }
 }

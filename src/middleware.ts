@@ -12,6 +12,11 @@ const publicRoutes = [
   '/api/debug-ollama',
   '/api/knowledge/seed',
   '/api/embed-chat', // Embed chat API for external websites
+  '/api/admin/setup-appwrite', // Admin setup endpoint
+  '/api/admin/create-user', // Admin user creation endpoint
+  '/api/admin/create-user-simple', // Admin simple user creation endpoint
+  '/api/admin/create-user-demo', // Admin demo user creation endpoint
+  '/api/admin/list-users', // Admin list users endpoint
   '/login', // Login page
   '/register', // Register page
   '/demo', // Demo page for embed chat

@@ -1,0 +1,514 @@
+# Copyright (C) 2024 Chatbot Team
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Chatbot Floating Widget 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/chatbot-floating-widget\n"
+"POT-Creation-Date: 2024-10-19T00:00:00+00:00\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: chatbot-floating-widget\n"
+
+#: chatbot-floating-widget.php:8
+msgid "Advanced AI chatbot floating widget for WordPress. Connect your website with intelligent chatbot assistant powered by AI."
+msgstr ""
+
+#: chatbot-floating-widget.php:9
+msgid "Chatbot Team"
+msgstr ""
+
+#: chatbot-floating-widget.php:10
+msgid "https://chatbot.example.com"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:18
+msgid "Chatbot Floating Widget"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:19
+msgid "Chatbot Widget"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:50
+msgid "Basic Settings"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:51
+msgid "Configure the basic settings for your chatbot widget."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:57
+msgid "Theme Settings"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:58
+msgid "Customize the appearance of your chat widget to match your site theme."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:64
+msgid "Advanced Settings"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:65
+msgid "Advanced configuration options for developers and power users."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:71
+msgid "Enable Widget"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:73
+msgid "Enable chat widget on frontend"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:74
+msgid "Turn the chat widget on or off across your site."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:79
+msgid "API URL"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:81
+msgid "Chatbot API URL"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:82
+msgid "Enter your chatbot API endpoint URL."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:83
+msgid "https://your-chatbot-api.com/api"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:88
+msgid "API Key"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:90
+msgid "API Key"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:91
+msgid "Enter your chatbot API key."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:97
+msgid "Widget Position"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:99
+msgid "Position on screen"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:100
+msgid "Choose where the chat widget appears."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:105
+msgid "Bottom Right"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:106
+msgid "Bottom Left"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:107
+msgid "Top Right"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:108
+msgid "Top Left"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:113
+msgid "Widget Title"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:115
+msgid "Chat widget title"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:116
+msgid "Title displayed in the chat header."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:120
+msgid "Chat Assistant"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:124
+msgid "Welcome Message"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:126
+msgid "Welcome message"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:127
+msgid "Message shown when chat opens."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:131
+msgid "Hello! How can I help you today?"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:135
+msgid "Input Placeholder"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:137
+msgid "Input placeholder text"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:138
+msgid "Placeholder text for the message input field."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:142
+msgid "Type your message..."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:146
+msgid "Mobile Display"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:148
+msgid "Show on mobile devices"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:149
+msgid "Display the chat widget on mobile phones and tablets."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:154
+msgid "Auto Open"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:156
+msgid "Auto-open chat"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:157
+msgid "Automatically open the chat widget when page loads."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:162
+msgid "Primary Color"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:164
+msgid "Primary color"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:165
+msgid "Main color for chat headers and user messages."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:171
+msgid "Button Color"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:173
+msgid "Chat button color"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:174
+msgid "Color of the floating chat button."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:180
+msgid "Text Color"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:182
+msgid "Text color"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:183
+msgid "Text color for headers and user messages."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:189
+msgid "Exclude Pages"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:191
+msgid "Pages to exclude"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:192
+msgid "Comma-separated page IDs where the widget should not appear."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:197
+msgid "Exclude Posts"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:199
+msgid "Posts to exclude"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:200
+msgid "Comma-separated post IDs where the widget should not appear."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:205
+msgid "Load Delay"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:207
+msgid "Delay loading (seconds)"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:208
+msgid "Delay before the widget loads. Useful for performance optimization."
+msgstr ""
+
+#: includes/class-chatbot-settings.php:214
+msgid "Debug Mode"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:216
+msgid "Enable debug mode"
+msgstr ""
+
+#: includes/class-chatbot-settings.php:217
+msgid "Enable console logging for troubleshooting."
+msgstr ""
+
+#: includes/class-chatbot-installer.php:25
+msgid "PHP version %s or higher is required. You are running %s"
+msgstr ""
+
+#: includes/class-chatbot-installer.php:31
+msgid "WordPress version %s or higher is required. You are running %s"
+msgstr ""
+
+#: includes/class-chatbot-installer.php:43
+msgid "Recommended memory limit is 64MB. Current limit: %s"
+msgstr ""
+
+#: includes/class-chatbot-installer.php:48
+msgid "Memory limit: %s - OK"
+msgstr ""
+
+#: includes/class-chatbot-installer.php:59
+msgid "Display the chat widget with default settings"
+msgstr ""
+
+#: includes/class-chatbot-installer.php:64
+msgid "Display widget in top-left position"
+msgstr ""
+
+#: includes/class-chatbot-installer.php:69
+msgid "Customize widget colors"
+msgstr ""
+
+#: includes/class-chatbot-installer.php:74
+msgid "Hide widget on mobile devices"
+msgstr ""
+
+#: assets/js/admin.js:25
+msgid "Testing..."
+msgstr ""
+
+#: assets/js/admin.js:45
+msgid "Test Connection"
+msgstr ""
+
+#: assets/js/admin.js:72
+msgid "Exporting..."
+msgstr ""
+
+#: assets/js/admin.js:76
+msgid "Export Settings"
+msgstr ""
+
+#: assets/js/admin.js:103
+msgid "Importing..."
+msgstr ""
+
+#: assets/js/admin.js:107
+msgid "Import Settings"
+msgstr ""
+
+#: assets/js/admin.js:140
+msgid "Configure your settings above to see a live preview of your chat widget."
+msgstr ""
+
+#: assets/js/admin.js:200
+msgid "Please configure both API URL and API Key before enabling the widget."
+msgstr ""
+
+#: chatbot-floating-widget.php:421
+msgid "Documentation"
+msgstr ""
+
+#: chatbot-floating-widget.php:421
+msgid "Support Forum"
+msgstr ""
+
+#: chatbot-floating-widget.php:421
+msgid "Report Issue"
+msgstr ""
+
+#: chatbot-floating-widget.php:453
+msgid "You do not have sufficient permissions"
+msgstr ""
+
+#: chatbot-floating-widget.php:456
+msgid "API URL and API Key are required"
+msgstr ""
+
+#: chatbot-floating-widget.php:458
+msgid "Connection successful!"
+msgstr ""
+
+#: chatbot-floating-widget.php:460
+msgid "Connection failed"
+msgstr ""
+
+#: chatbot-floating-widget.php:473
+msgid "Settings exported successfully!"
+msgstr ""
+
+#: chatbot-floating-widget.php:475
+msgid "Settings imported successfully!"
+msgstr ""
+
+#: chatbot-floating-widget.php:477
+msgid "Invalid file format. Please upload a valid JSON file."
+msgstr ""
+
+#: chatbot-floating-widget.php:483
+msgid "No file uploaded"
+msgstr ""
+
+#: chatbot-floating-widget.php:487
+msgid "File upload error"
+msgstr ""
+
+#: chatbot-floating-widget.php:496
+msgid "Invalid file format"
+msgstr ""
+
+#: chatbot-floating-widget.php:511
+msgid "Settings saved successfully!"
+msgstr ""
+
+#: chatbot-floating-widget.php:535
+msgid "Quick Actions"
+msgstr ""
+
+#: chatbot-floating-widget.php:543
+msgid "Preview"
+msgstr ""
+
+#: chatbot-floating-widget.php:549
+msgid "Support"
+msgstr ""
+
+#: chatbot-floating-widget.php:608
+msgid "Connection successful!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:610
+msgid "Connection failed. Please check your settings.", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:622
+msgid "Settings exported successfully!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:624
+msgid "Settings imported successfully!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:626
+msgid "Invalid file format. Please upload a valid JSON file.", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:640
+msgid "Connection successful!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:642
+msgid "Connection failed", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:659
+msgid "Settings exported successfully!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:664
+msgid "Settings imported successfully!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:666
+msgid "Invalid file format", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:688
+msgid "Connection successful!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:690
+msgid "Connection failed. Please check your settings.", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:714
+msgid "Settings exported successfully!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:716
+msgid "Settings imported successfully!", "chatbot-floating-widget"
+msgstr ""
+
+#: chatbot-floating-widget.php:718
+msgid "Invalid file format. Please upload a valid JSON file.", "chatbot-floating-widget"
+msgstr ""
+
+#: assets/js/chatbot-widget.js:4
+msgid "Sorry, I'm having trouble connecting. Please try again later."
+msgstr ""
+
+#: assets/js/chatbot-widget.js:6
+msgid "Sorry, I encountered an error. Please try again."
+msgstr ""
+
+#: assets/js/chatbot-widget.js:8
+msgid "Please wait a moment before sending another message."
+msgstr ""
+
+#: assets/js/chatbot-widget.js:10
+msgid "There was an issue with your request. Please try again."
+msgstr ""
+
+#: assets/js/chatbot-widget.js:12
+msgid "Sorry, something went wrong. Please try again."
+msgstr ""
+
+#. Plugin Name of the plugin
+msgid "Chatbot Floating Widget"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://chatbot.example.com"
+msgstr ""
+
+#. Description of the plugin
+msgid "Add an intelligent AI-powered floating chat widget to your WordPress website. Connect with advanced chatbot services to provide 24/7 customer support and engagement."
+msgstr ""
+
+#. Author of the plugin
+msgid "Chatbot Team"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://chatbot.example.com"
+msgstr ""

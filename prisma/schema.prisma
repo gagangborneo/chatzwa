@@ -32,6 +32,7 @@ model User {
   knowledgeCategories KnowledgeCategory[]
   knowledgeDocuments  KnowledgeDocument[]
   documentUploads     DocumentUpload[]
+  wordpressIntegrations WordPressIntegration[]
 
   // Subscription Relations
   subscriptions Subscription[]
@@ -210,6 +211,34 @@ model WhatsAppContact {
   @@index([integrationId])
   @@index([phoneNumber])
   @@index([isBlocked])
+}
+
+model WordPressIntegration {
+  id              String   @id @default(cuid())
+  userId          String
+  chatbotId       String
+  name            String   // Plugin name
+  url             String?  // WordPress site URL
+  status          String   @default("active") // active, inactive, suspended
+  apiKey          String   // API key for WordPress site
+  settings        Json     // Plugin settings (theme, config, etc.)
+  lastSyncAt      DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Statistics
+  totalRequests   Int      @default(0)
+  totalMessages    Int      @default(0)
+  lastRequestAt   DateTime?
+
+  // Relations
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatbot         Chatbot    @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([chatbotId])
+  @@index([status])
+  @@index([lastSyncAt])
 }
 
 model WhatsAppMedia {

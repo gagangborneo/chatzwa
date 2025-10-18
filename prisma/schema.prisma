@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -133,8 +133,8 @@ model ChatMessage {
   // Relations
   persona       Persona?             @relation(fields: [personaId], references: [id], onDelete: SetNull)
   user          User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
-  whatsappIntegration WhatsAppIntegration? @relation(fields: [whatsappId], references: [id], onDelete: SetNull)
-  whatsappContact WhatsAppContact?  @relation(fields: [whatsappId], references: [id], onDelete: SetNull)
+  whatsappIntegration WhatsAppIntegration? @relation("ChatMessageWhatsAppIntegration", fields: [whatsappId], references: [id], onDelete: SetNull, map: "ChatMessage_whatsappIntegration_fkey")
+  whatsappContact WhatsAppContact?  @relation("ChatMessageWhatsAppContact", fields: [whatsappId], references: [id], onDelete: SetNull, map: "ChatMessage_whatsappContact_fkey")
 
   @@index([sessionId])
   @@index([timestamp])
@@ -175,7 +175,7 @@ model WhatsAppIntegration {
   user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   contacts     WhatsAppContact[]
   media        WhatsAppMedia[]
-  chatMessages ChatMessage[]
+  chatMessages ChatMessage[] @relation("ChatMessageWhatsAppIntegration")
 
   @@index([userId])
   @@index([status])
@@ -199,7 +199,7 @@ model WhatsAppContact {
 
   // Relations
   integration     WhatsAppIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
-  messages        ChatMessage[]
+  messages        ChatMessage[] @relation("ChatMessageWhatsAppContact")
 
   @@index([integrationId])
   @@index([phoneNumber])

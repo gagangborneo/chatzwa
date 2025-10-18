@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -32,6 +32,12 @@ model User {
   knowledgeCategories KnowledgeCategory[]
   knowledgeDocuments  KnowledgeDocument[]
   documentUploads     DocumentUpload[]
+
+  // Subscription Relations
+  subscriptions Subscription[]
+  transactions Transaction[]
+  invoices Invoice[]
+  chatbots Chatbot[]
 }
 
 // User Sessions for authentication
@@ -133,8 +139,8 @@ model ChatMessage {
   // Relations
   persona       Persona?             @relation(fields: [personaId], references: [id], onDelete: SetNull)
   user          User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
-  whatsappIntegration WhatsAppIntegration? @relation("ChatMessageWhatsAppIntegration", fields: [whatsappId], references: [id], onDelete: SetNull, map: "ChatMessage_whatsappIntegration_fkey")
-  whatsappContact WhatsAppContact?  @relation("ChatMessageWhatsAppContact", fields: [whatsappId], references: [id], onDelete: SetNull, map: "ChatMessage_whatsappContact_fkey")
+  whatsappIntegration WhatsAppIntegration? @relation(fields: [whatsappId], references: [id], onDelete: SetNull)
+  whatsappContact WhatsAppContact?  @relation(fields: [whatsappId], references: [id], onDelete: SetNull)
 
   @@index([sessionId])
   @@index([timestamp])
@@ -175,7 +181,7 @@ model WhatsAppIntegration {
   user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   contacts     WhatsAppContact[]
   media        WhatsAppMedia[]
-  chatMessages ChatMessage[] @relation("ChatMessageWhatsAppIntegration")
+  chatMessages ChatMessage[]
 
   @@index([userId])
   @@index([status])
@@ -199,7 +205,7 @@ model WhatsAppContact {
 
   // Relations
   integration     WhatsAppIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
-  messages        ChatMessage[] @relation("ChatMessageWhatsAppContact")
+  messages        ChatMessage[]
 
   @@index([integrationId])
   @@index([phoneNumber])
@@ -333,4 +339,261 @@ model DocumentUpload {
   @@index([createdBy])
   @@index([createdAt])
   @@index([documentId])
+}
+
+//========================================
+// SUBSCRIPTION SYSTEM MODELS
+//========================================
+
+// Package Plans with Features
+model Package {
+  id                String   @id @default(cuid())
+  name              String   @unique
+  displayName       String   // Display name for UI
+  description       String   // Package description
+  price             Int      // Price in IDR
+  billingCycle      String   // monthly, yearly, lifetime
+  currency          String   @default("IDR")
+  sortOrder         Int      @default(0)
+  isActive          Boolean  @default(true)
+  isPopular         Boolean  @default(false) // Highlight in pricing
+
+  // Feature Limits
+  maxChatbots       Int      @default(1)      // Max chatbot creation
+  maxMessages       Int?     // Max messages per month, null = unlimited
+  maxKnowledgeDocs  Int?     // Max knowledge base docs, null = unlimited
+  maxTeamMembers    Int      @default(1)      // Max team members
+  maxApiCalls       Int?     // Max API calls per month, null = unlimited
+
+  // Feature Flags
+  features          Json     // JSON object with feature flags
+  apiAccess         Boolean  @default(false)
+  whatsappIntegration Boolean @default(false)
+  customDomain      Boolean  @default(false)
+  prioritySupport   Boolean  @default(false)
+  advancedAnalytics Boolean  @default(false)
+  customBranding    Boolean  @default(false)
+  exportData        Boolean  @default(false)
+  ragSystem         Boolean  @default(false)
+
+  // Metadata
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  subscriptions Subscription[]
+
+  @@index([isActive])
+  @@index([billingCycle])
+  @@index([sortOrder])
+  @@index([price])
+}
+
+// User Subscriptions
+model Subscription {
+  id            String   @id @default(cuid())
+  userId        String
+  packageId     String
+  status        String   @default("active") // active, inactive, cancelled, expired, suspended
+  startDate     DateTime
+  endDate       DateTime?
+  nextBillingDate DateTime?
+  cancelledAt   DateTime?
+  cancellationReason String?
+
+  // Usage Tracking
+  currentUsage  Json?    // Current usage stats
+  usageResetAt  DateTime? // When usage resets (monthly)
+
+  // Billing Information
+  basePrice     Int      // Base price in IDR
+  discountAmount Int     @default(0)
+  taxAmount     Int      @default(0)
+  totalAmount   Int      // Total amount paid
+  currency      String   @default("IDR")
+
+  // Auto-renewal
+  isAutoRenew   Boolean  @default(true)
+  renewalAttempts Int   @default(0)
+  maxRenewalAttempts Int @default(3)
+
+  // Payment Gateway Integration
+  externalSubscriptionId String? // External subscription ID from payment gateway
+  paymentMethod String? // credit_card, bank_transfer, ewallet, etc
+
+  // Metadata
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package       Package    @relation(fields: [packageId], references: [id])
+  transactions Transaction[]
+  invoices Invoice[]
+  chatbots Chatbot[]
+
+  @@index([userId])
+  @@index([packageId])
+  @@index([status])
+  @@index([startDate])
+  @@index([endDate])
+  @@index([nextBillingDate])
+  @@index([isAutoRenew])
+}
+
+// Financial Transactions
+model Transaction {
+  id              String   @id @default(cuid())
+  userId          String
+  subscriptionId  String?
+  invoiceId       String?
+  type            String   // subscription, renewal, upgrade, downgrade, setup_fee, overage
+  amount          Int      // Amount in IDR
+  currency        String   @default("IDR")
+  status          String   @default("pending") // pending, processing, completed, failed, cancelled, refunded
+  description     String   // Transaction description
+  paymentMethod   String?  // credit_card, bank_transfer, ewallet, virtual_account, etc
+
+  // Payment Gateway Integration
+  externalTransactionId String? // External transaction ID from payment gateway
+  paymentGateway  String?  // midtrans, xendit, doku, stripe, etc
+  gatewayResponse Json?    // Full response from payment gateway
+  paymentUrl      String?  // Payment URL for user to complete payment
+  expiredAt       DateTime? // Payment expiration time
+
+  // Billing Details
+  baseAmount      Int      // Base amount before discounts/taxes
+  discountAmount  Int      @default(0)
+  taxAmount       Int      @default(0)
+  feeAmount       Int      @default(0) // Processing fees
+  totalAmount     Int      // Final amount
+
+  // Timing
+  dueDate         DateTime? // When payment is due
+  paidAt          DateTime? // When payment was completed
+  failedAt        DateTime? // When payment failed
+  refundedAt      DateTime? // When payment was refunded
+  refundReason    String?  // Reason for refund
+  nextBillingDate DateTime? // For recurring payments
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  createdBy       String?  // Who created this transaction (user_id or system)
+
+  // Relations
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription    Subscription? @relation(fields: [subscriptionId], references: [id])
+  invoice         Invoice?     @relation(fields: [invoiceId], references: [id])
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([invoiceId])
+  @@index([type])
+  @@index([status])
+  @@index([amount])
+  @@index([currency])
+  @@index([dueDate])
+  @@index([paidAt])
+  @@index([createdAt])
+  @@index([externalTransactionId])
+}
+
+// Invoice Records
+model Invoice {
+  id              String   @id @default(cuid())
+  userId          String
+  subscriptionId  String?
+  invoiceNumber   String   @unique // Format: INV/202410/0001
+  type            String   @default("subscription") // subscription, renewal, setup_fee, overage
+  status          String   @default("draft") // draft, sent, paid, overdue, cancelled, refunded
+
+  // Invoice Details
+  description     String   // Invoice description
+  periodStartDate DateTime? // For subscription periods
+  periodEndDate   DateTime? // For subscription periods
+  dueDate         DateTime // Payment due date
+  issuedAt        DateTime @default(now())
+  paidAt          DateTime? // When invoice was paid
+
+  // Financial Details
+  subtotal        Int      @default(0) // Subtotal before discounts/taxes
+  discountAmount  Int      @default(0)
+  taxAmount       Int      @default(0)
+  totalAmount     Int      @default(0) // Total amount due
+  currency        String   @default("IDR")
+
+  // Line Items (JSON array)
+  items           Json     // Invoice line items with descriptions, quantities, prices
+
+  // Payment Information
+  paymentMethod   String?  // Payment method used
+  paymentUrl      String?  // Payment URL for online payment
+  notes           String?  // Additional notes
+
+  // Metadata
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription    Subscription? @relation(fields: [subscriptionId], references: [id])
+  transactions Transaction[]
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([invoiceNumber])
+  @@index([status])
+  @@index([type])
+  @@index([dueDate])
+  @@index([issuedAt])
+  @@index([paidAt])
+  @@index([totalAmount])
+  @@index([currency])
+}
+
+// Chatbot System with Subscription Integration
+model Chatbot {
+  id            String   @id @default(cuid())
+  userId        String
+  subscriptionId String  // Link to active subscription
+  name          String
+  description   String?
+  persona       String?  // AI persona configuration
+  model         String   @default("gpt-3.5-turbo")
+  language      String   @default("id")
+  status        String   @default("active") // active, inactive, suspended, archived
+
+  // Configuration
+  temperature    Float?   @default(0.7)
+  maxTokens      Int?     @default(1000)
+  systemPrompt   String?
+  welcomeMessage String?
+
+  // Access Control
+  isPublic       Boolean  @default(false)
+  domain         String?  // Custom domain if applicable
+
+  // Usage Statistics
+  totalMessages  Int      @default(0)
+  totalTokens    Int      @default(0)
+  lastUsedAt     DateTime?
+
+  // Integration
+  webhookUrl     String?
+  apiKey         String?  // API key for external access
+
+  // Metadata
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([lastUsedAt])
 }

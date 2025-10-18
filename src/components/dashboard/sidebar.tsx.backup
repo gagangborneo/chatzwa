@@ -20,9 +20,7 @@ import {
   CreditCard,
   LogOut,
   User,
-  ChevronDown,
-  Bot,
-  ArrowLeft,
+  ChevronDown
 } from 'lucide-react'
 import {
   Sidebar,
@@ -54,30 +52,45 @@ const chatbotItems = [
   {
     titleKey: 'nav.chatAnalytics',
     icon: MessageSquare,
-    href: '/dashboard/chatbot/[id]/analytics',
+    href: '/dashboard/chat',
   },
   {
     titleKey: 'nav.persona',
     icon: Cpu,
-    href: '/dashboard/chatbot/[id]/persona',
+    href: '/dashboard/persona',
   },
   {
     titleKey: 'nav.knowledgeBase',
     icon: Database,
-    href: '/dashboard/chatbot/[id]/knowledge',
+    href: '/dashboard/knowledge',
   },
   {
     titleKey: 'nav.dataSync',
     icon: RefreshCw,
-    href: '/dashboard/chatbot/[id]/sync',
+    href: '/dashboard/sync',
   },
 ]
 
 const managementItems = [
   {
+    titleKey: 'nav.account',
+    icon: Users,
+    href: '/dashboard/account',
+  },
+  {
+    titleKey: 'nav.billing',
+    icon: CreditCard,
+    href: '/dashboard/billing',
+  },
+  {
     titleKey: 'nav.settings',
     icon: Settings,
-    href: '/dashboard/chatbot/[id]/settings',
+    href: '/dashboard/settings',
+  },
+  {
+    titleKey: 'nav.help',
+    icon: FileText,
+    href: '/dashboard/help',
   },
 ]
 
@@ -85,17 +98,17 @@ const integrationItems = [
   {
     titleKey: 'nav.whatsapp',
     icon: Smartphone,
-    href: '/dashboard/chatbot/[id]/integrations/whatsapp',
+    href: '/dashboard/integrations/whatsapp',
   },
   {
     titleKey: 'nav.wordpress',
     icon: Globe,
-    href: '/dashboard/chatbot/[id]/integrations/wordpress',
+    href: '/dashboard/integrations/wordpress',
   },
   {
     titleKey: 'nav.embedChat',
     icon: MessageCircle,
-    href: '/dashboard/chatbot/[id]/integrations/embed-chat',
+    href: '/dashboard/integrations/embed-chat',
   },
   {
     titleKey: 'nav.instagram',
@@ -120,12 +133,8 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const [activeItem, setActiveItem] = useState('Dashboard')
-  const [chatbotName, setChatbotName] = useState('Customer Support Assistant')
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [user, setUser] = useState<{ name: string; email: string } | null>(null)
-
-  // Extract chatbot ID from pathname
-  const chatbotId = pathname.split('/')[3] || ''
 
   // Update active item based on current pathname
   useEffect(() => {
@@ -136,33 +145,12 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
     }
 
     const allNavItems = [...chatbotItems, ...managementItems, ...integrationItems]
-    const activeNav = allNavItems.find(item => {
-      const href = item.href.replace('[id]', chatbotId)
-      return pathname.startsWith(href)
-    })
+    const activeNav = allNavItems.find(item => pathname.startsWith(item.href))
 
     if (activeNav) {
       setActiveItem(t(activeNav.titleKey))
-    } else if (pathname === `/dashboard/chatbot/${chatbotId}`) {
-      setActiveItem(t('nav.dashboard'))
     }
-  }, [pathname, chatbotId, t])
-  
-  // // Update active item based on current pathname
-  // useEffect(() => {
-  //   // Check if main dashboard
-  //   if (pathname === '/dashboard') {
-  //     setActiveItem(t('nav.dashboard'))
-  //     return
-  //   }
-
-  //   const allNavItems = [...chatbotItems, ...managementItems, ...integrationItems]
-  //   const activeNav = allNavItems.find(item => pathname.startsWith(item.href))
-
-  //   if (activeNav) {
-  //     setActiveItem(t(activeNav.titleKey))
-  //   }
-  // }, [pathname, t])
+  }, [pathname, t])
 
   // Fetch user data with caching to avoid repeated API calls
   useEffect(() => {
@@ -226,35 +214,23 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
     }
   }
 
-  const handleBackToDashboard = () => {
-    router.push('/dashboard')
-  }
-
   return (
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader className="border-b border-gray-200">
           <div className="flex items-center gap-2 px-2 py-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleBackToDashboard}
-              className="p-1 h-auto"
-            >
-              <ArrowLeft className="h-4 w-4 text-gray-600" />
-            </Button>
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-slate-600 to-slate-800 flex-shrink-0">
-              <Bot className="h-4 w-4 text-white" />
+              <BarChart3 className="h-4 w-4 text-white" />
             </div>
             <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-sm font-semibold text-gray-900 truncate">{chatbotName}</span>
+              <span className="text-sm font-semibold text-gray-900 truncate">{t('dashboard.title')}</span>
               <span className="text-xs text-gray-500 truncate">Chatbot AI</span>
             </div>
           </div>
         </SidebarHeader>
 
         <SidebarContent>
-          {/* Dashboard */}
+          {/* Dashboard - Menu Utama */}
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -265,62 +241,12 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
                     onClick={() => setActiveItem(t('nav.dashboard'))}
                     className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
                   >
-                    <a href={`/dashboard/chatbot/${chatbotId}`} className="flex items-center gap-3 min-w-0">
+                    <a href="/dashboard" className="flex items-center gap-3 min-w-0">
                       <BarChart3 className="h-4 w-4 flex-shrink-0" />
                       <span className="truncate">{t('nav.dashboard')}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-
-          {/* Chatbot AI */}
-          <SidebarGroup>
-            <SidebarGroupLabel>{t('dashboard.chatbotAI')}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {chatbotItems.map((item) => (
-                  <SidebarMenuItem key={item.titleKey}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={activeItem === t(item.titleKey)}
-                      onClick={() => setActiveItem(t(item.titleKey))}
-                      className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
-                    >
-                      <a href={item.href.replace('[id]', chatbotId)} className="flex items-center gap-3 min-w-0">
-                        <item.icon className="h-4 w-4 flex-shrink-0" />
-                        <span className="truncate">{t(item.titleKey)}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-
-          {/* Integrations */}
-          <SidebarGroup>
-            <SidebarGroupLabel className="flex items-center gap-2">
-              {t('dashboard.integrations')}
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {integrationItems.map((item) => (
-                  <SidebarMenuItem key={item.titleKey}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={activeItem === t(item.titleKey)}
-                      onClick={() => setActiveItem(t(item.titleKey))}
-                      className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
-                    >
-                      <a href={item.href.replace('[id]', chatbotId)} className="flex items-center gap-3">
-                        <item.icon className="h-4 w-4" />
-                        <span>{t(item.titleKey)}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -338,9 +264,65 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
                       onClick={() => setActiveItem(t(item.titleKey))}
                       className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
                     >
-                      <a href={item.href.replace('[id]', chatbotId)} className="flex items-center gap-3 min-w-0">
+                      <a href={item.href} className="flex items-center gap-3 min-w-0">
                         <item.icon className="h-4 w-4 flex-shrink-0" />
                         <span className="truncate">{t(item.titleKey)}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          {/* Chatbot AI */}
+          <SidebarGroup>
+            <SidebarGroupLabel>{t('dashboard.chatbotAI')}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {chatbotItems.map((item) => (
+                  <SidebarMenuItem key={item.titleKey}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={activeItem === t(item.titleKey)}
+                      onClick={() => setActiveItem(t(item.titleKey))}
+                      className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
+                    >
+                      <a href={item.href} className="flex items-center gap-3 min-w-0">
+                        <item.icon className="h-4 w-4 flex-shrink-0" />
+                        <span className="truncate">{t(item.titleKey)}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          {/* Integrations */}
+          <SidebarGroup>
+            <SidebarGroupLabel className="flex items-center gap-2">
+              <Plug className="h-4 w-4" />
+              {t('dashboard.integrations')}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {integrationItems.map((item) => (
+                  <SidebarMenuItem key={item.titleKey}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={activeItem === t(item.titleKey)}
+                      onClick={() => setActiveItem(t(item.titleKey))}
+                      className="hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900"
+                    >
+                      <a href={item.href} className="flex items-center gap-3">
+                        <item.icon className="h-4 w-4" />
+                        <span>{t(item.titleKey)}</span>
+                        {item.isComingSoon && (
+                          <span className="ml-auto text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                            {t('nav.comingSoon')}
+                          </span>
+                        )}
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

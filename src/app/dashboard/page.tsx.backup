@@ -1,0 +1,741 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useI18n } from '@/lib/i18n'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import {
+  Bot,
+  Plus,
+  MessageSquare,
+  Users,
+  CreditCard,
+  Settings,
+  ChevronRight,
+  Activity,
+  Globe,
+  Zap,
+  User,
+  Bell,
+  Shield,
+  Loader2,
+  AlertCircle,
+} from 'lucide-react'
+
+// TypeScript interfaces
+interface ChatbotData {
+  id: string
+  slug?: string
+  name: string
+  description: string
+  profile: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  stats: {
+    totalMessages: number
+    messagesThisMonth: number
+    webMessages: number
+    whatsappMessages: number
+    avgResponseTime: string
+  }
+}
+
+interface UserData {
+  id: string
+  email: string
+  name: string
+  role: string
+  isActive: boolean
+  lastLoginAt?: string
+  createdAt: string
+  updatedAt: string
+}
+
+interface UserStats {
+  totalPersonas: number
+  activePersonas: number
+  totalMessages: number
+  messagesThisMonth: number
+  totalIntegrations: number
+  activeIntegrations: number
+  totalCategories: number
+  activeCategories: number
+  totalDocuments: number
+  indexedDocuments: number
+}
+
+export default function DashboardPage() {
+  const router = useRouter()
+  const { t } = useI18n()
+  const [activeSection, setActiveSection] = useState<'account' | 'billing' | 'settings'>('account')
+
+  // State for data
+  const [userData, setUserData] = useState<UserData | null>(null)
+  const [userStats, setUserStats] = useState<UserStats | null>(null)
+  const [chatbots, setChatbots] = useState<ChatbotData[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch data from API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        // Fetch user data
+        const userResponse = await fetch('/api/user/me')
+        if (userResponse.ok) {
+          const userResult = await userResponse.json()
+          if (userResult.success) {
+            setUserData(userResult.data.user)
+            setUserStats(userResult.data.stats)
+          }
+        }
+
+        // Fetch chatbots
+        const chatbotsResponse = await fetch('/api/user/chatbots')
+        if (chatbotsResponse.ok) {
+          const chatbotsResult = await chatbotsResponse.json()
+          if (chatbotsResult.success) {
+            setChatbots(chatbotsResult.data.chatbots)
+          }
+        }
+
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err)
+        setError('Failed to load dashboard data')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  const handleCreateChatbot = () => {
+    router.push('/dashboard/chatbots/create')
+  }
+
+  const handleViewChatbot = (chatbotId: string) => {
+    router.push(`/dashboard/chatbot/${chatbotId}`)
+  }
+
+  const handleToggleActive = async (chatbotId: string) => {
+    try {
+      const response = await fetch(`/api/user/chatbots/${chatbotId}/toggle`, {
+        method: 'POST',
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        if (result.success) {
+          // Refresh chatbots list
+          const chatbotsResponse = await fetch('/api/user/chatbots')
+          if (chatbotsResponse.ok) {
+            const chatbotsResult = await chatbotsResponse.json()
+            if (chatbotsResult.success) {
+              setChatbots(chatbotsResult.data.chatbots)
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling chatbot status:', error)
+    }
+  }
+
+  const handleDeleteChatbot = async (chatbotId: string, chatbotName: string) => {
+    if (!confirm(`Are you sure you want to delete "${chatbotName}"? This action cannot be undone.`)) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/user/chatbots/${chatbotId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        if (result.success) {
+          // Remove from local state
+          setChatbots(prev => prev.filter(chatbot => chatbot.id !== chatbotId))
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting chatbot:', error)
+    }
+  }
+
+  const renderAccountContent = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        </div>
+      )
+    }
+
+    if (!userData) {
+      return (
+        <div className="text-center py-8">
+          <p className="text-gray-500">{t('dashboard.noUserData', 'Unable to load user data')}</p>
+        </div>
+      )
+    }
+
+    const initials = userData.name
+      ? userData.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+      : 'U'
+    const memberSince = new Date(userData.createdAt).toLocaleDateString('id-ID', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+
+    return (
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <User className="h-5 w-5" />
+              {t('nav.account', 'Account Information')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="flex items-center space-x-4">
+              <div className="h-20 w-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                {initials}
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900">{userData.name || 'User'}</h3>
+                <p className="text-gray-600">{userData.email}</p>
+                <p className="text-sm text-gray-500 mt-1">
+                  {t('dashboard.memberSince', 'Member since')} {memberSince}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3">{t('dashboard.profileInfo', 'Profile Information')}</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">{t('dashboard.status', 'Account Status')}</span>
+                    <span className="font-medium">
+                      <Badge variant={userData.isActive ? 'default' : 'secondary'}>
+                        {userData.isActive ? t('dashboard.active', 'Active') : t('dashboard.inactive', 'Inactive')}
+                      </Badge>
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">{t('dashboard.role', 'Role')}</span>
+                    <span className="font-medium capitalize">{userData.role}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3">{t('dashboard.quickStats', 'Quick Stats')}</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">{t('dashboard.totalChatbots', 'Total Chatbots')}</span>
+                    <span className="font-medium">{userStats?.totalPersonas || 0}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">{t('dashboard.apiCalls', 'API Calls This Month')}</span>
+                  <span className="font-medium">{userStats?.messagesThisMonth || 0}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex space-x-3">
+            <Button className="flex-1" onClick={() => router.push('/dashboard/account')}>
+              {t('account.editProfile', 'Edit Profile')}
+            </Button>
+            <Button variant="outline" className="flex-1">
+              {t('account.security', 'Security Settings')}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="h-5 w-5" />
+            {t('dashboard.security', 'Security')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className="font-medium text-gray-900">{t('dashboard.twoFactorAuth', 'Two-Factor Authentication')}</h4>
+              <p className="text-sm text-gray-600">{t('dashboard.twoFactorDesc', 'Add an extra layer of security')}</p>
+            </div>
+            <Button variant="outline" size="sm">
+              {t('dashboard.enable', 'Enable')}
+            </Button>
+          </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className="font-medium text-gray-900">{t('dashboard.lastLogin', 'Last Login')}</h4>
+              <p className="text-sm text-gray-600">
+                {userData.lastLoginAt
+                  ? new Date(userData.lastLoginAt).toLocaleDateString('id-ID', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })
+                  : t('dashboard.never', 'Never')
+                }
+              </p>
+            </div>
+            <Button variant="outline" size="sm">
+              {t('dashboard.viewHistory', 'View History')}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+
+  const renderBillingContent = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        </div>
+      )
+    }
+
+    return (
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CreditCard className="h-5 w-5" />
+              {t('nav.billing', 'Current Plan & Usage')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-lg border border-green-200">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">Free Plan</h3>
+                  <p className="text-gray-600 mt-1">$0/month</p>
+                </div>
+                <Badge className="bg-green-100 text-green-800">
+                  {t('dashboard.active', 'Active')}
+                </Badge>
+              </div>
+            </div>
+
+          <div className="space-y-4">
+            <h4 className="font-medium text-gray-900">{t('dashboard.usageOverview', 'Usage Overview')}</h4>
+            <div className="space-y-3">
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-gray-600">{t('dashboard.conversations', 'Conversations')}</span>
+                  <span className="font-medium">{userStats?.totalMessages || 0} / 1000</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full"
+                    style={{ width: `${Math.min(((userStats?.totalMessages || 0) / 1000) * 100, 100)}%` }}
+                  ></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-gray-600">{t('dashboard.chatbots', 'Chatbots')}</span>
+                  <span className="font-medium">{userStats?.totalPersonas || 0} / 5</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-green-600 h-2 rounded-full"
+                    style={{ width: `${Math.min(((userStats?.totalPersonas || 0) / 5) * 100, 100)}%` }}
+                  ></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-gray-600">{t('dashboard.documents', 'Documents')}</span>
+                  <span className="font-medium">{userStats?.totalDocuments || 0} / 100</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-purple-600 h-2 rounded-full"
+                    style={{ width: `${Math.min(((userStats?.totalDocuments || 0) / 100) * 100, 100)}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex space-x-3">
+            <Button className="flex-1" onClick={() => router.push('/dashboard/billing')}>
+              {t('billing.upgrade', 'Upgrade Plan')}
+            </Button>
+            <Button variant="outline" className="flex-1" onClick={() => router.push('/dashboard/billing')}>
+              {t('billing.viewInvoices', 'View Invoices')}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Bell className="h-5 w-5" />
+            {t('dashboard.billingHistory', 'Billing History')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div className="text-center py-8">
+              <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">{t('dashboard.noBillingHistory', 'No billing history available')}</p>
+              <p className="text-sm text-gray-400 mt-1">
+                {t('dashboard.freePlanDesc', 'You are currently using the Free plan')}
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+    )
+  }
+
+  const renderSettingsContent = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        </div>
+      )
+    }
+
+    return (
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Settings className="h-5 w-5" />
+              {t('nav.settings', 'Application Settings')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <h4 className="font-medium text-gray-900">{t('dashboard.notifications', 'Notifications')}</h4>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900">Email Notifications</p>
+                  <p className="text-sm text-gray-600">{t('settings.emailDesc', 'Receive email notifications')}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    // Toggle notification setting
+                    console.log('Toggle email notification')
+                  }}
+                >
+                  {t('dashboard.enabled', 'Enabled')}
+                </Button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900">Push Notifications</p>
+                  <p className="text-sm text-gray-600">{t('settings.pushDesc', 'Receive push notifications')}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    // Toggle notification setting
+                    console.log('Toggle push notification')
+                  }}
+                >
+                  {t('dashboard.disabled', 'Disabled')}
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-medium text-gray-900">{t('dashboard.privacy', 'Privacy')}</h4>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900">Data Sharing</p>
+                  <p className="text-sm text-gray-600">{t('settings.shareDataDesc', 'Share data with third parties')}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    // Toggle privacy setting
+                    console.log('Toggle data sharing')
+                  }}
+                >
+                  {t('dashboard.disabled', 'Disabled')}
+                </Button>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900">Analytics</p>
+                  <p className="text-sm text-gray-600">{t('settings.analyticsDesc', 'Allow analytics tracking')}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    // Toggle privacy setting
+                    console.log('Toggle analytics')
+                  }}
+                >
+                  {t('dashboard.enabled', 'Enabled')}
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              {t('dashboard.apiKeys', 'API Keys')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-8">
+              <Shield className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">{t('dashboard.noApiKeys', 'No API keys configured')}</p>
+              <p className="text-sm text-gray-400 mt-1">
+                {t('dashboard.noApiKeysDesc', 'Generate API keys to integrate with external services')}
+              </p>
+            </div>
+            <Button className="w-full">
+              {t('dashboard.generateNewKey', 'Generate New API Key')}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="space-y-8">
+        <div className="text-center py-12">
+          <div className="text-red-500 mb-4">
+            <AlertCircle className="h-16 w-16 mx-auto" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            {t('dashboard.errorLoading', 'Error Loading Dashboard')}
+          </h1>
+          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            {error}
+          </p>
+          <Button
+            onClick={() => window.location.reload()}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            {t('dashboard.retry', 'Try Again')}
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* Welcome Section */}
+      <div className="text-center py-12">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          {t('dashboard.welcome', 'Welcome to Chatbot AI Platform')}
+        </h1>
+        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          {t('dashboard.subtitle', 'Create and manage intelligent AI assistants for your business')}
+        </p>
+        <Button
+          onClick={handleCreateChatbot}
+          className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg"
+        >
+          <Plus className="mr-2 h-5 w-5" />
+          {t('dashboard.createChatbot', 'Create New Chatbot')}
+        </Button>
+      </div>
+
+      {/* Quick Actions Section */}
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          {t('dashboard.quickActions', 'Quick Actions')}
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Sidebar (1/3) */}
+          <div className="lg:col-span-1">
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="font-medium text-gray-900 mb-4">
+                  {t('dashboard.management', 'Management')}
+                </h3>
+                <div className="space-y-2">
+                  <Button
+                    variant={activeSection === 'account' ? 'default' : 'outline'}
+                    className="w-full justify-start"
+                    onClick={() => setActiveSection('account')}
+                  >
+                    <Users className="mr-3 h-4 w-4" />
+                    {t('nav.account', 'Account')}
+                  </Button>
+                  <Button
+                    variant={activeSection === 'billing' ? 'default' : 'outline'}
+                    className="w-full justify-start"
+                    onClick={() => setActiveSection('billing')}
+                  >
+                    <CreditCard className="mr-3 h-4 w-4" />
+                    {t('nav.billing', 'Billing')}
+                  </Button>
+                  <Button
+                    variant={activeSection === 'settings' ? 'default' : 'outline'}
+                    className="w-full justify-start"
+                    onClick={() => setActiveSection('settings')}
+                  >
+                    <Settings className="mr-3 h-4 w-4" />
+                    {t('nav.settings', 'Settings')}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Content (2/3) */}
+          <div className="lg:col-span-2">
+            {activeSection === 'account' && renderAccountContent()}
+            {activeSection === 'billing' && renderBillingContent()}
+            {activeSection === 'settings' && renderSettingsContent()}
+          </div>
+        </div>
+      </div>
+
+      {/* My Chatbots Section */}
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900">
+            {t('dashboard.myChatbots', 'My Chatbots')}
+          </h2>
+          <Button
+            onClick={handleCreateChatbot}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            {t('dashboard.createChatbot', 'Create New Chatbot')}
+          </Button>
+        </div>
+
+        {!loading && chatbots.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {chatbots.map((chatbot) => (
+              <Card key={chatbot.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="text-3xl">🤖</div>
+                      <div>
+                        <CardTitle className="text-lg">{chatbot.name}</CardTitle>
+                        <p className="text-sm text-gray-600 mt-1">{chatbot.description}</p>
+                        <div className="mt-2">
+                          <Badge variant={chatbot.isActive ? 'default' : 'secondary'} className="text-xs">
+                            {chatbot.isActive ? 'Active' : 'Inactive'}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleToggleActive(chatbot.id)}
+                        className={`${
+                          chatbot.isActive
+                            ? 'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100'
+                            : 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
+                        }`}
+                      >
+                        {chatbot.isActive ? 'Pause' : 'Activate'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteChatbot(chatbot.id, chatbot.name)}
+                        className="bg-red-50 text-red-700 border-red-200 hover:bg-red-100"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">{t('dashboard.conversations', 'Conversations')}</span>
+                      <span className="font-medium">{chatbot.stats.totalMessages.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">{t('dashboard.thisMonth', 'This Month')}</span>
+                      <span className="font-medium">{chatbot.stats.messagesThisMonth.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">{t('dashboard.avgResponse', 'Avg Response')}</span>
+                      <span className="font-medium">{chatbot.stats.avgResponseTime}s</span>
+                    </div>
+                    <Button
+                      onClick={() => handleViewChatbot(chatbot.id)}
+                      className="w-full mt-4"
+                    >
+                      {t('dashboard.viewDashboard', 'View Dashboard')}
+                      <ChevronRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : loading ? (
+          <Card>
+            <CardContent className="text-center py-12">
+              <Loader2 className="h-16 w-16 text-gray-400 mx-auto mb-4 animate-spin" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {t('dashboard.loadingChatbots', 'Loading chatbots...')}
+              </h3>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card>
+            <CardContent className="text-center py-12">
+              <Bot className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {t('dashboard.noChatbots', 'No chatbots yet')}
+              </h3>
+              <p className="text-gray-600 mb-6">
+                {t('dashboard.noChatbotsDesc', 'Create your first chatbot to get started')}
+              </p>
+              <Button onClick={handleCreateChatbot} className="bg-green-600 hover:bg-green-700 text-white">
+                <Plus className="mr-2 h-4 w-4" />
+                {t('dashboard.createFirst', 'Create First Chatbot')}
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  )
+}

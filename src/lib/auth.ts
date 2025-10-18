@@ -168,6 +168,26 @@ export const validateSession = async (token: string): Promise<AuthUser | null> =
 
   console.log('✅ Token verified, payload:', { userId: payload.userId, email: payload.email })
 
+  // Try to find user in database first (for real database users)
+  const { PrismaClient } = await import('@prisma/client')
+  const prisma = new PrismaClient()
+
+  try {
+    // First try to find user by email from the token payload
+    const user = await prisma.user.findUnique({
+      where: { email: payload.email }
+    })
+
+    if (user && user.isActive) {
+      console.log('✅ Found real database user:', user.email)
+      return user
+    }
+
+    console.log('📋 Real user not found, checking for hardcoded users...')
+  } catch (error) {
+    console.error('❌ Error looking up user in database:', error)
+  }
+
   // For local auth mode, check if this is a hardcoded user
   const hardcodedUsers = [
     {
@@ -184,9 +204,26 @@ export const validateSession = async (token: string): Promise<AuthUser | null> =
     }
   ]
 
-  const hardcodedUser = hardcodedUsers.find(u => u.userId === payload.userId)
+  const hardcodedUser = hardcodedUsers.find(u => u.email === payload.email)
   if (hardcodedUser) {
-    console.log('✅ Local auth mode - returning hardcoded user:', hardcodedUser.email)
+    console.log('✅ Found hardcoded user, trying to find corresponding database user...')
+
+    // Try to find the real database user with the same email
+    try {
+      const realUser = await prisma.user.findUnique({
+        where: { email: hardcodedUser.email }
+      })
+
+      if (realUser && realUser.isActive) {
+        console.log('✅ Found real database user for hardcoded user:', realUser.email)
+        return realUser
+      }
+    } catch (error) {
+      console.error('❌ Error finding real user for hardcoded user:', error)
+    }
+
+    // If no real user found, return hardcoded user as fallback
+    console.log('⚠️ Fallback to hardcoded user:', hardcodedUser.email)
     return {
       id: hardcodedUser.userId,
       email: hardcodedUser.email,
@@ -200,9 +237,6 @@ export const validateSession = async (token: string): Promise<AuthUser | null> =
   }
 
   // For database users, check session in database
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
-
   try {
     // Check if session exists and is valid
     console.log('🔍 Looking for session in database...')

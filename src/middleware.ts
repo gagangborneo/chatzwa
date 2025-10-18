@@ -51,7 +51,7 @@ export async function middleware(request: NextRequest) {
   // All other routes are protected by default
   console.log('🔒 Route is protected, checking authentication')
   // Check authentication
-  const token = getAuthToken(request)
+  const token = getAuthToken(request) || request.headers.get('authorization')?.replace('Bearer ', '')
 
   console.log('🍪 Token found:', !!token)
 

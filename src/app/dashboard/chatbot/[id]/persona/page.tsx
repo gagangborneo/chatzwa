@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import { useI18n } from '@/lib/i18n'
 import { useAuth } from '@/hooks/useAuth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -28,18 +29,24 @@ import {
   Clock,
   User,
   Brain,
-  Settings
+  Settings,
+  ArrowLeft
 } from 'lucide-react'
 
 export default function PersonaPage() {
   const { t } = useI18n()
   const { user, loading: authLoading } = useAuth()
+  const pathname = usePathname()
+  const router = useRouter()
+
+  // Extract chatbot ID from pathname
+  const chatbotId = pathname.split('/')[3] || ''
+
   const [activeTab, setActiveTab] = useState('identity')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [currentPersonaId, setCurrentPersonaId] = useState<string | null>(null)
   const [hasChanges, setHasChanges] = useState(false)
 
   // State for persona settings
@@ -77,15 +84,15 @@ export default function PersonaPage() {
   const [systemPrompt, setSystemPrompt] = useState('Anda adalah asisten AI profesional untuk Yayasan Pendidikan Islam. Selalu berikan jawaban yang sopan, informatif, dan sesuai dengan nilai-nilai Islam. Gunakan bahasa Indonesia yang baik dan benar. Berikan informasi yang akurat tentang program pendidikan, kegiatan yayasan, dan layanan lainnya.')
   const [customInstructions, setCustomInstructions] = useState('')
 
-  // Load active persona when user is available
+  // Load specific chatbot when user and chatbot ID are available
   useEffect(() => {
-    if (user && !authLoading) {
-      loadActivePersona()
+    if (user && !authLoading && chatbotId) {
+      loadChatbotData()
     }
-  }, [user, authLoading])
+  }, [user, authLoading, chatbotId])
 
-  // Load active persona from database
-  const loadActivePersona = async () => {
+  // Load specific chatbot from database
+  const loadChatbotData = async () => {
     try {
       setLoading(true)
       setError(null)
@@ -94,63 +101,95 @@ export default function PersonaPage() {
         throw new Error('User not authenticated')
       }
 
-      const response = await fetch(`/api/persona?active=true&userId=${user.id}`)
+      if (!chatbotId) {
+        throw new Error('Chatbot ID not provided')
+      }
+
+      const response = await fetch(`/api/user/chatbots/${chatbotId}`)
       const data = await response.json()
 
       if (data.success && data.data) {
-        const persona = data.data
-        loadPersonaIntoState(persona)
-        setCurrentPersonaId(persona.id)
+        const chatbot = data.data
+        loadChatbotIntoState(chatbot)
+        setCurrentPersonaId(chatbot.id)
       } else {
-        // No active persona found, use defaults
-        console.log('No active persona found, using defaults')
+        throw new Error(data.error || 'Chatbot not found')
       }
     } catch (err) {
-      console.error('Error loading persona:', err)
-      setError('Gagal memuat persona. Menggunakan pengaturan default.')
+      console.error('Error loading chatbot:', err)
+      setError('Gagal memuat data chatbot. ' + (err instanceof Error ? err.message : 'Terjadi kesalahan'))
     } finally {
       setLoading(false)
     }
   }
 
-  // Load persona data into component state
-  const loadPersonaIntoState = (persona: any) => {
-    setSlug(persona.slug || '')
-    setAiName(persona.name || 'Attallah Assistant')
-    setWelcomeMessage(persona.welcomeMessage || 'Assalamualaikum! Saya adalah Attallah...')
-    setSelectedProfile(persona.selectedProfile || 'islamic_educator')
+  // Load chatbot data into component state
+  const loadChatbotIntoState = (chatbot: any) => {
+    setSlug(chatbot.slug || '')
+    setAiName(chatbot.name || 'Chatbot Assistant')
+    setWelcomeMessage(chatbot.welcomeMessage || chatbot.description || 'Halo! Saya adalah asisten chatbot Anda.')
+    setSelectedProfile(chatbot.profile || chatbot.selectedProfile || 'islamic_educator')
 
-    setTextStyle({
-      formality: persona.formality || 'professional',
-      empathy: persona.empathy || 'high',
-      enthusiasm: persona.enthusiasm || 'medium',
-      humor: persona.humor || 'low',
-      verbosity: persona.verbosity || 'medium'
-    })
+    // Load settings if available, otherwise use defaults
+    if (chatbot.settings) {
+      setTextStyle({
+        formality: chatbot.settings.formality || 'professional',
+        empathy: chatbot.settings.empathy || 'high',
+        enthusiasm: chatbot.settings.enthusiasm || 'medium',
+        humor: chatbot.settings.humor || 'low',
+        verbosity: chatbot.settings.verbosity || 'medium'
+      })
 
-    setBehaviorSettings({
-      knowledgeDomain: persona.knowledgeDomain || 'islamic_education',
-      languageStyle: persona.languageStyle || 'friendly',
-      culturalContext: persona.culturalContext || 'indonesian',
-      expertise: persona.expertise || 'general',
-      personality: persona.personality || 'helpful'
-    })
+      setBehaviorSettings({
+        knowledgeDomain: chatbot.settings.knowledgeDomain || 'islamic_education',
+        languageStyle: chatbot.settings.languageStyle || 'friendly',
+        culturalContext: chatbot.settings.culturalContext || 'indonesian',
+        expertise: chatbot.settings.expertise || 'general',
+        personality: chatbot.settings.personality || 'helpful'
+      })
 
-    setResponseSettings({
-      maxLength: persona.maxLength || 500,
-      minResponseTime: persona.minResponseTime || 1.0,
-      maxResponseTime: persona.maxResponseTime || 5.0,
-      useEmojis: persona.useEmojis ?? true,
-      includeGreeting: persona.includeGreeting ?? true,
-      askFollowUp: persona.askFollowUp ?? true
-    })
+      setResponseSettings({
+        maxLength: chatbot.settings.maxLength || 500,
+        minResponseTime: chatbot.settings.minResponseTime || 1.0,
+        maxResponseTime: chatbot.settings.maxResponseTime || 5.0,
+        useEmojis: chatbot.settings.useEmojis ?? true,
+        includeGreeting: chatbot.settings.includeGreeting ?? true,
+        askFollowUp: chatbot.settings.askFollowUp ?? true
+      })
+    } else {
+      // Use defaults if no settings exist
+      setTextStyle({
+        formality: 'professional',
+        empathy: 'high',
+        enthusiasm: 'medium',
+        humor: 'low',
+        verbosity: 'medium'
+      })
 
-    setSystemPrompt(persona.systemPrompt || '')
-    setCustomInstructions(persona.customInstructions || '')
+      setBehaviorSettings({
+        knowledgeDomain: 'islamic_education',
+        languageStyle: 'friendly',
+        culturalContext: 'indonesian',
+        expertise: 'general',
+        personality: 'helpful'
+      })
+
+      setResponseSettings({
+        maxLength: 500,
+        minResponseTime: 1.0,
+        maxResponseTime: 5.0,
+        useEmojis: true,
+        includeGreeting: true,
+        askFollowUp: true
+      })
+    }
+
+    setSystemPrompt(chatbot.systemPrompt || '')
+    setCustomInstructions(chatbot.customInstructions || '')
   }
 
-  // Save persona to database
-  const savePersonaToDatabase = async () => {
+  // Save chatbot to database
+  const saveChatbotToDatabase = async () => {
     try {
       setSaving(true)
       setError(null)
@@ -159,88 +198,63 @@ export default function PersonaPage() {
         throw new Error('User not authenticated')
       }
 
-      const personaData = {
-        userId: user.id,
-        slug: slug.trim() || undefined,
+      const chatbotData = {
         name: aiName,
-        welcomeMessage: welcomeMessage,
-        selectedProfile: selectedProfile,
-        formality: textStyle.formality,
-        empathy: textStyle.empathy,
-        enthusiasm: textStyle.enthusiasm,
-        humor: textStyle.humor,
-        verbosity: textStyle.verbosity,
-        knowledgeDomain: behaviorSettings.knowledgeDomain,
-        languageStyle: behaviorSettings.languageStyle,
-        culturalContext: behaviorSettings.culturalContext,
-        expertise: behaviorSettings.expertise,
-        personality: behaviorSettings.personality,
-        maxLength: responseSettings.maxLength,
-        minResponseTime: responseSettings.minResponseTime,
-        maxResponseTime: responseSettings.maxResponseTime,
-        useEmojis: responseSettings.useEmojis,
-        includeGreeting: responseSettings.includeGreeting,
-        askFollowUp: responseSettings.askFollowUp,
-        systemPrompt: systemPrompt,
-        customInstructions: customInstructions,
+        description: welcomeMessage,
+        profile: selectedProfile,
+        settings: {
+          formality: textStyle.formality,
+          empathy: textStyle.empathy,
+          enthusiasm: textStyle.enthusiasm,
+          humor: textStyle.humor,
+          verbosity: textStyle.verbosity,
+          knowledgeDomain: behaviorSettings.knowledgeDomain,
+          languageStyle: behaviorSettings.languageStyle,
+          culturalContext: behaviorSettings.culturalContext,
+          expertise: behaviorSettings.expertise,
+          personality: behaviorSettings.personality,
+          maxLength: responseSettings.maxLength,
+          minResponseTime: responseSettings.minResponseTime,
+          maxResponseTime: responseSettings.maxResponseTime,
+          useEmojis: responseSettings.useEmojis,
+          includeGreeting: responseSettings.includeGreeting,
+          askFollowUp: responseSettings.askFollowUp,
+          systemPrompt: systemPrompt,
+          customInstructions: customInstructions
+        },
         isActive: true
       }
 
-      const url = currentPersonaId ? `/api/persona/${currentPersonaId}` : '/api/persona'
-      const method = currentPersonaId ? 'PUT' : 'POST'
+      // Add slug if provided
+      if (slug.trim()) {
+        chatbotData.slug = slug.trim()
+      }
+
+      const url = `/api/user/chatbots/${chatbotId}`
+      const method = 'PUT'
 
       const response = await fetch(url, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(personaData),
+        body: JSON.stringify(chatbotData),
       })
 
       const data = await response.json()
 
       if (data.success) {
-        setCurrentPersonaId(data.data.id)
         setSaved(true)
         setHasChanges(false)
         setTimeout(() => setSaved(false), 3000)
-
-        // If this is a new persona, activate it
-        if (!currentPersonaId) {
-          await activatePersona(data.data.id)
-        }
       } else {
-        throw new Error(data.error || 'Failed to save persona')
+        throw new Error(data.error || 'Failed to save chatbot')
       }
     } catch (err) {
-      console.error('Error saving persona:', err)
-      setError(err instanceof Error ? err.message : 'Gagal menyimpan persona')
+      console.error('Error saving chatbot:', err)
+      setError(err instanceof Error ? err.message : 'Gagal menyimpan chatbot')
     } finally {
       setSaving(false)
-    }
-  }
-
-  // Activate persona
-  const activatePersona = async (personaId: string) => {
-    try {
-      if (!user) {
-        throw new Error('User not authenticated')
-      }
-
-      const response = await fetch(`/api/persona/${personaId}/activate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId: user.id }),
-      })
-
-      const data = await response.json()
-      if (!data.success) {
-        throw new Error(data.error || 'Failed to activate persona')
-      }
-    } catch (err) {
-      console.error('Error activating persona:', err)
     }
   }
 
@@ -251,7 +265,7 @@ export default function PersonaPage() {
   }
 
   const saveSettings = async () => {
-    await savePersonaToDatabase()
+    await saveChatbotToDatabase()
   }
 
   const resetSettings = async () => {
@@ -295,9 +309,9 @@ export default function PersonaPage() {
       setCurrentPersonaId(null)
       setHasChanges(false)
 
-      // If we had a persona loaded, reload it to undo changes
+      // Reload the chatbot data to undo changes
       if (currentPersonaId) {
-        await loadActivePersona()
+        await loadChatbotData()
       }
     } catch (err) {
       console.error('Error resetting settings:', err)
@@ -431,22 +445,25 @@ export default function PersonaPage() {
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       {/* Header */}
       <div className="flex items-center justify-between space-y-2">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">{t('persona.title')}</h2>
-          <p className="text-muted-foreground">{t('persona.subtitle')}</p>
-          {(loading || authLoading) && (
-            <p className="text-sm text-muted-foreground mt-1">Memuat persona...</p>
-          )}
-          {currentPersonaId && (
-            <p className="text-sm text-muted-foreground mt-1">
-              ID: {currentPersonaId.slice(0, 8)}...{hasChanges && ' (ada perubahan)'}
-            </p>
-          )}
+        <div className="flex items-center gap-4">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight">Persona Chatbot</h2>
+            <p className="text-muted-foreground">Sesuaikan kepribadian dan pengaturan chatbot Anda</p>
+            {(loading || authLoading) && (
+              <p className="text-sm text-muted-foreground mt-1">Memuat data chatbot...</p>
+            )}
+            {!loading && aiName && (
+              <p className="text-sm text-muted-foreground mt-1">
+                Mengedit: <strong>{aiName}</strong>
+                {hasChanges && ' (ada perubahan)'}
+              </p>
+            )}
+          </div>
         </div>
         <div className="flex items-center space-x-2">
           <Button variant="outline" onClick={resetSettings} disabled={loading || authLoading || saving} className="flex items-center gap-2">
             <RotateCcw className="h-4 w-4" />
-            {(loading || authLoading) ? 'Memuat...' : t('persona.reset')}
+            {(loading || authLoading) ? 'Memuat...' : 'Reset'}
           </Button>
           <Button
             onClick={saveSettings}

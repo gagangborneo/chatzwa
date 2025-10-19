@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
-import { auth } from '@/lib/auth'
+import { unifiedAuth } from '@/lib/auth'
+import { cookies } from 'next/headers'
 
 const prisma = new PrismaClient()
 
@@ -10,8 +11,22 @@ export async function GET(
 ) {
   try {
     // Get authenticated user
-    const session = await auth()
-    if (!session?.user?.id) {
+    const cookieStore = await cookies()
+    const token = cookieStore.get('auth-token')?.value
+
+    if (!token) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Unauthorized',
+          message: 'Please login to view transactions',
+        },
+        { status: 401 }
+      )
+    }
+
+    const user = await unifiedAuth.getCurrentUser(token)
+    if (!user?.id) {
       return NextResponse.json(
         {
           success: false,
@@ -27,7 +42,7 @@ export async function GET(
     const transaction = await prisma.transaction.findFirst({
       where: {
         id: transactionId,
-        userId: session.user.id, // Only allow user to view their own transactions
+        userId: user.id, // Only allow user to view their own transactions
       },
       include: {
         subscription: {
@@ -82,8 +97,22 @@ export async function PATCH(
 ) {
   try {
     // Get authenticated user
-    const session = await auth()
-    if (!session?.user?.id) {
+    const cookieStore = await cookies()
+    const token = cookieStore.get('auth-token')?.value
+
+    if (!token) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Unauthorized',
+          message: 'Please login to view transactions',
+        },
+        { status: 401 }
+      )
+    }
+
+    const user = await unifiedAuth.getCurrentUser(token)
+    if (!user?.id) {
       return NextResponse.json(
         {
           success: false,
@@ -106,7 +135,7 @@ export async function PATCH(
     const existingTransaction = await prisma.transaction.findFirst({
       where: {
         id: transactionId,
-        userId: session.user.id,
+        userId: user.id,
       },
     })
 

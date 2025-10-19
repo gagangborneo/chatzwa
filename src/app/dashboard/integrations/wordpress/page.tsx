@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
-  Wordpress,
+  Globe,
   Search,
   Filter,
   Plus,
@@ -20,7 +20,6 @@ import {
   Trash2,
   Download,
   ExternalLink,
-  Globe,
   Settings,
   CheckCircle,
   XCircle,
@@ -190,7 +189,7 @@ export default function WordPressIntegrationsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Wordpress className="w-6 h-6 text-blue-600" />
+            <Globe className="w-6 h-6 text-blue-600" />
             WordPress Integrations
           </h1>
           <p className="text-gray-500 mt-1">
@@ -211,7 +210,7 @@ export default function WordPressIntegrationsPage() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <Wordpress className="w-4 h-4" />
+              <Globe className="w-4 h-4" />
               Total Integrations
             </CardTitle>
           </CardHeader>
@@ -335,7 +334,7 @@ export default function WordPressIntegrationsPage() {
             </div>
           ) : integrations.length === 0 ? (
             <div className="text-center py-8">
-              <Wordpress className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <Globe className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No WordPress integrations found</h3>
               <p className="text-gray-500 mb-4">
                 {searchTerm || statusFilter
@@ -370,7 +369,7 @@ export default function WordPressIntegrationsPage() {
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                              <Wordpress className="w-4 h-4 text-blue-600" />
+                              <Globe className="w-4 h-4 text-blue-600" />
                             </div>
                             <div>
                               <div className="font-medium text-gray-900">

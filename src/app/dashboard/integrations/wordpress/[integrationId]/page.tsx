@@ -14,14 +14,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
-  Globe as Wordpress,
+  Globe,
   ArrowLeft,
   Save,
   Download,
   Edit,
   Trash2,
   Settings,
-  Globe,
   Bot,
   MessageCircle,
   Smartphone,
@@ -291,7 +290,7 @@ export default function WordPressIntegrationDetailPage() {
           </Button>
           <div>
             <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <Wordpress className="w-6 h-6 text-blue-600" />
+              <Globe className="w-6 h-6 text-blue-600" />
               {integration.name}
             </h1>
             <p className="text-gray-500 mt-1">

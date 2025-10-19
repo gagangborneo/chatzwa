@@ -7,113 +7,28 @@
 
  ✓ Starting...
  ○ Compiling middleware ...
- ✓ Compiled middleware in 838ms
- ✓ Ready in 3.7s
-🔥 Middleware executed for: /login
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /login
-📋 Is public route: true
-✅ Route is public, allowing access
-🔥 Middleware executed for: /login
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /login
-📋 Is public route: true
-✅ Route is public, allowing access
- ○ Compiling /login ...
- ✓ Compiled /login in 6.8s
- GET /login 200 in 7577ms
-🔥 Middleware executed for: /id/favicon.ico
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /id/favicon.ico
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
-🔥 Middleware executed for: /api/auth/login
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/auth/login
-📋 Is public route: true
-✅ Route is public, allowing access
- ○ Compiling /api/auth/login ...
- ✓ Compiled /api/auth/login in 910ms
- GET /api/auth/login 405 in 1380ms
-🔥 Middleware executed for: /api/auth/login
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/auth/login
-📋 Is public route: true
-✅ Route is public, allowing access
- POST /api/auth/login 401 in 324ms
-🔥 Middleware executed for: /api/chat
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/chat
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
- ✓ Compiled /api/chat in 336ms
-prisma:info Starting a sqlite pool with 5 connections.
-prisma:query SELECT `main`.`Persona`.`id`, `main`.`Persona`.`slug`, `main`.`Persona`.`name`, `main`.`Persona`.`welcomeMessage`, `main`.`Persona`.`selectedProfile`, `main`.`Persona`.`formality`, `main`.`Persona`.`empathy`, `main`.`Persona`.`enthusiasm`, `main`.`Persona`.`humor`, `main`.`Persona`.`verbosity`, `main`.`Persona`.`knowledgeDomain`, `main`.`Persona`.`languageStyle`, `main`.`Persona`.`culturalContext`, `main`.`Persona`.`expertise`, `main`.`Persona`.`personality`, `main`.`Persona`.`maxLength`, `main`.`Persona`.`minResponseTime`, `main`.`Persona`.`maxResponseTime`, `main`.`Persona`.`useEmojis`, `main`.`Persona`.`includeGreeting`, `main`.`Persona`.`askFollowUp`, `main`.`Persona`.`systemPrompt`, `main`.`Persona`.`customInstructions`, `main`.`Persona`.`isActive`, `main`.`Persona`.`createdBy`, `main`.`Persona`.`createdAt`, `main`.`Persona`.`updatedAt`, `main`.`Persona`.`userId` FROM `main`.`Persona` WHERE `main`.`Persona`.`isActive` = ? LIMIT ? OFFSET ?
-prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`email` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?) LIMIT ? OFFSET ?
-Using OpenRouter API with persona: Updated AI Assistant
- POST /api/chat 200 in 9351ms
-prisma:query INSERT INTO `main`.`ChatMessage` (`id`, `sessionId`, `message`, `response`, `personaId`, `source`, `ip`, `userAgent`, `timestamp`) VALUES (?,?,?,?,?,?,?,?,?) RETURNING `id` AS `id`, `sessionId` AS `sessionId`, `message` AS `message`, `response` AS `response`, `personaId` AS `personaId`, `userId` AS `userId`, `source` AS `source`, `whatsappId` AS `whatsappId`, `ip` AS `ip`, `userAgent` AS `userAgent`, `timestamp` AS `timestamp`
+ ✓ Compiled middleware in 937ms
+ ✓ Ready in 3.6s
 🔥 Middleware executed for: /dashboard
 🍪 Available cookies: [
   {
   name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
+  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
 },
-  { name: '__next_hmr_refresh_hash__', value: '52' },
+  {
+  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
+  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
+},
+  {
+  name: 'a_session_console_legacy',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  {
+  name: 'a_session_console',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  { name: 'sidebar_state', value: 'true' },
+  { name: '__next_hmr_refresh_hash__', value: '409' },
   { name: 'NEXT_LOCALE', value: 'id' }
 ]
 🔍 Checking route: /dashboard
@@ -122,400 +37,261 @@ prisma:query INSERT INTO `main`.`ChatMessage` (`id`, `sessionId`, `message`, `re
 🍪 Token found: true
 🔍 Validating token in middleware...
 🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
+✅ Middleware token verification successful: regular_user_id
+✅ Token validated, payload: user@7connect.id
+✅ Authentication successful for: user@7connect.id
  ○ Compiling /dashboard ...
- ✓ Compiled /dashboard in 4.6s
- GET /dashboard 200 in 5311ms
-🔥 Middleware executed for: /id/favicon.ico
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /id/favicon.ico
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
-🔥 Middleware executed for: /dashboard/chat
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /dashboard/chat
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
- ○ Compiling /dashboard/chat ...
- ✓ Compiled /dashboard/chat in 1661ms
- GET /dashboard/chat 200 in 2364ms
-🔥 Middleware executed for: /dashboard/persona
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /dashboard/persona
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
- ○ Compiling /dashboard/persona ...
- ✓ Compiled /dashboard/persona in 1225ms
- GET /dashboard/persona 200 in 2086ms
-🔥 Middleware executed for: /id/favicon.ico
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /id/favicon.ico
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
- ○ Compiling /_not-found/page ...
+ ✓ Compiled /dashboard in 6.9s
+ GET /dashboard 200 in 7856ms
 🔥 Middleware executed for: /api/auth/me
 🍪 Available cookies: [
   {
   name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
+  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
 },
-  { name: '__next_hmr_refresh_hash__', value: '52' },
+  {
+  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
+  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
+},
+  {
+  name: 'a_session_console_legacy',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  {
+  name: 'a_session_console',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  { name: 'sidebar_state', value: 'true' },
+  { name: '__next_hmr_refresh_hash__', value: '409' },
   { name: 'NEXT_LOCALE', value: 'id' }
 ]
 🔍 Checking route: /api/auth/me
 📋 Is public route: true
 ✅ Route is public, allowing access
- ✓ Compiled /_not-found/page in 1168ms
+ ○ Compiling /favicon.ico ...
+🔥 Middleware executed for: /api/user/transactions
+🍪 Available cookies: [
+  {
+  name: 'auth-token',
+  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
+},
+  {
+  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
+  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
+},
+  {
+  name: 'a_session_console_legacy',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  {
+  name: 'a_session_console',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  { name: 'sidebar_state', value: 'true' },
+  { name: '__next_hmr_refresh_hash__', value: '409' },
+  { name: 'NEXT_LOCALE', value: 'id' }
+]
+🔍 Checking route: /api/user/transactions
+📋 Is public route: false
+🔒 Route is protected, checking authentication
+🍪 Token found: true
+🔍 Validating token in middleware...
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+🔥 Middleware executed for: /api/user/me
+🍪 Available cookies: [
+  {
+  name: 'auth-token',
+  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
+},
+  {
+  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
+  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
+},
+  {
+  name: 'a_session_console_legacy',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  {
+  name: 'a_session_console',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  { name: 'sidebar_state', value: 'true' },
+  { name: '__next_hmr_refresh_hash__', value: '409' },
+  { name: 'NEXT_LOCALE', value: 'id' }
+]
+🔍 Checking route: /api/user/me
+📋 Is public route: false
+🔒 Route is protected, checking authentication
+🍪 Token found: true
+🔍 Validating token in middleware...
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+✅ Token validated, payload: user@7connect.id
+✅ Authentication successful for: user@7connect.id
+✅ Middleware token verification successful: regular_user_id
+✅ Token validated, payload: user@7connect.id
+✅ Authentication successful for: user@7connect.id
+ ✓ Compiled /favicon.ico in 3.1s
+ GET /api/user/transactions 404 in 2459ms
 🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
 🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
-✅ Token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token verified, payload: { userId: 'cmgoqrg9u0000lrn4m86spwn9', email: 'admin@admin.com' }
-🔍 Looking for session in database...
-📋 Session found: true
-📋 Session details: {
-  id: 'cmgouiyxq0005lrw4d2zraaf9',
-  isActive: true,
-  expiresAt: 2025-10-20T08:03:09.277Z,
-  userFound: true,
-  userActive: true
-}
-✅ Session valid, returning user: admin@admin.com
- GET /api/auth/me 200 in 1062ms
-🔥 Middleware executed for: /api/persona
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/persona
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
- ✓ Compiled /api/persona in 268ms
- GET /api/persona?active=true&userId=cmgoqrg9u0000lrn4m86spwn9 200 in 634ms
-prisma:query SELECT 1
-prisma:query SELECT `main`.`Persona`.`id`, `main`.`Persona`.`slug`, `main`.`Persona`.`name`, `main`.`Persona`.`welcomeMessage`, `main`.`Persona`.`selectedProfile`, `main`.`Persona`.`formality`, `main`.`Persona`.`empathy`, `main`.`Persona`.`enthusiasm`, `main`.`Persona`.`humor`, `main`.`Persona`.`verbosity`, `main`.`Persona`.`knowledgeDomain`, `main`.`Persona`.`languageStyle`, `main`.`Persona`.`culturalContext`, `main`.`Persona`.`expertise`, `main`.`Persona`.`personality`, `main`.`Persona`.`maxLength`, `main`.`Persona`.`minResponseTime`, `main`.`Persona`.`maxResponseTime`, `main`.`Persona`.`useEmojis`, `main`.`Persona`.`includeGreeting`, `main`.`Persona`.`askFollowUp`, `main`.`Persona`.`systemPrompt`, `main`.`Persona`.`customInstructions`, `main`.`Persona`.`isActive`, `main`.`Persona`.`createdBy`, `main`.`Persona`.`createdAt`, `main`.`Persona`.`updatedAt`, `main`.`Persona`.`userId` FROM `main`.`Persona` WHERE (`main`.`Persona`.`isActive` = ? AND `main`.`Persona`.`userId` = ?) LIMIT ? OFFSET ?
-prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`email` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?) LIMIT ? OFFSET ?
- ✓ Compiled in 359ms
- ✓ Compiled in 480ms
-🔥 Middleware executed for: /api/auth/me
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/auth/me
-📋 Is public route: true
-✅ Route is public, allowing access
+🔍 unifiedAuth.getCurrentUser called
+📋 shouldUseAppwrite(): false
+📋 shouldUseSupabase(): false
+🔍 Using local validateSession...
 🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
 🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
-✅ Token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token verified, payload: { userId: 'cmgoqrg9u0000lrn4m86spwn9', email: 'admin@admin.com' }
-🔍 Looking for session in database...
-📋 Session found: true
-📋 Session details: {
-  id: 'cmgouiyxq0005lrw4d2zraaf9',
-  isActive: true,
-  expiresAt: 2025-10-20T08:03:09.277Z,
-  userFound: true,
-  userActive: true
+✅ Token verification successful: regular_user_id
+✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+✅ Token verification successful: regular_user_id
+✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+📋 Real user not found, checking for hardcoded users...
+✅ Found hardcoded user, trying to find corresponding database user...
+📋 Real user not found, checking for hardcoded users...
+✅ Found hardcoded user, trying to find corresponding database user...
+⚠️ Fallback to hardcoded user: user@7connect.id
+⚠️ Fallback to hardcoded user: user@7connect.id
+ GET /api/auth/me 200 in 3382ms
+Database not available, using mock data: TypeError: Cannot read properties of null (reading 'personas')
+    at GET (src/app/api/user/me/route.ts:85:33)
+  83 |       // Calculate statistics
+  84 |       stats = {
+> 85 |         totalPersonas: userData.personas.length,
+     |                                 ^
+  86 |         activePersonas: userData.personas.filter(p => p.isActive).length,
+  87 |         totalMessages: userData.chatMessages.length,
+  88 |         messagesThisMonth: userData.chatMessages.filter(
+ GET /api/user/me 200 in 3559ms
+🔥 Middleware executed for: /api/user/subscription
+🍪 Available cookies: [
+  {
+  name: 'auth-token',
+  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
+},
+  {
+  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
+  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
+},
+  {
+  name: 'a_session_console_legacy',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  {
+  name: 'a_session_console',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  { name: 'sidebar_state', value: 'true' },
+  { name: '__next_hmr_refresh_hash__', value: '409' },
+  { name: 'NEXT_LOCALE', value: 'id' }
+]
+🔍 Checking route: /api/user/subscription
+📋 Is public route: false
+🔒 Route is protected, checking authentication
+🍪 Token found: true
+🔍 Validating token in middleware...
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+✅ Token validated, payload: user@7connect.id
+✅ Authentication successful for: user@7connect.id
+🔥 Middleware executed for: /api/subscriptions
+🍪 Available cookies: [
+  {
+  name: 'auth-token',
+  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
+},
+  {
+  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
+  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
+},
+  {
+  name: 'a_session_console_legacy',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  {
+  name: 'a_session_console',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  { name: 'sidebar_state', value: 'true' },
+  { name: '__next_hmr_refresh_hash__', value: '409' },
+  { name: 'NEXT_LOCALE', value: 'id' }
+]
+🔍 Checking route: /api/subscriptions
+📋 Is public route: false
+🔒 Route is protected, checking authentication
+🍪 Token found: true
+🔍 Validating token in middleware...
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+✅ Token validated, payload: user@7connect.id
+✅ Authentication successful for: user@7connect.id
+ GET /api/user/subscription 404 in 377ms
+ ✓ Compiled /api/subscriptions in 474ms
+ ⨯ ./src/app/api/subscriptions/route.ts:3:1
+Export auth doesn't exist in target module
+[0m [90m 1 |[39m [36mimport[39m { [33mNextRequest[39m[33m,[39m [33mNextResponse[39m } [36mfrom[39m [32m'next/server'[39m
+ [90m 2 |[39m [36mimport[39m { [33mPrismaClient[39m } [36mfrom[39m [32m'@prisma/client'[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { auth } [36mfrom[39m [32m'@/lib/auth'[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [36mconst[39m prisma [33m=[39m [36mnew[39m [33mPrismaClient[39m()
+ [90m 6 |[39m[0m
+
+The export auth was not found in module [project]/src/lib/auth.ts [app-route] (ecmascript).
+Did you mean to import getAuthUser?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 3.8s
+ GET /api/subscriptions?includePackage=true 500 in 4756ms
+🔥 Middleware executed for: /api/user/chatbots
+🍪 Available cookies: [
+  {
+  name: 'auth-token',
+  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
+},
+  {
+  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
+  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
+},
+  {
+  name: 'a_session_console_legacy',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  {
+  name: 'a_session_console',
+  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
+},
+  { name: 'sidebar_state', value: 'true' },
+  { name: '__next_hmr_refresh_hash__', value: '409' },
+  { name: 'NEXT_LOCALE', value: 'id' }
+]
+🔍 Checking route: /api/user/chatbots
+📋 Is public route: false
+🔒 Route is protected, checking authentication
+🍪 Token found: true
+🔍 Validating token in middleware...
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+✅ Token validated, payload: user@7connect.id
+✅ Authentication successful for: user@7connect.id
+ ✓ Compiled /api/user/chatbots in 339ms
+ GET /api/user/chatbots 500 in 618ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/home/asif/Develop/chatbot/.next/server/app/_not-found/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/home/asif/Develop/chatbot/.next/server/app/_not-found/page/app-build-manifest.json'
 }
-✅ Session valid, returning user: admin@admin.com
- GET /api/auth/me 200 in 393ms
-🔥 Middleware executed for: /api/persona
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '52' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/persona
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
-prisma:query SELECT 1
-prisma:query SELECT `main`.`Persona`.`id`, `main`.`Persona`.`slug`, `main`.`Persona`.`name`, `main`.`Persona`.`welcomeMessage`, `main`.`Persona`.`selectedProfile`, `main`.`Persona`.`formality`, `main`.`Persona`.`empathy`, `main`.`Persona`.`enthusiasm`, `main`.`Persona`.`humor`, `main`.`Persona`.`verbosity`, `main`.`Persona`.`knowledgeDomain`, `main`.`Persona`.`languageStyle`, `main`.`Persona`.`culturalContext`, `main`.`Persona`.`expertise`, `main`.`Persona`.`personality`, `main`.`Persona`.`maxLength`, `main`.`Persona`.`minResponseTime`, `main`.`Persona`.`maxResponseTime`, `main`.`Persona`.`useEmojis`, `main`.`Persona`.`includeGreeting`, `main`.`Persona`.`askFollowUp`, `main`.`Persona`.`systemPrompt`, `main`.`Persona`.`customInstructions`, `main`.`Persona`.`isActive`, `main`.`Persona`.`createdBy`, `main`.`Persona`.`createdAt`, `main`.`Persona`.`updatedAt`, `main`.`Persona`.`userId` FROM `main`.`Persona` WHERE (`main`.`Persona`.`isActive` = ? AND `main`.`Persona`.`userId` = ?) LIMIT ? OFFSET ?
-prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`email` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?) LIMIT ? OFFSET ?
- GET /api/persona?active=true&userId=cmgoqrg9u0000lrn4m86spwn9 200 in 363ms
- ✓ Compiled in 345ms
- ✓ Compiled in 219ms
-🔥 Middleware executed for: /dashboard/persona
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /dashboard/persona
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
-🔥 Middleware executed for: /dashboard/persona
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /dashboard/persona
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
- ○ Compiling /dashboard/persona ...
- ✓ Compiled /dashboard/persona in 563ms
- GET /dashboard/persona 200 in 1824ms
-🔥 Middleware executed for: /id/favicon.ico
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /id/favicon.ico
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
- GET /id/favicon.ico 404 in 204ms
-🔥 Middleware executed for: /api/auth/me
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/auth/me
-📋 Is public route: true
-✅ Route is public, allowing access
-🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
-🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
-✅ Token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token verified, payload: { userId: 'cmgoqrg9u0000lrn4m86spwn9', email: 'admin@admin.com' }
-🔍 Looking for session in database...
-📋 Session found: true
-📋 Session details: {
-  id: 'cmgouiyxq0005lrw4d2zraaf9',
-  isActive: true,
-  expiresAt: 2025-10-20T08:03:09.277Z,
-  userFound: true,
-  userActive: true
+[Error: ENOENT: no such file or directory, open '/home/asif/Develop/chatbot/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/home/asif/Develop/chatbot/.next/server/pages/_app/build-manifest.json'
 }
-✅ Session valid, returning user: admin@admin.com
- GET /api/auth/me 200 in 418ms
-🔥 Middleware executed for: /api/persona
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/persona
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
-prisma:query SELECT 1
-prisma:query SELECT `main`.`Persona`.`id`, `main`.`Persona`.`slug`, `main`.`Persona`.`name`, `main`.`Persona`.`welcomeMessage`, `main`.`Persona`.`selectedProfile`, `main`.`Persona`.`formality`, `main`.`Persona`.`empathy`, `main`.`Persona`.`enthusiasm`, `main`.`Persona`.`humor`, `main`.`Persona`.`verbosity`, `main`.`Persona`.`knowledgeDomain`, `main`.`Persona`.`languageStyle`, `main`.`Persona`.`culturalContext`, `main`.`Persona`.`expertise`, `main`.`Persona`.`personality`, `main`.`Persona`.`maxLength`, `main`.`Persona`.`minResponseTime`, `main`.`Persona`.`maxResponseTime`, `main`.`Persona`.`useEmojis`, `main`.`Persona`.`includeGreeting`, `main`.`Persona`.`askFollowUp`, `main`.`Persona`.`systemPrompt`, `main`.`Persona`.`customInstructions`, `main`.`Persona`.`isActive`, `main`.`Persona`.`createdBy`, `main`.`Persona`.`createdAt`, `main`.`Persona`.`updatedAt`, `main`.`Persona`.`userId` FROM `main`.`Persona` WHERE (`main`.`Persona`.`isActive` = ? AND `main`.`Persona`.`userId` = ?) LIMIT ? OFFSET ?
-prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`email` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?) LIMIT ? OFFSET ?
- GET /api/persona?active=true&userId=cmgoqrg9u0000lrn4m86spwn9 200 in 390ms
- ✓ Compiled in 242ms
- ✓ Compiled in 262ms
- ✓ Compiled in 295ms
- ✓ Compiled in 237ms
-🔥 Middleware executed for: /api/auth/me
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/auth/me
-📋 Is public route: true
-✅ Route is public, allowing access
-🔥 Middleware executed for: /api/auth/me
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/auth/me
-📋 Is public route: true
-✅ Route is public, allowing access
-🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
-🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
-✅ Token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token verified, payload: { userId: 'cmgoqrg9u0000lrn4m86spwn9', email: 'admin@admin.com' }
-🔍 Looking for session in database...
-🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
-🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
-✅ Token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token verified, payload: { userId: 'cmgoqrg9u0000lrn4m86spwn9', email: 'admin@admin.com' }
-🔍 Looking for session in database...
-📋 Session found: true
-📋 Session details: {
-  id: 'cmgouiyxq0005lrw4d2zraaf9',
-  isActive: true,
-  expiresAt: 2025-10-20T08:03:09.277Z,
-  userFound: true,
-  userActive: true
+[Error: ENOENT: no such file or directory, open '/home/asif/Develop/chatbot/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/home/asif/Develop/chatbot/.next/server/pages/_app/build-manifest.json'
 }
-✅ Session valid, returning user: admin@admin.com
- GET /api/auth/me 200 in 558ms
-📋 Session found: true
-📋 Session details: {
-  id: 'cmgouiyxq0005lrw4d2zraaf9',
-  isActive: true,
-  expiresAt: 2025-10-20T08:03:09.277Z,
-  userFound: true,
-  userActive: true
-}
-✅ Session valid, returning user: admin@admin.com
- GET /api/auth/me 200 in 534ms
-🔥 Middleware executed for: /api/persona
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/persona
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
-🔥 Middleware executed for: /api/persona
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjbWdvcXJnOXUwMDAwbHJuNG04NnNwd245IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsImlhdCI6MTc2MDM0MjU4OSwiZXhwIjoxNzYwOTQ3Mzg5fQ.k0rCU6zj5R0ioo-Ve-FH72FPhQK7THymBbrErbFRxU8'
-},
-  { name: '__next_hmr_refresh_hash__', value: '23' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/persona
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: cmgoqrg9u0000lrn4m86spwn9
-✅ Token validated, payload: admin@admin.com
-✅ Authentication successful for: admin@admin.com
-prisma:query SELECT 1
-prisma:query SELECT `main`.`Persona`.`id`, `main`.`Persona`.`slug`, `main`.`Persona`.`name`, `main`.`Persona`.`welcomeMessage`, `main`.`Persona`.`selectedProfile`, `main`.`Persona`.`formality`, `main`.`Persona`.`empathy`, `main`.`Persona`.`enthusiasm`, `main`.`Persona`.`humor`, `main`.`Persona`.`verbosity`, `main`.`Persona`.`knowledgeDomain`, `main`.`Persona`.`languageStyle`, `main`.`Persona`.`culturalContext`, `main`.`Persona`.`expertise`, `main`.`Persona`.`personality`, `main`.`Persona`.`maxLength`, `main`.`Persona`.`minResponseTime`, `main`.`Persona`.`maxResponseTime`, `main`.`Persona`.`useEmojis`, `main`.`Persona`.`includeGreeting`, `main`.`Persona`.`askFollowUp`, `main`.`Persona`.`systemPrompt`, `main`.`Persona`.`customInstructions`, `main`.`Persona`.`isActive`, `main`.`Persona`.`createdBy`, `main`.`Persona`.`createdAt`, `main`.`Persona`.`updatedAt`, `main`.`Persona`.`userId` FROM `main`.`Persona` WHERE (`main`.`Persona`.`isActive` = ? AND `main`.`Persona`.`userId` = ?) LIMIT ? OFFSET ?
-prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`email` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?) LIMIT ? OFFSET ?
- GET /api/persona?active=true&userId=cmgoqrg9u0000lrn4m86spwn9 200 in 409ms
-prisma:query SELECT `main`.`Persona`.`id`, `main`.`Persona`.`slug`, `main`.`Persona`.`name`, `main`.`Persona`.`welcomeMessage`, `main`.`Persona`.`selectedProfile`, `main`.`Persona`.`formality`, `main`.`Persona`.`empathy`, `main`.`Persona`.`enthusiasm`, `main`.`Persona`.`humor`, `main`.`Persona`.`verbosity`, `main`.`Persona`.`knowledgeDomain`, `main`.`Persona`.`languageStyle`, `main`.`Persona`.`culturalContext`, `main`.`Persona`.`expertise`, `main`.`Persona`.`personality`, `main`.`Persona`.`maxLength`, `main`.`Persona`.`minResponseTime`, `main`.`Persona`.`maxResponseTime`, `main`.`Persona`.`useEmojis`, `main`.`Persona`.`includeGreeting`, `main`.`Persona`.`askFollowUp`, `main`.`Persona`.`systemPrompt`, `main`.`Persona`.`customInstructions`, `main`.`Persona`.`isActive`, `main`.`Persona`.`createdBy`, `main`.`Persona`.`createdAt`, `main`.`Persona`.`updatedAt`, `main`.`Persona`.`userId` FROM `main`.`Persona` WHERE (`main`.`Persona`.`isActive` = ? AND `main`.`Persona`.`userId` = ?) LIMIT ? OFFSET ?
-prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`email` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?) LIMIT ? OFFSET ?
- GET /api/persona?active=true&userId=cmgoqrg9u0000lrn4m86spwn9 200 in 379ms

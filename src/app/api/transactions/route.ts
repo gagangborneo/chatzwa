@@ -1,14 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
-import { auth } from '@/lib/auth'
+import { unifiedAuth } from '@/lib/auth'
+import { cookies } from 'next/headers'
 
 const prisma = new PrismaClient()
 
 export async function GET(request: NextRequest) {
   try {
     // Get authenticated user
-    const session = await auth()
-    if (!session?.user?.id) {
+    const cookieStore = await cookies()
+    const token = cookieStore.get('auth-token')?.value
+
+    if (!token) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Unauthorized',
+          message: 'Please login to view transactions',
+        },
+        { status: 401 }
+      )
+    }
+
+    const user = await unifiedAuth.getCurrentUser(token)
+    if (!user?.id) {
       return NextResponse.json(
         {
           success: false,
@@ -27,7 +42,7 @@ export async function GET(request: NextRequest) {
     const includeInvoice = searchParams.get('includeInvoice') === 'true'
 
     let whereClause: any = {
-      userId: session.user.id,
+      userId: user.id,
     }
 
     if (status) {
@@ -67,7 +82,7 @@ export async function GET(request: NextRequest) {
       totalTransactions: total,
       totalAmount: await prisma.transaction.aggregate({
         where: {
-          userId: session.user.id,
+          userId: user.id,
           status: 'completed',
         },
         _sum: {
@@ -76,7 +91,7 @@ export async function GET(request: NextRequest) {
       }),
       pendingAmount: await prisma.transaction.aggregate({
         where: {
-          userId: session.user.id,
+          userId: user.id,
           status: 'pending',
         },
         _sum: {
@@ -85,13 +100,13 @@ export async function GET(request: NextRequest) {
       }),
       completedTransactions: await prisma.transaction.count({
         where: {
-          userId: session.user.id,
+          userId: user.id,
           status: 'completed',
         },
       }),
       pendingTransactions: await prisma.transaction.count({
         where: {
-          userId: session.user.id,
+          userId: user.id,
           status: 'pending',
         },
       }),
@@ -183,7 +198,7 @@ export async function POST(request: NextRequest) {
       const subscription = await prisma.subscription.findFirst({
         where: {
           id: subscriptionId,
-          userId: session.user.id,
+          userId: user.id,
         },
       })
 
@@ -202,7 +217,7 @@ export async function POST(request: NextRequest) {
     // Create transaction
     const transaction = await prisma.transaction.create({
       data: {
-        userId: session.user.id,
+        userId: user.id,
         subscriptionId,
         type,
         amount,

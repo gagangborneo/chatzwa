@@ -11,7 +11,7 @@ export async function GET(
 ) {
   try {
     // Get authenticated user
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get('auth-token')?.value
 
     if (!token) {
@@ -272,7 +272,7 @@ export async function PATCH(
 ) {
   try {
     // Get authenticated user
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get('auth-token')?.value
 
     if (!token) {
@@ -402,7 +402,7 @@ export async function DELETE(
 ) {
   try {
     // Get authenticated user
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get('auth-token')?.value
 
     if (!token) {

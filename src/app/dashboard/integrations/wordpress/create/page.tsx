@@ -12,11 +12,10 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import {
-  Globe as Wordpress,
+  Globe,
   ArrowLeft,
   Save,
   Bot,
-  Globe,
   Settings,
   Palette,
   MessageCircle,
@@ -207,7 +206,7 @@ export default function CreateWordPressIntegrationPage() {
         </Button>
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Wordpress className="w-6 h-6 text-blue-600" />
+            <Globe className="w-6 h-6 text-blue-600" />
             Create WordPress Integration
           </h1>
           <p className="text-gray-500 mt-1">
@@ -539,7 +538,7 @@ export default function CreateWordPressIntegrationPage() {
                 variant="outline"
                 className="w-full"
               >
-                <Wordpress className="w-4 h-4 mr-2" />
+                <Globe className="w-4 h-4 mr-2" />
                 Generate Plugin Only
               </Button>
             </CardContent>

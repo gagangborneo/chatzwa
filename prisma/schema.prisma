@@ -619,6 +619,7 @@ model Chatbot {
   // Relations
   user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  wordpressIntegrations WordPressIntegration[]
 
   @@index([userId])
   @@index([subscriptionId])

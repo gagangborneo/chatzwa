@@ -70,27 +70,25 @@ export default function FloatingChat() {
 
   // Initialize with localStorage or welcome message
   useEffect(() => {
-    if (messages.length === 0) {
-      // Try to load messages from localStorage first
-      const savedMessages = localStorageClient.loadConversation()
+    // Try to load messages from localStorage first
+    const savedMessages = localStorageClient.loadConversation()
 
-      if (savedMessages.length > 0) {
-        setMessages(savedMessages)
-      } else {
-        // If no saved messages, create welcome message
-        const welcomeMessage: Message = {
-          id: 'welcome',
-          message: '',
-          response: language === 'id'
-            ? '👋 Selamat datang! Saya adalah asisten AI yang siap membantu Anda. Ada yang bisa saya bantu hari ini?'
-            : '👋 Welcome! I am an AI assistant ready to help you. How can I assist you today?',
-          timestamp: new Date(),
-          isUser: false
-        }
-        setMessages([welcomeMessage])
+    if (savedMessages.length > 0) {
+      setMessages(savedMessages)
+    } else {
+      // If no saved messages, create welcome message
+      const welcomeMessage: Message = {
+        id: 'welcome',
+        message: '',
+        response: language === 'id'
+          ? '👋 Selamat datang! Saya adalah asisten AI yang siap membantu Anda. Ada yang bisa saya bantu hari ini?'
+          : '👋 Welcome! I am an AI assistant ready to help you. How can I assist you today?',
+        timestamp: new Date(),
+        isUser: false
       }
+      setMessages([welcomeMessage])
     }
-  }, [language, messages.length])
+  }, [])
 
   // Cleanup expired localStorage data periodically
   useEffect(() => {
@@ -224,7 +222,7 @@ export default function FloatingChat() {
   return (
     <>
       {/* Floating Chat Button */}
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="fixed bottom-5 right-4 z-50">
         {!isOpen && (
           <Button
             onClick={handleToggleChat}
@@ -249,15 +247,15 @@ export default function FloatingChat() {
         <div className={`z-50  ease-in-out ${
           isMobile
             ? 'fixed inset-0 w-full h-full'
-            : 'fixed bottom-4 right-4'
+            : 'fixed bottom-12 right-4'
         }`}>
-          <CardFloat className={`shadow-2xl border-0 bg-white ${
+          <CardFloat className={`shadow-2xl border-0 bg-white flex flex-col ${
             isMobile
               ? 'w-full h-full rounded-none'
               : `${isMinimized ? 'w-80' : 'w-96 h-[600px]'}`
           } `}>
             {/* Header */}
-            <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 pb-3">
+            <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 pb-3 flex-shrink-0">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
@@ -304,10 +302,10 @@ export default function FloatingChat() {
             {!isMinimized && (
               <>
                 {/* Messages Area */}
-                <CardContent className={`p-0 ${
+                <CardContent className={`p-0 flex-1 ${
                   isMobile
-                    ? 'h-[calc(100vh-8rem)]'
-                    : 'h-[480px]'
+                    ? 'h-[calc(100vh-12rem)]'
+                    : 'h-[460px]'
                 }`}>
                   <ScrollArea className={`h-full ${isMobile ? 'px-2' : 'px-4'}`}>
                     <div className={`space-y-4 ${isMobile ? 'py-2' : 'py-4'}`}>
@@ -353,11 +351,11 @@ export default function FloatingChat() {
                             <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-600 mr-2 flex items-center justify-center">
                               <Bot className="w-3 h-3" />
                             </div>
-                            <div className="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2">
+                            <div className="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-3">
                               <div className="flex space-x-1">
-                                <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
-                                <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
-                                <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                                <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full typing-dot shadow-sm"></div>
+                                <div className="w-2 h-2 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full typing-dot shadow-sm"></div>
+                                <div className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full typing-dot shadow-sm"></div>
                               </div>
                             </div>
                           </div>
@@ -370,7 +368,7 @@ export default function FloatingChat() {
                 </CardContent>
 
                 {/* Input Area */}
-                <div className={`border-t bg-gray-50 ${isMobile ? 'p-3' : 'p-4'}`}>
+                <div className={`border-t bg-gray-50 flex-shrink-0 ${isMobile ? 'p-3' : 'p-4'}`}>
                   <div className={`flex gap-2 ${isMobile ? 'gap-3' : 'gap-2'}`}>
                     <Input
                       ref={inputRef}

@@ -20,8 +20,13 @@
       "message": "Halo",
       "response": "Selamat datang! Saya **Professional Admin Assistant**—asisten AI profesional yang siap membantu Anda mengelola semua kebutuhan administrasi dan informasi. 🤖✨\n\nAda yang ingin Anda tanyakan hari ini? Apakah Anda membutuhkan detail tentang program pendidikan, jadwal kajian, atau bantuan transaksi? Saya di sini untuk membantu!",
       "timestamp": 1760876450268
+    },
+    {
+      "message": "Test animasi typing bounce yang lebih natural",
+      "response": "Halo! 👋 Saya **Professional Admin Assistant** siap membantu Anda membuat animasi typing bounce yang terasa lebih natural. Ingin tahu cara mengimplementasikannya di web (CSS/JS) atau di aplikasi lain?  \n\n---\n\n## 1. Prinsip “Natural” pada Bounce\n\n1. **Eksperimen dengan timing** – Bouncing yang terlalu cepat atau terlalu lambat terasa tidak hidup.  \n2. **Gunakan curve `cubic-bezier`** – Nilai ini mengontrol percepatan dan perlambatan. Contoh: `cubic-bezier(.68,-0.55,.27,1.55)` membuat gerakan “spring‑y”.  \n3. **Variasikan kecepatan tiap huruf** – Gerakan “typing” biasanya tidak seragam; tambahkan sedikit delay acak.  \n\n---\n\n## 2. Contoh CSS Keyframes\n\n```css\n/* 1. Definisikan keyframe bounce */\n@keyframes typingBounce {\n  0%   { transform: translateY(0); }\n  20%  { transform: translateY(-10px); }   /* naik */\n  40%  { transform: translateY(5px); }    /* turun lebih ringan */\n  60%  { transform: translateY(-5px); }    /* naik lagi */\n  80%  { transform: translateY(2px); }    /* turun */\n  100% { transform: translateY(0); }\n}\n\n/* 2. Terapkan pada ele",
+      "timestamp": 1760879429005
     }
   ],
   "createdAt": 1760198314547,
-  "lastAccessed": 1760876450268
+  "lastAccessed": 1760879429005
 }

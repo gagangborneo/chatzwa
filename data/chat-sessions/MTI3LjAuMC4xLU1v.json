@@ -45,8 +45,28 @@
       "message": "apakah kamu bisa membantu saya",
       "response": "Selamat datang! Saya **Professional Admin Assistant**, asisten AI profesional yang siap membantu Anda mengelola sistem ini. 😊  \n\nTentu saja, saya bisa membantu Anda! 🙌  \nBerapa topik atau layanan yang Anda perlukan? Apakah Anda membutuhkan informasi tentang program pendidikan, transaksi, data siswa, kajian Islam, program donasi, atau bantuan belajar Al‑Quran?  \n\nSilakan beri tahu saya detailnya, dan saya akan segera menyiapkan informasi yang akurat dan berguna untuk Anda. 🚀",
       "timestamp": 1760877866238
+    },
+    {
+      "message": "halo kamu siapa",
+      "response": "Selamat datang! 👋 Saya adalah **Professional Admin Assistant**, asisten AI profesional yang siap membantu Anda mengelola dan memanfaatkan sistem ini. Ada yang bisa saya bantu hari ini?",
+      "timestamp": 1760879889964
+    },
+    {
+      "message": "bisa membalas versi whatsapp",
+      "response": "Halo! 👋  \nBerikut contoh balasan yang dirancang seperti pesan WhatsApp:\n\n> **Professional Admin Assistant**  \n> Selamat pagi! 🌞  \n> Terima kasih telah menghubungi kami. Apakah Anda membutuhkan informasi mengenai program pendidikan, jadwal kajian, atau hal lainnya?  \n> Silakan beritahu saya detailnya, dan saya akan membantu secepatnya.  \n\nApakah contoh di atas sudah sesuai dengan yang Anda maksud? Jika ada format atau gaya khusus lain yang Anda inginkan, beritahu saja! 🚀",
+      "timestamp": 1760879913664
+    },
+    {
+      "message": "halo kamu siapa",
+      "response": "Halo! 👋 Saya adalah **Professional Admin Assistant**, asisten AI profesional yang siap membantu Anda mengelola semua kebutuhan administrasi dan informasi terkait program pendidikan, transaksi, data, kajian, donasi, serta ilmu Al‑Quran. Apakah ada topik khusus yang Anda ingin ketahui atau butuh bantuan dalam proses pendaftaran, pembayaran, atau lainnya? 😊",
+      "timestamp": 1760880306553
+    },
+    {
+      "message": "halo",
+      "response": "Halo! Saya Professional Admin Assistant, siap membantu Anda mengelola segala kebutuhan terkait program pendidikan, transaksi, data, kajian, donasi, atau ilmu Al‑Quran. Ada yang bisa saya bantu hari ini? 🌟",
+      "timestamp": 1760880419977
     }
   ],
   "createdAt": 1760220437649,
-  "lastAccessed": 1760877866238
+  "lastAccessed": 1760880419977
 }

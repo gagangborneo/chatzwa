@@ -17,17 +17,34 @@ const publicRoutes = [
   '/api/admin/create-user-simple', // Admin simple user creation endpoint
   '/api/admin/create-user-demo', // Admin demo user creation endpoint
   '/api/admin/list-users', // Admin list users endpoint
+  '/demo', // Demo page for embed chat
+]
+
+// Public page routes (don't require authentication)
+const publicPageRoutes = [
+  '/pricing', // Pricing page
+  '/products', // Products page
+  '/contact', // Contact page
+  '/about', // About page
+  '/privacy', // Privacy policy
+  '/terms', // Terms of service
+  '/blog', // Blog page
   '/login', // Login page
   '/register', // Register page
-  '/demo', // Demo page for embed chat
+  '/demo', // Demo page
+  '/help', // Help page
+  '/solutions', // Solutions page
+  '/compliance', // Compliance page
+  '/cookies', // Cookies policy
+  '/chat', // Chat page
+  '/wordpress', // WordPress integration page
+  '/embed', // Embed chat page
+  '/integrations', // Integrations overview
 ]
 
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-
-  console.log('🔥 Middleware executed for:', pathname)
-  console.log('🍪 Available cookies:', request.cookies.getAll())
 
   // Special case: root route is public
   if (pathname === '/') {
@@ -39,49 +56,39 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(route)
   )
 
-  console.log('🔍 Checking route:', pathname)
-  console.log('📋 Is public route:', isPublicRoute)
+  // Check if it's a public page route (exact match)
+  const isPublicPage = publicPageRoutes.some(route =>
+    pathname === route || pathname.startsWith(route + '/')
+  )
 
-  // If it's a public route, continue
-  if (isPublicRoute) {
-    console.log('✅ Route is public, allowing access')
+  // If it's a public route or public page, continue
+  if (isPublicRoute || isPublicPage) {
     return NextResponse.next()
   }
 
   // All other routes are protected by default
-  console.log('🔒 Route is protected, checking authentication')
   // Check authentication
   const token = getAuthToken(request) || request.headers.get('authorization')?.replace('Bearer ', '')
 
-  console.log('🍪 Token found:', !!token)
-
   if (!token) {
-    console.log('❌ No token found for protected route:', pathname)
     // Redirect to login page
     const loginUrl = new URL('/login', request.url)
-    console.log('🔄 Redirecting to:', loginUrl.toString())
     return NextResponse.redirect(loginUrl)
   }
 
   try {
-    console.log('🔍 Validating token in middleware...')
     const payload = await verifyTokenForMiddleware(token)
-    console.log('✅ Token validated, payload:', payload?.email || 'null')
 
     if (!payload) {
-      console.log('❌ Invalid token')
       // Redirect to login page
       const loginUrl = new URL('/login', request.url)
-      console.log('🔄 Redirecting to:', loginUrl.toString())
       return NextResponse.redirect(loginUrl)
     }
 
-    console.log('✅ Authentication successful for:', payload.email)
+    // Continue to the requested route
   } catch (error) {
-    console.error('❌ Middleware authentication error:', error)
     // Redirect to login page on error
     const loginUrl = new URL('/login', request.url)
-    console.log('🔄 Redirecting to:', loginUrl.toString())
     return NextResponse.redirect(loginUrl)
   }
 

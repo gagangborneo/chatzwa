@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage Test - Floating Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #218838; }
+        .localStorage-data {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Local Storage Test - Floating Chat</h1>
+
+    <div class="test-container">
+        <h2>1. Local Storage Availability</h2>
+        <div id="storage-status" class="status info">Checking...</div>
+    </div>
+
+    <div class="test-container">
+        <h2>2. Session Management</h2>
+        <div id="session-status" class="status info">Checking...</div>
+        <button onclick="testSessionId()">Test Session ID</button>
+        <button onclick="clearSessionId()">Clear Session ID</button>
+    </div>
+
+    <div class="test-container">
+        <h2>3. Conversation Storage</h2>
+        <div id="conversation-status" class="status info">Ready to test...</div>
+        <button onclick="saveTestConversation()">Save Test Conversation</button>
+        <button onclick="loadConversation()">Load Conversation</button>
+        <button onclick="clearConversation()">Clear Conversation</button>
+        <button onclick="simulateChatFlow()">Simulate Chat Flow</button>
+    </div>
+
+    <div class="test-container">
+        <h2>4. Storage Data</h2>
+        <div id="storage-data" class="localStorage-data">No data stored yet...</div>
+        <button onclick="showStorageData()">Show Storage Data</button>
+        <button onclick="refreshStorageData()">Refresh</button>
+    </div>
+
+    <div class="test-container">
+        <h2>5. Expiration Test</h2>
+        <div id="expiration-status" class="status info">Ready to test...</div>
+        <button onclick="testExpiration()">Test 3-Day Expiration</button>
+        <button onclick="showStats()">Show Storage Stats</button>
+    </div>
+
+    <script>
+        // Mock localStorageClient class for testing
+        class LocalStorageClient {
+            constructor() {
+                this.config = {
+                    maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
+                    maxMessages: 50,
+                    storageKey: 'floating_chat_conversation'
+                }
+            }
+
+            isAvailable() {
+                try {
+                    const testKey = '__localStorage_test__'
+                    localStorage.setItem(testKey, 'test')
+                    localStorage.removeItem(testKey)
+                    return true
+                } catch {
+                    return false
+                }
+            }
+
+            getSessionId() {
+                if (!this.isAvailable()) return this.generateSessionId()
+
+                try {
+                    let sessionId = localStorage.getItem('chat_session_id')
+                    if (!sessionId) {
+                        sessionId = this.generateSessionId()
+                        localStorage.setItem('chat_session_id', sessionId)
+                    }
+                    return sessionId
+                } catch {
+                    return this.generateSessionId()
+                }
+            }
+
+            generateSessionId() {
+                return Date.now().toString(36) + Math.random().toString(36).substring(2, 9)
+            }
+
+            saveConversation(messages) {
+                if (!this.isAvailable()) return
+
+                try {
+                    const conversation = {
+                        sessionId: this.getSessionId(),
+                        messages: messages.slice(-this.config.maxMessages),
+                        createdAt: Date.now(),
+                        lastUpdated: Date.now()
+                    }
+                    localStorage.setItem(this.config.storageKey, JSON.stringify(conversation))
+                    return true
+                } catch (error) {
+                    console.error('Error saving conversation:', error)
+                    return false
+                }
+            }
+
+            loadConversation() {
+                if (!this.isAvailable()) return []
+
+                try {
+                    const data = localStorage.getItem(this.config.storageKey)
+                    if (!data) return []
+
+                    const conversation = JSON.parse(data)
+                    const now = Date.now()
+
+                    if (now - conversation.lastUpdated > this.config.maxAge) {
+                        this.clearConversation()
+                        return []
+                    }
+
+                    conversation.lastUpdated = now
+                    localStorage.setItem(this.config.storageKey, JSON.stringify(conversation))
+
+                    return conversation.messages.map(msg => ({
+                        ...msg,
+                        timestamp: new Date(msg.timestamp)
+                    }))
+                } catch (error) {
+                    console.error('Error loading conversation:', error)
+                    this.clearConversation()
+                    return []
+                }
+            }
+
+            clearConversation() {
+                try {
+                    localStorage.removeItem(this.config.storageKey)
+                    return true
+                } catch (error) {
+                    console.error('Error clearing conversation:', error)
+                    return false
+                }
+            }
+
+            clearSessionId() {
+                try {
+                    localStorage.removeItem('chat_session_id')
+                    return true
+                } catch (error) {
+                    console.error('Error clearing session ID:', error)
+                    return false
+                }
+            }
+
+            getStats() {
+                if (!this.isAvailable()) {
+                    return { messageCount: 0, lastActivity: null, ageInHours: 0, isExpired: true }
+                }
+
+                try {
+                    const data = localStorage.getItem(this.config.storageKey)
+                    if (!data) {
+                        return { messageCount: 0, lastActivity: null, ageInHours: 0, isExpired: true }
+                    }
+
+                    const conversation = JSON.parse(data)
+                    const now = Date.now()
+                    const ageInMs = now - conversation.lastUpdated
+                    const ageInHours = ageInMs / (1000 * 60 * 60)
+
+                    return {
+                        messageCount: conversation.messages.length,
+                        lastActivity: new Date(conversation.lastUpdated),
+                        ageInHours,
+                        isExpired: ageInMs > this.config.maxAge
+                    }
+                } catch (error) {
+                    return { messageCount: 0, lastActivity: null, ageInHours: 0, isExpired: true }
+                }
+            }
+        }
+
+        const client = new LocalStorageClient()
+
+        // Test functions
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId)
+            element.className = `status ${type}`
+            element.textContent = message
+        }
+
+        function testLocalStorage() {
+            if (client.isAvailable()) {
+                updateStatus('storage-status', '✅ Local Storage is available', 'success')
+            } else {
+                updateStatus('storage-status', '❌ Local Storage is not available', 'error')
+            }
+        }
+
+        function testSessionId() {
+            const sessionId = client.getSessionId()
+            updateStatus('session-status', `✅ Session ID: ${sessionId}`, 'success')
+            refreshStorageData()
+        }
+
+        function clearSessionId() {
+            if (client.clearSessionId()) {
+                updateStatus('session-status', '✅ Session ID cleared', 'success')
+            } else {
+                updateStatus('session-status', '❌ Failed to clear session ID', 'error')
+            }
+            refreshStorageData()
+        }
+
+        function saveTestConversation() {
+            const testMessages = [
+                {
+                    id: '1',
+                    message: 'Halo, ini adalah pesan test',
+                    response: 'Halo! Saya adalah AI assistant. Ada yang bisa saya bantu?',
+                    timestamp: new Date(),
+                    isUser: true
+                },
+                {
+                    id: '2',
+                    message: 'Bagaimana cara kerja localStorage?',
+                    response: 'LocalStorage menyimpan data di browser pengguna dan bertahan selama 3 hari untuk percakapan chat.',
+                    timestamp: new Date(),
+                    isUser: true
+                }
+            ]
+
+            if (client.saveConversation(testMessages)) {
+                updateStatus('conversation-status', '✅ Test conversation saved successfully', 'success')
+            } else {
+                updateStatus('conversation-status', '❌ Failed to save test conversation', 'error')
+            }
+            refreshStorageData()
+        }
+
+        function loadConversation() {
+            const messages = client.loadConversation()
+            if (messages.length > 0) {
+                updateStatus('conversation-status', `✅ Loaded ${messages.length} messages from localStorage`, 'success')
+                console.log('Loaded messages:', messages)
+            } else {
+                updateStatus('conversation-status', 'ℹ️ No conversation found in localStorage', 'info')
+            }
+        }
+
+        function clearConversation() {
+            if (client.clearConversation()) {
+                updateStatus('conversation-status', '✅ Conversation cleared from localStorage', 'success')
+            } else {
+                updateStatus('conversation-status', '❌ Failed to clear conversation', 'error')
+            }
+            refreshStorageData()
+        }
+
+        function simulateChatFlow() {
+            updateStatus('conversation-status', '🔄 Simulating chat flow...', 'info')
+
+            setTimeout(() => {
+                const messages = [
+                    {
+                        id: 'sim1',
+                        message: 'Test pesan 1',
+                        response: 'Response 1',
+                        timestamp: new Date(),
+                        isUser: true
+                    }
+                ]
+                client.saveConversation(messages)
+                updateStatus('conversation-status', '✅ Simulated user message saved', 'success')
+                refreshStorageData()
+            }, 1000)
+
+            setTimeout(() => {
+                const currentMessages = client.loadConversation()
+                currentMessages.push({
+                    id: 'sim2',
+                    message: 'Test pesan 2',
+                    response: 'Response 2',
+                    timestamp: new Date(),
+                    isUser: true
+                })
+                client.saveConversation(currentMessages)
+                updateStatus('conversation-status', '✅ Simulated AI response saved', 'success')
+                refreshStorageData()
+            }, 2000)
+        }
+
+        function showStorageData() {
+            refreshStorageData()
+        }
+
+        function refreshStorageData() {
+            const data = {
+                'chat_session_id': localStorage.getItem('chat_session_id'),
+                'floating_chat_conversation': localStorage.getItem('floating_chat_conversation')
+            }
+
+            document.getElementById('storage-data').textContent = JSON.stringify(data, null, 2)
+        }
+
+        function testExpiration() {
+            const stats = client.getStats()
+            if (stats.isExpired) {
+                updateStatus('expiration-status', '⚠️ Conversation would be expired (3-day rule)', 'info')
+            } else {
+                updateStatus('expiration-status', `✅ Conversation is ${stats.ageInHours.toFixed(2)} hours old (valid for 3 days)`, 'success')
+            }
+        }
+
+        function showStats() {
+            const stats = client.getStats()
+            const statsText = `
+Messages: ${stats.messageCount}
+Last Activity: ${stats.lastActivity ? stats.lastActivity.toLocaleString() : 'Never'}
+Age: ${stats.ageInHours.toFixed(2)} hours
+Expired: ${stats.isExpired ? 'Yes' : 'No'}
+            `.trim()
+
+            updateStatus('expiration-status', statsText, 'info')
+        }
+
+        // Initialize tests
+        window.onload = function() {
+            testLocalStorage()
+            testSessionId()
+            refreshStorageData()
+        }
+    </script>
+</body>
+</html>

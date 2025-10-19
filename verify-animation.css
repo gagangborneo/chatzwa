@@ -1,0 +1,34 @@
+/* File to verify the typing animation CSS */
+/*
+This demonstrates the typing animation that should work:
+
+.typing-dot {
+  animation: typing-dot 1.4s infinite ease-in-out;
+}
+
+@keyframes typing-dot {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+Expected behavior:
+- All 3 dots should bounce up and down
+- Each dot should start at different times (staggered)
+- Animation duration: 1.4s per cycle
+- Dots should move from Y=0 to Y=-10px and back
+- Opacity should change from 0.4 to 1 during bounce
+*/

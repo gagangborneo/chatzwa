@@ -353,7 +353,7 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
         <SidebarFooter className="border-t border-gray-200">
           <div className="flex items-center gap-2 px-2 py-1">
             <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100">
-              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+              <div className="h-2 w-2 rounded-full bg-green-500"></div>
             </div>
             <div className="flex flex-col">
               <span className="text-xs font-medium text-gray-900">{t('dashboard.systemOnline')}</span>
@@ -387,7 +387,7 @@ export default function DashboardSidebar({ children }: DashboardSidebarProps) {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex items-center gap-2 hover:bg-slate-50 transition-colors"
+                    className="flex items-center gap-2 hover:bg-slate-50"
                   >
                     <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100">
                       <User className="h-3 w-3 text-slate-600" />

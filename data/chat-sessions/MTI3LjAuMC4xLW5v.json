@@ -1,0 +1,17 @@
+{
+  "sessionId": "MTI3LjAuMC4xLW5v",
+  "messages": [
+    {
+      "message": "Test animasi typing dots",
+      "response": "Halo! 😊 Saya Professional Admin Assistant, siap membantu Anda.  \nSaat ini saya tidak dapat menampilkan animasi bergerak secara langsung di chat, namun saya bisa menampilkan simulasi “typing dots” yang sederhana:\n\nTyping…\n\nTyping..\n\nTyping...\n\nApakah ada hal lain yang bisa saya bantu?",
+      "timestamp": 1760876942835
+    },
+    {
+      "message": "Test localStorage integration",
+      "response": "Selamat datang! Saya Professional Admin Assistant, siap membantu Anda 😊  \nAnda ingin menguji integrasi **localStorage**? Mari kita lakukan bersama!  \n\n---\n\n### 1️⃣ Apa itu localStorage?\n`localStorage` adalah fitur penyimpanan data di sisi klien (browser) yang memungkinkan Anda menyimpan data persisten (hingga 5 MB) tanpa perlu server. Data tersimpan di dalam domain dan tidak hilang saat tab ditutup.\n\n### 2️⃣ Cara Menguji localStorage di Browser\n\n| Langkah | Perintah | Penjelasan |\n|---------|----------|------------|\n| **A. Buka DevTools** | Tekan `F12` (Windows/Linux) atau `⌘ + Option + I` (Mac) | DevTools membuka panel inspeksi web. |\n| **B. Pergi ke Console** | Klik tab **Console** | Tempat kita mengetik JavaScript. |\n| **C. Simpan Data** | `localStorage.setItem('nama', 'Rizky');` | Menyimpan pasangan key‑value. |\n| **D. Ambil Data** | `localStorage.getItem('nama');` | Mengambil nilai. |\n| **E. Hapus Data** | `localStorage.removeItem('nama');` | Menghapus key tertentu. |\n| **F. Bersihkan Semua** | `localStorage.clear();` | Menghapus semua data di localStorage. |\n\n> **Contoh lengkap**:\n> ```js\n> // Menyimpan\n> localStorage.setItem('user', 'Rizky');\n> // Mengambil\n> console.log(localStorage.getItem('user')); // Output: Rizky\n> // Menghapus\n> localStorage.removeItem('user');\n> // Bersihkan\n> localStorage.clear();\n> ```\n\n### 3️⃣ Menggunakan localStorage dalam Proyek Web\n\n- **Login Persisten:** Simpan token atau status login supaya pengguna tetap masuk meski halaman di-refresh.\n- **Tema UI:** Simpan preferensi warna atau mode gelap.\n-",
+      "timestamp": 1760877637110
+    }
+  ],
+  "createdAt": 1760876942835,
+  "lastAccessed": 1760877637110
+}

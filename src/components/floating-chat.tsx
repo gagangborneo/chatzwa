@@ -20,6 +20,7 @@ import {
   MapPin
 } from 'lucide-react'
 import { useI18n } from '@/lib/i18n'
+import { localStorageClient } from '@/lib/local-storage-client'
 
 interface Message {
   id: string
@@ -67,21 +68,38 @@ export default function FloatingChat() {
     }
   }, [isOpen, isMinimized])
 
-  // Initialize with welcome message
+  // Initialize with localStorage or welcome message
   useEffect(() => {
     if (messages.length === 0) {
-      const welcomeMessage: Message = {
-        id: 'welcome',
-        message: '',
-        response: language === 'id'
-          ? '👋 Selamat datang! Saya adalah asisten AI yang siap membantu Anda. Ada yang bisa saya bantu hari ini?'
-          : '👋 Welcome! I am an AI assistant ready to help you. How can I assist you today?',
-        timestamp: new Date(),
-        isUser: false
+      // Try to load messages from localStorage first
+      const savedMessages = localStorageClient.loadConversation()
+
+      if (savedMessages.length > 0) {
+        setMessages(savedMessages)
+      } else {
+        // If no saved messages, create welcome message
+        const welcomeMessage: Message = {
+          id: 'welcome',
+          message: '',
+          response: language === 'id'
+            ? '👋 Selamat datang! Saya adalah asisten AI yang siap membantu Anda. Ada yang bisa saya bantu hari ini?'
+            : '👋 Welcome! I am an AI assistant ready to help you. How can I assist you today?',
+          timestamp: new Date(),
+          isUser: false
+        }
+        setMessages([welcomeMessage])
       }
-      setMessages([welcomeMessage])
     }
   }, [language, messages.length])
+
+  // Cleanup expired localStorage data periodically
+  useEffect(() => {
+    const cleanupInterval = setInterval(() => {
+      localStorageClient.cleanup()
+    }, 60 * 60 * 1000) // Check every hour
+
+    return () => clearInterval(cleanupInterval)
+  }, [])
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return
@@ -107,7 +125,7 @@ export default function FloatingChat() {
         },
         body: JSON.stringify({
           message: inputMessage.trim(),
-          sessionId: 'floating-chat'
+          sessionId: localStorageClient.getSessionId()
         })
       })
 
@@ -120,7 +138,12 @@ export default function FloatingChat() {
           timestamp: new Date(),
           isUser: false
         }
-        setMessages(prev => [...prev, aiMessage])
+        setMessages(prev => {
+          const updatedMessages = [...prev, aiMessage]
+          // Save conversation to localStorage
+          localStorageClient.saveConversation(updatedMessages)
+          return updatedMessages
+        })
       } else {
         throw new Error('Failed to get response')
       }
@@ -135,7 +158,12 @@ export default function FloatingChat() {
         timestamp: new Date(),
         isUser: false
       }
-      setMessages(prev => [...prev, errorMessage])
+      setMessages(prev => {
+        const updatedMessages = [...prev, errorMessage]
+        // Save conversation to localStorage even on error
+        localStorageClient.saveConversation(updatedMessages)
+        return updatedMessages
+      })
     } finally {
       setIsLoading(false)
     }
@@ -160,6 +188,9 @@ export default function FloatingChat() {
   }
 
   const handleClearChat = () => {
+    // Clear localStorage
+    localStorageClient.clearConversation()
+
     setMessages([])
     setUnreadCount(0)
     // Re-add welcome message
@@ -198,7 +229,7 @@ export default function FloatingChat() {
           <Button
             onClick={handleToggleChat}
             size="lg"
-            className="relative h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 transition-all duration-300 hover:scale-110"
+            className="relative h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700  hover:scale-110"
           >
             <MessageCircle className="w-6 h-6" />
             {unreadCount > 0 && (
@@ -215,7 +246,7 @@ export default function FloatingChat() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className={`z-50 transition-all duration-300 ease-in-out ${
+        <div className={`z-50  ease-in-out ${
           isMobile
             ? 'fixed inset-0 w-full h-full'
             : 'fixed bottom-4 right-4'
@@ -224,7 +255,7 @@ export default function FloatingChat() {
             isMobile
               ? 'w-full h-full rounded-none'
               : `${isMinimized ? 'w-80' : 'w-96 h-[600px]'}`
-          } transition-all duration-300`}>
+          } `}>
             {/* Header */}
             <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 pb-3">
               <div className="flex items-center justify-between">
@@ -324,9 +355,9 @@ export default function FloatingChat() {
                             </div>
                             <div className="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2">
                               <div className="flex space-x-1">
-                                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                                <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                                <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                                <div className="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
                               </div>
                             </div>
                           </div>

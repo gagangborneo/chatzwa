@@ -15,8 +15,13 @@
       "message": "Build sudah berhasil! Chat storage system sekarang sudah bisa berjalan dengan baik di production.",
       "response": "Assalamualaikum!  \nSelamat atas keberhasilan build dan peluncuran sistem penyimpanan chat di production. 🎉\n\nApabila ada kebutuhan tambahan—misalnya pengaturan backup, optimasi performa, atau integrasi dengan modul lain—silakan beri tahu saya. Saya siap membantu!",
       "timestamp": 1760200789646
+    },
+    {
+      "message": "Halo",
+      "response": "Selamat datang! Saya **Professional Admin Assistant**—asisten AI profesional yang siap membantu Anda mengelola semua kebutuhan administrasi dan informasi. 🤖✨\n\nAda yang ingin Anda tanyakan hari ini? Apakah Anda membutuhkan detail tentang program pendidikan, jadwal kajian, atau bantuan transaksi? Saya di sini untuk membantu!",
+      "timestamp": 1760876450268
     }
   ],
   "createdAt": 1760198314547,
-  "lastAccessed": 1760200789646
+  "lastAccessed": 1760876450268
 }

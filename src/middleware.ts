@@ -17,6 +17,7 @@ const publicRoutes = [
   '/api/admin/create-user-simple', // Admin simple user creation endpoint
   '/api/admin/create-user-demo', // Admin demo user creation endpoint
   '/api/admin/list-users', // Admin list users endpoint
+  '/api/chat', // Public chat API for floating chat
   '/demo', // Demo page for embed chat
 ]
 

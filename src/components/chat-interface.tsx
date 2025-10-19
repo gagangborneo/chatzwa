@@ -265,7 +265,7 @@ export default function ChatInterface({ personaOverride }: ChatInterfaceProps = 
                 onClick={clearConversation}
                 variant="ghost"
                 size="sm"
-                className="text-white/80 hover:text-white hover:bg-white/20 transition-colors"
+                className="text-white/80 hover:text-white hover:bg-white/20"
                 title="Hapus percakapan"
               >
                 <RotateCcw className="h-4 w-4" />
@@ -338,9 +338,9 @@ export default function ChatInterface({ personaOverride }: ChatInterfaceProps = 
                 <div className="bg-white text-gray-800 rounded-2xl rounded-bl-none px-4 md:px-5 py-3 md:py-4 border border-gray-100 shadow-sm">
                   <div className="flex items-center gap-2">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                      <div className="w-2 h-2 bg-teal-400 rounded-full"></div>
                     </div>
                     <span className="text-sm text-gray-500">{t('chat.typing')}</span>
                   </div>
@@ -368,7 +368,7 @@ export default function ChatInterface({ personaOverride }: ChatInterfaceProps = 
             <Button
               onClick={handleSendMessage}
               disabled={!input.trim() || isLoading}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-4 md:px-6 py-3 rounded-full shadow-lg transition-all duration-200 hover:shadow-xl h-[60px] flex-shrink-0"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-4 md:px-6 py-3 rounded-full shadow-lg hover:shadow-xl h-[60px] flex-shrink-0"
             >
               <Send className="w-4 h-4" />
             </Button>

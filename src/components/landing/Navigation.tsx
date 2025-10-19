@@ -44,8 +44,8 @@ const Navigation = () => {
 
   const navigation = [
     { name: t('nav.products'), href: '#', hasDropdown: true },
-    { name: 'Solusi', href: '/solutions' },
-    { name: t('nav.contact'), href: '/contact' },
+    { name: 'Solusi', href: '/solutions', hasDropdown: false },
+    { name: t('nav.contact'), href: '/contact', hasDropdown: false },
     { name: t('nav.pricing'), href: '/pricing', hasDropdown: false, external: true }
   ]
 
@@ -55,7 +55,7 @@ const Navigation = () => {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm'
-            : 'bg-transparent'
+            : 'bg-white border-b border-gray-200'
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -222,18 +222,46 @@ const Navigation = () => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className={`lg:hidden border-t ${scrolled ? 'bg-white/95 border-gray-200' : 'bg-white/95 border-gray-200'} backdrop-blur-md`}
+              className="lg:hidden border-t bg-white/95 border-gray-200 backdrop-blur-md"
             >
               <div className="container mx-auto px-6 py-6 space-y-4">
+                {/* Navigation Items */}
                 {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="block text-lg text-gray-700 hover:text-gray-900 transition-colors duration-200"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
+                  <div key={item.name}>
+                    {item.hasDropdown ? (
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-1 text-lg font-medium text-gray-700">
+                          {item.name}
+                          <ChevronDown className="w-4 h-4" />
+                        </div>
+                        {/* Mobile Dropdown Items */}
+                        <div className="ml-4 space-y-2">
+                          {products.map((product) => (
+                            <Link
+                              key={product.name}
+                              href={product.href}
+                              className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              <product.icon className="w-5 h-5 text-green-500" />
+                              <div>
+                                <div className="font-medium">{product.name}</div>
+                                <div className="text-xs text-gray-500">View details</div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="block text-lg text-gray-700 hover:text-gray-900 transition-colors duration-200"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </div>
                 ))}
 
                 <div className="pt-4 border-t border-gray-200">

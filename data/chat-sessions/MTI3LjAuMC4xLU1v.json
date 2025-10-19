@@ -15,8 +15,38 @@
       "message": "halo kamu siapa",
       "response": "Assalamualaikum,  \nSaya Attallah, asisten digital Yayasan Pendidikan Islam. Saya siap membantu Anda terkait program pendidikan, transaksi, data siswa, kajian Islam, program donasi, serta ilmu Al‑Quran. Ada yang bisa saya bantu hari ini?",
       "timestamp": 1760342817339
+    },
+    {
+      "message": "halo kamu siapa",
+      "response": "Halo! 👋 Saya **Professional Admin Assistant**, asisten AI profesional yang siap membantu Anda. Ada yang bisa saya bantu hari ini?",
+      "timestamp": 1760876613480
+    },
+    {
+      "message": "Hubungi admin",
+      "response": "Selamat datang! Saya **Professional Admin Assistant**, siap membantu Anda menghubungi admin. 😊  \n\nUntuk memudahkan prosesnya, mohon informasikan cara Anda ingin berkomunikasi:\n\n- 📧 Email (kirim ke admin@example.com)  \n- 💬 Chat/WhatsApp (nomor +62 123-456-7890)  \n- 📞 Telepon (no. 021‑123‑4567)  \n\nApakah Anda sudah memiliki pesan atau pertanyaan khusus yang ingin disampaikan? Saya akan menyiapkan draft atau mengarahkan Anda ke saluran yang tepat.  \n\nTerima kasih, dan saya tunggu konfirmasi Anda!",
+      "timestamp": 1760876740648
+    },
+    {
+      "message": "halo",
+      "response": "Halo! 👋  \nSaya Professional Admin Assistant, siap membantu Anda dengan segala kebutuhan terkait program pendidikan, transaksi, data, kajian, donasi, dan ilmu Al‑Quran di yayasan kami. Ada yang bisa saya bantu hari ini?",
+      "timestamp": 1760877115746
+    },
+    {
+      "message": "halo",
+      "response": "Halo! 👋  \nSaya adalah **Professional Admin Assistant**, siap membantu Anda mengelola sistem ini. Ada yang bisa saya bantu hari ini? Apakah Anda membutuhkan informasi tentang program pendidikan, transaksi, data siswa, kajian Islam, program donasi, atau pembelajaran Al‑Quran? 🚀",
+      "timestamp": 1760877130099
+    },
+    {
+      "message": "halo kamu siapa",
+      "response": "Selamat datang! Saya adalah **Professional Admin Assistant**, asisten AI profesional yang siap membantu Anda mengelola sistem ini. Ada yang bisa saya bantu hari ini? 😊",
+      "timestamp": 1760877828002
+    },
+    {
+      "message": "apakah kamu bisa membantu saya",
+      "response": "Selamat datang! Saya **Professional Admin Assistant**, asisten AI profesional yang siap membantu Anda mengelola sistem ini. 😊  \n\nTentu saja, saya bisa membantu Anda! 🙌  \nBerapa topik atau layanan yang Anda perlukan? Apakah Anda membutuhkan informasi tentang program pendidikan, transaksi, data siswa, kajian Islam, program donasi, atau bantuan belajar Al‑Quran?  \n\nSilakan beri tahu saya detailnya, dan saya akan segera menyiapkan informasi yang akurat dan berguna untuk Anda. 🚀",
+      "timestamp": 1760877866238
     }
   ],
   "createdAt": 1760220437649,
-  "lastAccessed": 1760342817339
+  "lastAccessed": 1760877866238
 }

@@ -215,6 +215,7 @@ const translations: Translations = {
 
   // Navigation
   'nav.account': 'Akun',
+  'nav.users': 'Pengguna',
   'nav.settings': 'Pengaturan',
   'nav.billing': 'Tagihan',
 
@@ -1776,6 +1777,7 @@ const translations: Translations = {
     'nav.knowledgeBase': 'Knowledge Base',
     'nav.dataSync': 'Data Sync (RAG)',
     'nav.account': 'Account',
+    'nav.users': 'Users',
     'nav.billing': 'Billing',
     'nav.settings': 'Settings',
     'nav.help': 'Help',

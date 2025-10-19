@@ -1214,7 +1214,7 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
                     <p className="text-sm text-gray-600">{t('dashboard.planName', 'Nama Paket')}</p>
-                    <p className="font-semibold text-lg">{subscription.planName}</p>
+                    <p className="font-semibold text-lg">{subscription.package?.displayName || subscription.package?.name || 'Unknown Plan'}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">{t('dashboard.status', 'Status')}</p>
@@ -1224,12 +1224,12 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">{t('dashboard.amount', 'Jumlah')}</p>
-                    <p className="font-semibold text-lg">Rp {subscription.amount.toLocaleString('id-ID')}/{subscription.interval === 'monthly' ? 'bulan' : 'tahun'}</p>
+                    <p className="font-semibold text-lg">Rp {subscription.package?.price?.toLocaleString('id-ID') || 0}/{subscription.package?.billingCycle === 'monthly' ? 'bulan' : 'tahun'}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">{t('dashboard.nextBilling', 'Tagihan Berikutnya')}</p>
                     <p className="font-semibold text-lg">
-                      {subscription.endDate ? new Date(subscription.endDate).toLocaleDateString('id-ID') : '-'}
+                      {subscription.nextBillingDate ? new Date(subscription.nextBillingDate).toLocaleDateString('id-ID') : subscription.endDate ? new Date(subscription.endDate).toLocaleDateString('id-ID') : '-'}
                     </p>
                   </div>
                 </div>
@@ -1237,8 +1237,8 @@ export default function DashboardPage() {
                   <p className="text-sm text-gray-600">
                     {t('dashboard.autoRenew', 'Perpanjang Otomatis')}:
                   </p>
-                  <Badge variant={subscription.autoRenew ? 'default' : 'secondary'}>
-                    {subscription.autoRenew ? 'Ya' : 'Tidak'}
+                  <Badge variant={subscription.isAutoRenew ? 'default' : 'secondary'}>
+                    {subscription.isAutoRenew ? 'Ya' : 'Tidak'}
                   </Badge>
                 </div>
               </div>

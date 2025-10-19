@@ -29,9 +29,6 @@ import {
   MessageCircle,
   CheckCircle,
   XCircle,
-  Plus,
-  Download,
-  RefreshCw,
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { id as idLocale, enUS } from 'date-fns/locale'
@@ -49,16 +46,8 @@ interface User {
     subscriptions: number
     chatbots: number
     chatMessages: number
-    knowledgeCategories: number
-    knowledgeDocuments: number
-    documentUploads: number
-    personas: number
-    whatsappIntegrations: number
-    sessions: number
   }
-  activeSubscriptions: number
-  totalSpent: number
-  recentActivity: number
+  activeSubscriptionCount: number
 }
 
 interface UsersResponse {
@@ -73,12 +62,11 @@ interface UsersResponse {
   }
 }
 
-export default function AdminUsersPage() {
+export default function UsersPage() {
   const { t, locale } = useI18n()
   const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [isRefreshing, setIsRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [roleFilter, setRoleFilter] = useState('')
@@ -122,13 +110,7 @@ export default function AdminUsersPage() {
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
       setIsLoading(false)
-      setIsRefreshing(false)
     }
-  }
-
-  const refreshUsers = () => {
-    setIsRefreshing(true)
-    fetchUsers()
   }
 
   useEffect(() => {
@@ -136,33 +118,7 @@ export default function AdminUsersPage() {
   }, [currentPage, searchTerm, roleFilter, statusFilter])
 
   const handleViewUser = (userId: string) => {
-    router.push(`/admin/dashboard/users/${userId}`)
-  }
-
-  const handleEditUser = (userId: string) => {
-    router.push(`/admin/dashboard/users/${userId}?edit=true`)
-  }
-
-  const handleDeleteUser = async (userId: string) => {
-    if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-      return
-    }
-
-    try {
-      const response = await fetch(`/api/admin/users/${userId}`, {
-        method: 'DELETE',
-      })
-
-      const result = await response.json()
-
-      if (result.success) {
-        refreshUsers()
-      } else {
-        setError(result.error || 'Failed to delete user')
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
-    }
+    router.push(`/dashboard/users/${userId}`)
   }
 
   const getRoleBadge = (role: string) => {
@@ -235,69 +191,6 @@ export default function AdminUsersPage() {
     }
   }
 
-  const formatCurrency = (amount: number, currency: string = 'IDR') => {
-    return new Intl.NumberFormat(locale === 'id' ? 'id-ID' : 'en-US', {
-      style: 'currency',
-      currency: currency,
-      minimumFractionDigits: 0,
-    }).format(amount)
-  }
-
-  const exportUsers = async () => {
-    try {
-      const params = new URLSearchParams({
-        limit: '1000', // Export up to 1000 users
-      })
-
-      if (searchTerm) params.append('search', searchTerm)
-      if (roleFilter) params.append('role', roleFilter)
-      if (statusFilter) params.append('status', statusFilter)
-
-      const response = await fetch(`/api/admin/users?${params}`)
-      const result = await response.json()
-
-      if (result.success) {
-        const csvContent = convertToCSV(result.data.users)
-        downloadCSV(csvContent, `users_export_${new Date().toISOString().split('T')[0]}.csv`)
-      }
-    } catch (err) {
-      console.error('Export failed:', err)
-    }
-  }
-
-  const convertToCSV = (users: User[]) => {
-    const headers = [
-      'ID', 'Email', 'Name', 'Role', 'Status', 'Last Login', 'Created At',
-      'Total Chatbots', 'Total Messages', 'Active Subscriptions', 'Total Spent'
-    ]
-
-    const rows = users.map(user => [
-      user.id,
-      user.email,
-      user.name || '',
-      user.role,
-      user.isActive ? 'Active' : 'Inactive',
-      user.lastLoginAt || '',
-      user.createdAt,
-      user._count.chatbots,
-      user._count.chatMessages,
-      user.activeSubscriptions,
-      user.totalSpent
-    ])
-
-    return [headers, ...rows].map(row => row.join(',')).join('\n')
-  }
-
-  const downloadCSV = (content: string, filename: string) => {
-    const blob = new Blob([content], { type: 'text/csv' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = filename
-    a.click()
-    window.URL.revokeObjectURL(url)
-  }
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -305,37 +198,11 @@ export default function AdminUsersPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <Users className="w-6 h-6 text-slate-600" />
-            User Management
+            {t('nav.users')}
           </h1>
           <p className="text-gray-500 mt-1">
             Manage and monitor all registered users
           </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={exportUsers}
-            className="flex items-center gap-2"
-          >
-            <Download className="w-4 h-4" />
-            Export
-          </Button>
-          <Button
-            variant="outline"
-            onClick={refreshUsers}
-            disabled={isRefreshing}
-            className="flex items-center gap-2"
-          >
-            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-          <Button
-            onClick={() => router.push('/admin/dashboard/users/create')}
-            className="flex items-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Add User
-          </Button>
         </div>
       </div>
 
@@ -350,9 +217,6 @@ export default function AdminUsersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{pagination.total}</div>
-            <div className="text-sm text-gray-500">
-              {users.filter(u => u.isActive).length} active
-            </div>
           </CardContent>
         </Card>
 
@@ -379,7 +243,7 @@ export default function AdminUsersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">
-              {users.reduce((sum, u) => sum + u.activeSubscriptions, 0)}
+              {users.reduce((sum, u) => sum + u.activeSubscriptionCount, 0)}
             </div>
           </CardContent>
         </Card>
@@ -506,7 +370,6 @@ export default function AdminUsersPage() {
                       <TableHead>Subscription</TableHead>
                       <TableHead>Chatbots</TableHead>
                       <TableHead>Messages</TableHead>
-                      <TableHead>Spent</TableHead>
                       <TableHead>Last Login</TableHead>
                       <TableHead>Joined</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
@@ -537,7 +400,7 @@ export default function AdminUsersPage() {
                           <div className="flex items-center gap-1">
                             <Crown className="w-4 h-4 text-yellow-500" />
                             <span className="font-medium">
-                              {user.activeSubscriptions}
+                              {user.activeSubscriptionCount}
                             </span>
                             <span className="text-sm text-gray-500">
                               / {user._count.subscriptions}
@@ -553,12 +416,7 @@ export default function AdminUsersPage() {
                         <TableCell>
                           <div className="flex items-center gap-1">
                             <MessageCircle className="w-4 h-4 text-green-500" />
-                            <span>{user._count.chatMessages.toLocaleString()}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="text-sm font-medium">
-                            {formatCurrency(user.totalSpent)}
+                            <span>{user._count.chatMessages}</span>
                           </div>
                         </TableCell>
                         <TableCell className="text-sm">
@@ -576,22 +434,6 @@ export default function AdminUsersPage() {
                               className="hover:bg-slate-100"
                             >
                               <Eye className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleEditUser(user.id)}
-                              className="hover:bg-slate-100"
-                            >
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleDeleteUser(user.id)}
-                              className="hover:bg-red-100 text-red-600"
-                            >
-                              <Trash2 className="w-4 h-4" />
                             </Button>
                           </div>
                         </TableCell>

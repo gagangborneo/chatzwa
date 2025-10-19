@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useI18n } from '@/lib/i18n'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -31,8 +31,6 @@ import {
   Settings,
   CreditCard,
   Key,
-  Edit,
-  Trash2,
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { id as idLocale, enUS } from 'date-fns/locale'
@@ -93,8 +91,6 @@ interface Chatbot {
   totalTokens: number
   lastUsedAt: string | null
   createdAt: string
-  model: string
-  language: string
 }
 
 interface UserSession {
@@ -111,59 +107,34 @@ interface SubscriptionHistory {
   package: {
     name: string
     displayName: string
-    price: number
-    currency: string
-    billingCycle: string
   }
   startDate: string
   endDate: string | null
   createdAt: string
 }
 
-interface KnowledgeDocument {
-  id: string
-  title: string
-  status: string
-  isIndexed: boolean
-  embeddingCount: number
-  createdAt: string
-  category: {
-    name: string
-  } | null
-}
-
 interface UserDetailResponse {
   user: UserDetails
-  activeSubscriptions: ActiveSubscription[]
+  activeSubscription: ActiveSubscription | null
   recentChatMessages: ChatMessage[]
   recentChatbots: Chatbot[]
   userSessions: UserSession[]
   subscriptionHistory: SubscriptionHistory[]
-  knowledgeDocuments: KnowledgeDocument[]
   stats: {
     totalMessages: number
     totalChatbots: number
     totalKnowledgeDocs: number
     totalSubscriptions: number
     activeSessions: number
-    activeSubscriptions: number
-    totalSpent: number
-    totalTransactions: number
-    recentActivity: number
     avgMessagesPerChatbot: number
-    totalKnowledgeCategories: number
-    totalPersonas: number
-    whatsappIntegrations: number
   }
 }
 
-export default function AdminUserDetailPage() {
+export default function UserDetailPage() {
   const { t, locale } = useI18n()
   const params = useParams()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const userId = params.userId as string
-  const isEditMode = searchParams.get('edit') === 'true'
+  const userId = params.id as string
 
   const [userDetails, setUserDetails] = useState<UserDetailResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -196,54 +167,6 @@ export default function AdminUserDetailPage() {
       fetchUserDetails()
     }
   }, [userId])
-
-  const handleDeleteUser = async () => {
-    if (!confirm('Are you sure you want to delete this user? This action cannot be undone and will delete all associated data.')) {
-      return
-    }
-
-    try {
-      const response = await fetch(`/api/admin/users/${userId}`, {
-        method: 'DELETE',
-      })
-
-      const result = await response.json()
-
-      if (result.success) {
-        router.push('/admin/dashboard/users')
-      } else {
-        setError(result.error || 'Failed to delete user')
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
-    }
-  }
-
-  const handleToggleUserStatus = async () => {
-    if (!userDetails) return
-
-    try {
-      const response = await fetch(`/api/admin/users/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          isActive: !userDetails.user.isActive,
-        }),
-      })
-
-      const result = await response.json()
-
-      if (result.success) {
-        fetchUserDetails()
-      } else {
-        setError(result.error || 'Failed to update user status')
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
-    }
-  }
 
   const getRoleBadge = (role: string) => {
     switch (role) {
@@ -333,14 +256,6 @@ export default function AdminUserDetailPage() {
     }
   }
 
-  const formatCurrency = (amount: number, currency: string = 'IDR') => {
-    return new Intl.NumberFormat(locale === 'id' ? 'id-ID' : 'en-US', {
-      style: 'currency',
-      currency: currency,
-      minimumFractionDigits: 0,
-    }).format(amount)
-  }
-
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -368,7 +283,7 @@ export default function AdminUserDetailPage() {
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Users
+            Back
           </Button>
         </div>
         <Alert className="border-red-200 bg-red-50">
@@ -398,41 +313,6 @@ export default function AdminUserDetailPage() {
               {userDetails.user.name || userDetails.user.email}
             </p>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => router.push(`/admin/dashboard/users/${userId}?edit=true`)}
-            className="flex items-center gap-2"
-          >
-            <Edit className="w-4 h-4" />
-            Edit
-          </Button>
-          <Button
-            variant={userDetails.user.isActive ? "destructive" : "default"}
-            onClick={handleToggleUserStatus}
-            className="flex items-center gap-2"
-          >
-            {userDetails.user.isActive ? (
-              <>
-                <XCircle className="w-4 h-4" />
-                Deactivate
-              </>
-            ) : (
-              <>
-                <CheckCircle className="w-4 h-4" />
-                Activate
-              </>
-            )}
-          </Button>
-          <Button
-            variant="destructive"
-            onClick={handleDeleteUser}
-            className="flex items-center gap-2"
-          >
-            <Trash2 className="w-4 h-4" />
-            Delete
-          </Button>
         </div>
       </div>
 
@@ -520,9 +400,6 @@ export default function AdminUserDetailPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{userDetails.stats.totalMessages.toLocaleString()}</div>
-            <div className="text-sm text-gray-500">
-              {userDetails.stats.recentActivity} in last 30 days
-            </div>
           </CardContent>
         </Card>
 
@@ -550,73 +427,58 @@ export default function AdminUserDetailPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{userDetails.stats.totalKnowledgeDocs}</div>
-            <div className="text-sm text-gray-500">
-              {userDetails.stats.totalKnowledgeCategories} categories
-            </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <CreditCard className="w-4 h-4" />
-              Total Spent
+              <Crown className="w-4 h-4" />
+              Subscriptions
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900">{formatCurrency(userDetails.stats.totalSpent)}</div>
+            <div className="text-2xl font-bold text-gray-900">{userDetails.stats.totalSubscriptions}</div>
             <div className="text-sm text-gray-500">
-              {userDetails.stats.totalTransactions} transactions
+              {userDetails.userSessions.length} active sessions
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Active Subscriptions */}
-      {userDetails.activeSubscriptions.length > 0 && (
+      {/* Active Subscription */}
+      {userDetails.activeSubscription && (
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <CreditCard className="w-5 h-5" />
-              Active Subscriptions ({userDetails.activeSubscriptions.length})
+              Active Subscription
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {userDetails.activeSubscriptions.map((subscription) => (
-                <div key={subscription.id} className="border rounded-lg p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-gray-600">Plan</div>
-                      <div className="font-semibold text-gray-900">
-                        {subscription.package.displayName}
-                      </div>
-                      <Badge variant="outline">
-                        {subscription.package.billingCycle}
-                      </Badge>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-gray-600">Price</div>
-                      <div className="font-semibold text-gray-900">
-                        {formatCurrency(subscription.package.price, subscription.package.currency)}
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-gray-600">Period</div>
-                      <div className="font-semibold text-gray-900">
-                        {formatDate(subscription.startDate)} - {' '}
-                        {formatDate(subscription.endDate)}
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-sm font-medium text-gray-600">Next Billing</div>
-                      <div className="font-semibold text-gray-900">
-                        {formatDate(subscription.nextBillingDate)}
-                      </div>
-                    </div>
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <div className="text-sm font-medium text-gray-600">Plan</div>
+                <div className="font-semibold text-gray-900">
+                  {userDetails.activeSubscription.package.displayName}
                 </div>
-              ))}
+                <Badge variant="outline">
+                  {userDetails.activeSubscription.package.billingCycle}
+                </Badge>
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm font-medium text-gray-600">Period</div>
+                <div className="font-semibold text-gray-900">
+                  {formatDate(userDetails.activeSubscription.startDate)} - {' '}
+                  {formatDate(userDetails.activeSubscription.endDate)}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm font-medium text-gray-600">Next Billing</div>
+                <div className="font-semibold text-gray-900">
+                  {formatDate(userDetails.activeSubscription.nextBillingDate)}
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -624,10 +486,9 @@ export default function AdminUserDetailPage() {
 
       {/* Detailed Tabs */}
       <Tabs defaultValue="chatbots" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="chatbots">Chatbots</TabsTrigger>
           <TabsTrigger value="messages">Messages</TabsTrigger>
-          <TabsTrigger value="knowledge">Knowledge</TabsTrigger>
           <TabsTrigger value="sessions">Sessions</TabsTrigger>
           <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
         </TabsList>
@@ -635,7 +496,7 @@ export default function AdminUserDetailPage() {
         <TabsContent value="chatbots" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Recent Chatbots ({userDetails.recentChatbots.length})</CardTitle>
+              <CardTitle className="text-lg">Recent Chatbots</CardTitle>
             </CardHeader>
             <CardContent>
               {userDetails.recentChatbots.length === 0 ? (
@@ -650,8 +511,6 @@ export default function AdminUserDetailPage() {
                     <TableRow>
                       <TableHead>Name</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Model</TableHead>
-                      <TableHead>Language</TableHead>
                       <TableHead>Messages</TableHead>
                       <TableHead>Tokens</TableHead>
                       <TableHead>Last Used</TableHead>
@@ -667,8 +526,6 @@ export default function AdminUserDetailPage() {
                             {chatbot.status}
                           </Badge>
                         </TableCell>
-                        <TableCell>{chatbot.model}</TableCell>
-                        <TableCell>{chatbot.language}</TableCell>
                         <TableCell>{chatbot.totalMessages.toLocaleString()}</TableCell>
                         <TableCell>{chatbot.totalTokens.toLocaleString()}</TableCell>
                         <TableCell className="text-sm">
@@ -689,7 +546,7 @@ export default function AdminUserDetailPage() {
         <TabsContent value="messages" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Recent Messages ({userDetails.recentChatMessages.length})</CardTitle>
+              <CardTitle className="text-lg">Recent Messages</CardTitle>
             </CardHeader>
             <CardContent>
               {userDetails.recentChatMessages.length === 0 ? (
@@ -731,64 +588,10 @@ export default function AdminUserDetailPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="knowledge" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Knowledge Documents ({userDetails.knowledgeDocuments.length})</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {userDetails.knowledgeDocuments.length === 0 ? (
-                <div className="text-center py-8">
-                  <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No knowledge documents</h3>
-                  <p className="text-gray-500">This user hasn't uploaded any knowledge documents yet.</p>
-                </div>
-              ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Title</TableHead>
-                      <TableHead>Category</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Indexed</TableHead>
-                      <TableHead>Embeddings</TableHead>
-                      <TableHead>Created</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {userDetails.knowledgeDocuments.map((doc) => (
-                      <TableRow key={doc.id}>
-                        <TableCell className="font-medium">{doc.title}</TableCell>
-                        <TableCell>{doc.category?.name || 'No category'}</TableCell>
-                        <TableCell>
-                          <Badge variant={doc.status === 'published' ? 'default' : 'secondary'}>
-                            {doc.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          {doc.isIndexed ? (
-                            <CheckCircle className="w-4 h-4 text-green-500" />
-                          ) : (
-                            <XCircle className="w-4 h-4 text-gray-400" />
-                          )}
-                        </TableCell>
-                        <TableCell>{doc.embeddingCount.toLocaleString()}</TableCell>
-                        <TableCell className="text-sm">
-                          {formatDate(doc.createdAt)}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
         <TabsContent value="sessions" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Active Sessions ({userDetails.userSessions.length})</CardTitle>
+              <CardTitle className="text-lg">Active Sessions</CardTitle>
             </CardHeader>
             <CardContent>
               {userDetails.userSessions.length === 0 ? (
@@ -836,7 +639,7 @@ export default function AdminUserDetailPage() {
         <TabsContent value="subscriptions" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Subscription History ({userDetails.subscriptionHistory.length})</CardTitle>
+              <CardTitle className="text-lg">Subscription History</CardTitle>
             </CardHeader>
             <CardContent>
               {userDetails.subscriptionHistory.length === 0 ? (
@@ -850,8 +653,6 @@ export default function AdminUserDetailPage() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Plan</TableHead>
-                      <TableHead>Price</TableHead>
-                      <TableHead>Billing</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Start Date</TableHead>
                       <TableHead>End Date</TableHead>
@@ -863,12 +664,6 @@ export default function AdminUserDetailPage() {
                       <TableRow key={subscription.id}>
                         <TableCell className="font-medium">
                           {subscription.package.displayName}
-                        </TableCell>
-                        <TableCell>
-                          {formatCurrency(subscription.package.price, subscription.package.currency)}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{subscription.package.billingCycle}</Badge>
                         </TableCell>
                         <TableCell>
                           <Badge variant={subscription.status === 'active' ? 'default' : 'secondary'}>

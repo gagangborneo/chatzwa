@@ -7,132 +7,134 @@
 
  ✓ Starting...
  ○ Compiling middleware ...
- ✓ Compiled middleware in 937ms
- ✓ Ready in 3.6s
-🔥 Middleware executed for: /dashboard
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
-},
-  {
-  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
-  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
-},
-  {
-  name: 'a_session_console_legacy',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  {
-  name: 'a_session_console',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  { name: 'sidebar_state', value: 'true' },
-  { name: '__next_hmr_refresh_hash__', value: '409' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /dashboard
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-✅ Middleware token verification successful: regular_user_id
-✅ Token validated, payload: user@7connect.id
-✅ Authentication successful for: user@7connect.id
- ○ Compiling /dashboard ...
- ✓ Compiled /dashboard in 6.9s
- GET /dashboard 200 in 7856ms
-🔥 Middleware executed for: /api/auth/me
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
-},
-  {
-  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
-  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
-},
-  {
-  name: 'a_session_console_legacy',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  {
-  name: 'a_session_console',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  { name: 'sidebar_state', value: 'true' },
-  { name: '__next_hmr_refresh_hash__', value: '409' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/auth/me
-📋 Is public route: true
-✅ Route is public, allowing access
+ ✓ Compiled middleware in 1674ms
+ ✓ Ready in 5.3s
+ ○ Compiling / ...
+ ✓ Compiled / in 10.7s
+ ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET / 200 in 12092ms
  ○ Compiling /favicon.ico ...
-🔥 Middleware executed for: /api/user/transactions
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
-},
-  {
-  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
-  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
-},
-  {
-  name: 'a_session_console_legacy',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  {
-  name: 'a_session_console',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  { name: 'sidebar_state', value: 'true' },
-  { name: '__next_hmr_refresh_hash__', value: '409' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/user/transactions
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
-🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
-🔥 Middleware executed for: /api/user/me
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
-},
-  {
-  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
-  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
-},
-  {
-  name: 'a_session_console_legacy',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  {
-  name: 'a_session_console',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  { name: 'sidebar_state', value: 'true' },
-  { name: '__next_hmr_refresh_hash__', value: '409' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/user/me
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
+ ✓ Compiled /favicon.ico in 1957ms
+ ○ Compiling /login ...
+ ✓ Compiled /login in 2.9s
+ ⚠ Unsupported metadata viewport is configured in metadata export in /login. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /login 200 in 3271ms
+ ○ Compiling /api/auth/me ...
+ ✓ Compiled /api/auth/me in 1003ms
+ GET /api/auth/me 401 in 1443ms
+ GET /api/auth/me 401 in 394ms
+ ✓ Compiled /api/auth/login in 274ms
+🔧 Local auth mode - skipping database session creation for: user@7connect.id
+✅ Login successful for: user@7connect.id (Provider: local)
+ POST /api/auth/login 200 in 684ms
 🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
 ✅ Middleware token verification successful: regular_user_id
-✅ Token validated, payload: user@7connect.id
-✅ Authentication successful for: user@7connect.id
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 2.8s
+ ⚠ Unsupported metadata viewport is configured in metadata export in /dashboard. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /dashboard 200 in 3074ms
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
 ✅ Middleware token verification successful: regular_user_id
-✅ Token validated, payload: user@7connect.id
-✅ Authentication successful for: user@7connect.id
- ✓ Compiled /favicon.ico in 3.1s
- GET /api/user/transactions 404 in 2459ms
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+ ○ Compiling /api/user/me ...
+🔍 unifiedAuth.getCurrentUser called
+📋 shouldUseAppwrite(): false
+📋 shouldUseSupabase(): false
+🔍 Using local validateSession...
+🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
+🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
+✅ Token verification successful: regular_user_id
+✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+🔍 unifiedAuth.getCurrentUser called
+📋 shouldUseAppwrite(): false
+📋 shouldUseSupabase(): false
+🔍 Using local validateSession...
+🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
+🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
+✅ Token verification successful: regular_user_id
+✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+📋 Real user not found, checking for hardcoded users...
+✅ Found hardcoded user, trying to find corresponding database user...
+📋 Real user not found, checking for hardcoded users...
+✅ Found hardcoded user, trying to find corresponding database user...
+⚠️ Fallback to hardcoded user: user@7connect.id
+ GET /api/auth/me 200 in 801ms
+⚠️ Fallback to hardcoded user: user@7connect.id
+ GET /api/auth/me 200 in 812ms
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
+🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
+🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
+🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
+✅ Token verification successful: regular_user_id
+✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+✅ Token verification successful: regular_user_id
+✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+📋 Real user not found, checking for hardcoded users...
+✅ Found hardcoded user, trying to find corresponding database user...
+📋 Real user not found, checking for hardcoded users...
+✅ Found hardcoded user, trying to find corresponding database user...
+⚠️ Fallback to hardcoded user: user@7connect.id
+⚠️ Fallback to hardcoded user: user@7connect.id
+Database not available, using mock data: TypeError: Cannot read properties of null (reading 'personas')
+    at GET (src/app/api/user/me/route.ts:85:33)
+  83 |       // Calculate statistics
+  84 |       stats = {
+> 85 |         totalPersonas: userData.personas.length,
+     |                                 ^
+  86 |         activePersonas: userData.personas.filter(p => p.isActive).length,
+  87 |         totalMessages: userData.chatMessages.length,
+  88 |         messagesThisMonth: userData.chatMessages.filter(
+ GET /api/user/me 200 in 1972ms
+Database not available, using mock data: TypeError: Cannot read properties of null (reading 'personas')
+    at GET (src/app/api/user/me/route.ts:85:33)
+  83 |       // Calculate statistics
+  84 |       stats = {
+> 85 |         totalPersonas: userData.personas.length,
+     |                                 ^
+  86 |         activePersonas: userData.personas.filter(p => p.isActive).length,
+  87 |         totalMessages: userData.chatMessages.length,
+  88 |         messagesThisMonth: userData.chatMessages.filter(
+ GET /api/user/me 200 in 1995ms
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+ GET /api/affiliate/profile 404 in 3292ms
+ GET /api/user/transactions 404 in 3332ms
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+ GET /api/user/transactions 404 in 2383ms
+✅ Middleware token verification successful: regular_user_id
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+ ✓ Compiled /api/user/me in 3.4s
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+🔍 unifiedAuth.getCurrentUser called
+📋 shouldUseAppwrite(): false
+📋 shouldUseSupabase(): false
+🔍 Using local validateSession...
 🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
 🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
 🔍 unifiedAuth.getCurrentUser called
@@ -145,153 +147,56 @@
 ✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
 ✅ Token verification successful: regular_user_id
 ✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /api/user/subscription 404 in 1038ms
 📋 Real user not found, checking for hardcoded users...
 ✅ Found hardcoded user, trying to find corresponding database user...
 📋 Real user not found, checking for hardcoded users...
 ✅ Found hardcoded user, trying to find corresponding database user...
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
 ⚠️ Fallback to hardcoded user: user@7connect.id
 ⚠️ Fallback to hardcoded user: user@7connect.id
- GET /api/auth/me 200 in 3382ms
-Database not available, using mock data: TypeError: Cannot read properties of null (reading 'personas')
-    at GET (src/app/api/user/me/route.ts:85:33)
-  83 |       // Calculate statistics
-  84 |       stats = {
-> 85 |         totalPersonas: userData.personas.length,
-     |                                 ^
-  86 |         activePersonas: userData.personas.filter(p => p.isActive).length,
-  87 |         totalMessages: userData.chatMessages.length,
-  88 |         messagesThisMonth: userData.chatMessages.filter(
- GET /api/user/me 200 in 3559ms
-🔥 Middleware executed for: /api/user/subscription
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
-},
-  {
-  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
-  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
-},
-  {
-  name: 'a_session_console_legacy',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  {
-  name: 'a_session_console',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  { name: 'sidebar_state', value: 'true' },
-  { name: '__next_hmr_refresh_hash__', value: '409' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/user/subscription
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
 🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
 ✅ Middleware token verification successful: regular_user_id
-✅ Token validated, payload: user@7connect.id
-✅ Authentication successful for: user@7connect.id
-🔥 Middleware executed for: /api/subscriptions
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
-},
-  {
-  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
-  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
-},
-  {
-  name: 'a_session_console_legacy',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  {
-  name: 'a_session_console',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  { name: 'sidebar_state', value: 'true' },
-  { name: '__next_hmr_refresh_hash__', value: '409' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/subscriptions
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
+ GET /api/subscriptions?includePackage=true 200 in 2231ms
+ GET /api/subscriptions?includePackage=true 200 in 2190ms
 🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
 ✅ Middleware token verification successful: regular_user_id
-✅ Token validated, payload: user@7connect.id
-✅ Authentication successful for: user@7connect.id
- GET /api/user/subscription 404 in 377ms
- ✓ Compiled /api/subscriptions in 474ms
- ⨯ ./src/app/api/subscriptions/route.ts:3:1
-Export auth doesn't exist in target module
-[0m [90m 1 |[39m [36mimport[39m { [33mNextRequest[39m[33m,[39m [33mNextResponse[39m } [36mfrom[39m [32m'next/server'[39m
- [90m 2 |[39m [36mimport[39m { [33mPrismaClient[39m } [36mfrom[39m [32m'@prisma/client'[39m
-[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { auth } [36mfrom[39m [32m'@/lib/auth'[39m
- [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
- [90m 4 |[39m
- [90m 5 |[39m [36mconst[39m prisma [33m=[39m [36mnew[39m [33mPrismaClient[39m()
- [90m 6 |[39m[0m
-
-The export auth was not found in module [project]/src/lib/auth.ts [app-route] (ecmascript).
-Did you mean to import getAuthUser?
-All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
-
-
- ○ Compiling /_error ...
- ✓ Compiled /_error in 3.8s
- GET /api/subscriptions?includePackage=true 500 in 4756ms
-🔥 Middleware executed for: /api/user/chatbots
-🍪 Available cookies: [
-  {
-  name: 'auth-token',
-  value: 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJyZWd1bGFyX3VzZXJfaWQiLCJlbWFpbCI6InVzZXJAN2Nvbm5lY3QuaWQiLCJyb2xlIjoidXNlciIsIm5hbWUiOiJSZWd1bGFyIFVzZXIiLCJpYXQiOjE3NjA2NTk0MDgsImV4cCI6MTc2MTI2NDIwOH0.m1-41s9Bt2M6gkpleeLbfrcC20W-f2BH_56gV28hlfI'
-},
-  {
-  name: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',
-  value: 'eyJpdiI6InU1dTRkTWxZUzVwdHc0TXZ6dllTaVE9PSIsInZhbHVlIjoiMUx1aTd3aHJacFRyM0VsVCtXZUZFd2xTL3NROUhJRTY4T2pSV1NScE9HQUZKODlwa3E1YVIrQXhtNTZCc2V4cnFkMkk1K1dyNTN5a1lyYmc3dVlTVjB0eGM5T3hKbnA0cDhUc0NoVEV4M0JudjZnUjBMc0Y1VTBhY3oyS3YwMWFaUVdzSDJUdGlndURuMDJTbTR1ZGpOTlZyNEU0WGlYeGFHVjZSbGJZUDJYcmtoK28xcnZxVEJnWGxvWGNhN3JHOGNtWjhBYTA2Q3B0cmZDRGFVaFpKdnFUTUFSemMxRUZmTmtsQ1BHMm5taz0iLCJtYWMiOiI0MTgzYWVhN2U3NzUzMDVkODg5ZWY3NWQxM2YwMDAwMjhiMTAwYzc5YTVmMmFjYzBhMmE4ODBiZWYzMDQzNmUzIiwidGFnIjoiIn0='
-},
-  {
-  name: 'a_session_console_legacy',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  {
-  name: 'a_session_console',
-  value: 'eyJpZCI6IjY4ZjJiNWE2MDAyYjlkMjYwZTljIiwic2VjcmV0IjoiOTY0OTgzMjUwMjM1OWNmMDE3M2RjM2VlNGU0M2YyMmIwNmNlNDkyOGZkNGM5OWI1MTRjOWFkMjg0Y2FlZTA1OTExZTdmNGIzMzAwMTFmNDhhNzVkODIzMmEyZDdlZmUxZDVhMWUxMGQ4OGVlMGRkYmRkNTc4YmU4YzA0YzRlYTQ0YmMyOWNkMjliODcyYjQyMWYxZDJjY2Y3ZWY4ZjRhZDI2MWNhYTcyZjZhYTBmZTAyYjZjZWEyNzZjOTNiMDg3OWM5OGZiODA5Y2UyMmJmYzQ1YzdlZTY0Nzg3ZmYwMGI2YWExYzU3ZDAzN2YzMmRjYzRjMWU1MGM0MDcwYmYwZSJ9'
-},
-  { name: 'sidebar_state', value: 'true' },
-  { name: '__next_hmr_refresh_hash__', value: '409' },
-  { name: 'NEXT_LOCALE', value: 'id' }
-]
-🔍 Checking route: /api/user/chatbots
-📋 Is public route: false
-🔒 Route is protected, checking authentication
-🍪 Token found: true
-🔍 Validating token in middleware...
+ GET /api/affiliate/commissions 404 in 1177ms
 🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
 ✅ Middleware token verification successful: regular_user_id
-✅ Token validated, payload: user@7connect.id
-✅ Authentication successful for: user@7connect.id
- ✓ Compiled /api/user/chatbots in 339ms
- GET /api/user/chatbots 500 in 618ms
- ⨯ [Error: ENOENT: no such file or directory, open '/home/asif/Develop/chatbot/.next/server/app/_not-found/page/app-build-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/home/asif/Develop/chatbot/.next/server/app/_not-found/page/app-build-manifest.json'
-}
-[Error: ENOENT: no such file or directory, open '/home/asif/Develop/chatbot/.next/server/pages/_app/build-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/home/asif/Develop/chatbot/.next/server/pages/_app/build-manifest.json'
-}
-[Error: ENOENT: no such file or directory, open '/home/asif/Develop/chatbot/.next/server/pages/_app/build-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/home/asif/Develop/chatbot/.next/server/pages/_app/build-manifest.json'
-}
+ GET /api/user/subscription 404 in 1185ms
+ GET /api/affiliate/profile 404 in 1180ms
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ○ Compiling /api/user/chatbots ...
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /api/affiliate/payouts 404 in 816ms
+ GET /api/affiliate/commissions 404 in 747ms
+ ✓ Compiled /api/user/chatbots in 798ms
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /api/affiliate/payouts 404 in 259ms
+🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
+🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
+✅ Token verification successful: regular_user_id
+✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+📋 Real user not found, checking for hardcoded users...
+✅ Found hardcoded user, trying to find corresponding database user...
+⚠️ Fallback to hardcoded user: user@7connect.id
+ GET /api/user/chatbots 200 in 1315ms
+🔍 Middleware token verification for: eyJhbGciOiJIUzI1NiJ9...
+✅ Middleware token verification successful: regular_user_id
+🔍 validateSession called with token: eyJhbGciOiJIUzI1NiJ9...
+🔍 verifyToken called with: eyJhbGciOiJIUzI1NiJ9...
+✅ Token verification successful: regular_user_id
+✅ Token verified, payload: { userId: 'regular_user_id', email: 'user@7connect.id' }
+📋 Real user not found, checking for hardcoded users...
+✅ Found hardcoded user, trying to find corresponding database user...
+⚠️ Fallback to hardcoded user: user@7connect.id
+ GET /api/user/chatbots 200 in 344ms

@@ -21,6 +21,11 @@ model User {
   role      String   @default("user") // admin, user
   isActive  Boolean  @default(true)
   lastLoginAt DateTime?
+
+  // Affiliate fields
+  referralCode String?  @unique
+  referredBy   String?  // User ID who referred this user
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -39,6 +44,13 @@ model User {
   transactions Transaction[]
   invoices Invoice[]
   chatbots Chatbot[]
+
+  // Affiliate Relations
+  affiliateProfile AffiliateProfile?
+  referredUsers User[] @relation("UserReferrals")
+  affiliateCommissions AffiliateCommission[]
+  affiliatePayouts AffiliatePayout[] @relation("AffiliatePayouts")
+  referrer User? @relation("UserReferrals", fields: [referredBy], references: [id])
 }
 
 // User Sessions for authentication
@@ -460,6 +472,7 @@ model Subscription {
   transactions Transaction[]
   invoices Invoice[]
   chatbots Chatbot[]
+  affiliateCommissions AffiliateCommission[]
 
   @@index([userId])
   @@index([packageId])
@@ -514,6 +527,7 @@ model Transaction {
   user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   subscription    Subscription? @relation(fields: [subscriptionId], references: [id])
   invoice         Invoice?     @relation(fields: [invoiceId], references: [id])
+  affiliateCommissions AffiliateCommission[]
 
   @@index([userId])
   @@index([subscriptionId])
@@ -626,4 +640,141 @@ model Chatbot {
   @@index([status])
   @@index([createdAt])
   @@index([lastUsedAt])
+}
+
+//========================================
+// AFFILIATE SYSTEM MODELS
+//========================================
+
+// Affiliate Profile for users
+model AffiliateProfile {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+
+  // Affiliate settings
+  isActive            Boolean  @default(true)
+  commissionRate      Float    @default(0.10) // 10% default commission
+  customCommission    Float?   // Custom commission rate if applicable
+
+  // Referral link generation
+  referralCode        String   @unique
+  referralLink        String   // Full referral URL
+
+  // Statistics
+  totalReferrals      Int      @default(0)
+  activeReferrals     Int      @default(0)
+  totalCommissions    Int      @default(0) // Total earnings in IDR
+  paidCommissions     Int      @default(0) // Amount already paid
+  pendingCommissions  Int      @default(0) // Amount pending payment
+
+  // Tracking
+  lastPayoutAt        DateTime?
+  totalPayouts        Int      @default(0)
+
+  // Metadata
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relations
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commissions         AffiliateCommission[]
+  payouts             AffiliatePayout[]
+
+  @@index([userId])
+  @@index([referralCode])
+  @@index([isActive])
+  @@index([createdAt])
+}
+
+// Affiliate Commissions
+model AffiliateCommission {
+  id                  String   @id @default(cuid())
+  affiliateId         String
+  referralId          String?  // User who was referred
+
+  // Commission details
+  transactionId       String?  // Transaction that generated commission
+  subscriptionId      String?  // Subscription that generated commission
+  commissionType      String   // subscription_signup, subscription_renewal, etc
+
+  // Financial details
+  baseAmount          Int      // Base amount before commission calculation
+  commissionRate      Float    // Commission rate applied
+  commissionAmount    Int      // Commission amount in IDR
+  currency            String   @default("IDR")
+
+  // Status
+  status              String   @default("pending") // pending, approved, paid, rejected, cancelled
+  approvedAt          DateTime?
+  paidAt              DateTime?
+  rejectedAt          DateTime?
+  rejectionReason     String?
+
+  // Payment details
+  payoutId            String?  // Payout record ID
+
+  // Metadata
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relations
+  affiliate           AffiliateProfile @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  user                User?  @relation(fields: [referralId], references: [id], onDelete: SetNull)
+  transaction         Transaction? @relation(fields: [transactionId], references: [id], onDelete: SetNull)
+  subscription        Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  payout              AffiliatePayout? @relation(fields: [payoutId], references: [id])
+
+  @@index([affiliateId])
+  @@index([referralId])
+  @@index([transactionId])
+  @@index([subscriptionId])
+  @@index([status])
+  @@index([commissionType])
+  @@index([createdAt])
+}
+
+// Affiliate Payouts
+model AffiliatePayout {
+  id                  String   @id @default(cuid())
+  affiliateId         String
+
+  // Payout details
+  totalAmount         Int      // Total payout amount in IDR
+  commissionCount     Int      // Number of commissions in this payout
+  currency            String   @default("IDR")
+
+  // Status
+  status              String   @default("pending") // pending, processing, completed, failed, cancelled
+  processedAt         DateTime?
+  completedAt         DateTime?
+  failedAt            DateTime?
+  failureReason       String?
+
+  // Payment method
+  paymentMethod       String?  // bank_transfer, ewallet, etc
+  paymentDetails      Json?    // Payment method details
+
+  // Processing
+  processorId         String?  // Who processed this payout
+  processorNotes      String?
+
+  // External references
+  externalPayoutId    String?  // External payment gateway ID
+  receiptUrl          String?  // Payment receipt URL
+
+  // Metadata
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relations
+  affiliate           AffiliateProfile @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  user                User?  @relation("AffiliatePayouts", fields: [affiliateId], references: [id])
+  commissions         AffiliateCommission[]
+
+  @@index([affiliateId])
+  @@index([status])
+  @@index([totalAmount])
+  @@index([createdAt])
+  @@index([processedAt])
+  @@index([completedAt])
 }

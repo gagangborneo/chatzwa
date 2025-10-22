@@ -43,6 +43,10 @@ import {
   Clock,
   RefreshCw,
   XCircle,
+  Gift,
+  Share2,
+  Users2,
+  TrendingUp,
 } from 'lucide-react'
 
 // TypeScript interfaces
@@ -179,6 +183,68 @@ interface TransactionFormData {
   description: string
 }
 
+// Affiliate interfaces
+interface AffiliateProfile {
+  id: string
+  userId: string
+  isActive: boolean
+  commissionRate: number
+  customCommission?: number
+  referralCode: string
+  referralLink: string
+  totalReferrals: number
+  activeReferrals: number
+  totalCommissions: number
+  paidCommissions: number
+  pendingCommissions: number
+  lastPayoutAt?: string
+  totalPayouts: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface AffiliateCommission {
+  id: string
+  affiliateId: string
+  referralId?: string
+  transactionId?: string
+  subscriptionId?: string
+  commissionType: string
+  baseAmount: number
+  commissionRate: number
+  commissionAmount: number
+  currency: string
+  status: string
+  approvedAt?: string
+  paidAt?: string
+  rejectedAt?: string
+  rejectionReason?: string
+  payoutId?: string
+  createdAt: string
+  updatedAt: string
+}
+
+interface AffiliatePayout {
+  id: string
+  affiliateId: string
+  totalAmount: number
+  commissionCount: number
+  currency: string
+  status: string
+  processedAt?: string
+  completedAt?: string
+  failedAt?: string
+  failureReason?: string
+  paymentMethod?: string
+  paymentDetails?: any
+  processorId?: string
+  processorNotes?: string
+  externalPayoutId?: string
+  receiptUrl?: string
+  createdAt: string
+  updatedAt: string
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const { t } = useI18n()
@@ -221,6 +287,13 @@ export default function DashboardPage() {
     amount: 1200000,
     description: 'Buat langganan Pro Plan'
   })
+
+  // Affiliate states
+  const [affiliateProfile, setAffiliateProfile] = useState<AffiliateProfile | null>(null)
+  const [affiliateCommissions, setAffiliateCommissions] = useState<AffiliateCommission[]>([])
+  const [affiliatePayouts, setAffiliatePayouts] = useState<AffiliatePayout[]>([])
+  const [showCreateAffiliateForm, setShowCreateAffiliateForm] = useState(false)
+  const [copySuccess, setCopySuccess] = useState(false)
 
   // Pricing plans
   const pricingPlans: PricingPlan[] = [
@@ -629,11 +702,111 @@ export default function DashboardPage() {
     }
 
     fetchBillingData()
+
+    // Fetch affiliate data
+    fetchAffiliateData()
+
+    // Set demo affiliate data for development
+    setDemoAffiliateData()
   }, [])
 
   // Handler untuk navigasi ke invoice
   const handleViewInvoice = (transactionId: string) => {
     router.push(`/dashboard/invoice/${transactionId}`)
+  }
+
+  // Affiliate handlers
+  const handleCreateAffiliateProfile = async () => {
+    try {
+      const response = await fetch('/api/affiliate/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        if (result.success) {
+          setAffiliateProfile(result.data.affiliateProfile)
+          setShowCreateAffiliateForm(false)
+        }
+      }
+    } catch (error) {
+      console.error('Error creating affiliate profile:', error)
+    }
+  }
+
+  const handleCopyReferralLink = async () => {
+    if (affiliateProfile?.referralLink) {
+      try {
+        await navigator.clipboard.writeText(affiliateProfile.referralLink)
+        setCopySuccess(true)
+        setTimeout(() => setCopySuccess(false), 2000)
+      } catch (error) {
+        console.error('Failed to copy referral link:', error)
+      }
+    }
+  }
+
+  const handleRequestPayout = async () => {
+    if (!affiliateProfile || affiliateProfile.pendingCommissions === 0) return
+
+    try {
+      const response = await fetch('/api/affiliate/payout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: affiliateProfile.pendingCommissions,
+          paymentMethod: 'bank_transfer'
+        })
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        if (result.success) {
+          // Refresh affiliate data
+          fetchAffiliateData()
+        }
+      }
+    } catch (error) {
+      console.error('Error requesting payout:', error)
+    }
+  }
+
+  const fetchAffiliateData = async () => {
+    try {
+      // Fetch affiliate profile
+      const profileResponse = await fetch('/api/affiliate/profile')
+      if (profileResponse.ok) {
+        const profileResult = await profileResponse.json()
+        if (profileResult.success) {
+          setAffiliateProfile(profileResult.data.affiliateProfile)
+        }
+      }
+
+      // Fetch commissions
+      const commissionsResponse = await fetch('/api/affiliate/commissions')
+      if (commissionsResponse.ok) {
+        const commissionsResult = await commissionsResponse.json()
+        if (commissionsResult.success) {
+          setAffiliateCommissions(commissionsResult.data.commissions)
+        }
+      }
+
+      // Fetch payouts
+      const payoutsResponse = await fetch('/api/affiliate/payouts')
+      if (payoutsResponse.ok) {
+        const payoutsResult = await payoutsResponse.json()
+        if (payoutsResult.success) {
+          setAffiliatePayouts(payoutsResult.data.payouts)
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching affiliate data:', error)
+    }
   }
 
   // Demo subscription data for development
@@ -699,6 +872,107 @@ export default function DashboardPage() {
     setUsageStats(demoUsageStats)
   }
 
+  // Demo affiliate data for development
+  const setDemoAffiliateData = () => {
+    const demoAffiliateProfile: AffiliateProfile = {
+      id: 'demo-affiliate-001',
+      userId: 'demo-user-001',
+      isActive: true,
+      commissionRate: 0.10,
+      referralCode: 'DEMO2024',
+      referralLink: 'https://chatbot.example.com/register?ref=DEMO2024',
+      totalReferrals: 15,
+      activeReferrals: 12,
+      totalCommissions: 1500000,
+      paidCommissions: 900000,
+      pendingCommissions: 600000,
+      lastPayoutAt: new Date('2024-10-15T10:00:00Z').toISOString(),
+      totalPayouts: 3,
+      createdAt: new Date('2024-09-01T08:00:00Z').toISOString(),
+      updatedAt: new Date('2024-10-18T14:30:00Z').toISOString()
+    }
+
+    const demoAffiliateCommissions: AffiliateCommission[] = [
+      {
+        id: 'comm-001',
+        affiliateId: 'demo-affiliate-001',
+        referralId: 'demo-referral-001',
+        subscriptionId: 'demo-subscription-001',
+        commissionType: 'subscription_signup',
+        baseAmount: 1200000,
+        commissionRate: 0.10,
+        commissionAmount: 120000,
+        currency: 'IDR',
+        status: 'completed',
+        approvedAt: new Date('2024-10-15T10:00:00Z').toISOString(),
+        paidAt: new Date('2024-10-16T09:00:00Z').toISOString(),
+        payoutId: 'payout-001',
+        createdAt: new Date('2024-10-15T10:00:00Z').toISOString(),
+        updatedAt: new Date('2024-10-16T09:00:00Z').toISOString()
+      },
+      {
+        id: 'comm-002',
+        affiliateId: 'demo-affiliate-001',
+        referralId: 'demo-referral-002',
+        subscriptionId: 'demo-subscription-002',
+        commissionType: 'subscription_signup',
+        baseAmount: 450000,
+        commissionRate: 0.10,
+        commissionAmount: 45000,
+        currency: 'IDR',
+        status: 'pending',
+        createdAt: new Date('2024-10-18T14:30:00Z').toISOString(),
+        updatedAt: new Date('2024-10-18T14:30:00Z').toISOString()
+      },
+      {
+        id: 'comm-003',
+        affiliateId: 'demo-affiliate-001',
+        referralId: 'demo-referral-003',
+        subscriptionId: 'demo-subscription-003',
+        commissionType: 'subscription_renewal',
+        baseAmount: 1200000,
+        commissionRate: 0.10,
+        commissionAmount: 120000,
+        currency: 'IDR',
+        status: 'approved',
+        approvedAt: new Date('2024-10-17T11:00:00Z').toISOString(),
+        createdAt: new Date('2024-10-17T11:00:00Z').toISOString(),
+        updatedAt: new Date('2024-10-17T11:00:00Z').toISOString()
+      }
+    ]
+
+    const demoAffiliatePayouts: AffiliatePayout[] = [
+      {
+        id: 'payout-001',
+        affiliateId: 'demo-affiliate-001',
+        totalAmount: 900000,
+        commissionCount: 8,
+        currency: 'IDR',
+        status: 'completed',
+        processedAt: new Date('2024-10-15T10:00:00Z').toISOString(),
+        completedAt: new Date('2024-10-16T09:00:00Z').toISOString(),
+        paymentMethod: 'bank_transfer',
+        receiptUrl: 'https://example.com/receipt/payout-001',
+        createdAt: new Date('2024-10-15T10:00:00Z').toISOString(),
+        updatedAt: new Date('2024-10-16T09:00:00Z').toISOString()
+      },
+      {
+        id: 'payout-002',
+        affiliateId: 'demo-affiliate-001',
+        totalAmount: 600000,
+        commissionCount: 5,
+        currency: 'IDR',
+        status: 'pending',
+        createdAt: new Date('2024-10-20T08:00:00Z').toISOString(),
+        updatedAt: new Date('2024-10-20T08:00:00Z').toISOString()
+      }
+    ]
+
+    setAffiliateProfile(demoAffiliateProfile)
+    setAffiliateCommissions(demoAffiliateCommissions)
+    setAffiliatePayouts(demoAffiliatePayouts)
+  }
+
   // Filter chatbots based on search
   const filteredChatbots = chatbots.filter(chatbot =>
     chatbot.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -732,6 +1006,51 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      {/* Navigation Tabs */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="flex items-center justify-between p-6">
+          <div className="flex items-center gap-8">
+            <h1 className="text-2xl font-bold text-gray-900">
+              {t('dashboard.dashboardTitle', 'Dashboard')}
+            </h1>
+            <div className="flex gap-6">
+              <Button
+                variant="ghost"
+                onClick={() => document.getElementById('chatbot')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              >
+                <Bot className="mr-2 h-4 w-4" />
+                {t('dashboard.chatbotSection', 'Chatbot')}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => document.getElementById('account')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              >
+                <User className="mr-2 h-4 w-4" />
+                {t('dashboard.accountSection', 'Akun')}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => document.getElementById('billing')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              >
+                <CreditCard className="mr-2 h-4 w-4" />
+                {t('dashboard.billingSection', 'Pembayaran')}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => document.getElementById('affiliate')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              >
+                <Gift className="mr-2 h-4 w-4" />
+                {t('dashboard.affiliateSection', 'Afiliasi')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Welcome Section */}
       <div className="text-center bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white rounded-2xl p-12 mb-8">
         <h1 className="text-4xl font-bold mb-4">
@@ -1437,6 +1756,343 @@ export default function DashboardPage() {
                 </div>
               )}
             </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Affiliate Section */}
+      <section id="affiliate" className="scroll-mt-8">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                  <Gift className="h-8 w-8 text-pink-600" />
+                  {t('dashboard.affiliateSection', 'Program Afiliasi')}
+                </CardTitle>
+                <p className="text-gray-600">
+                  {t('dashboard.affiliateSectionDesc', 'Dapatkan penghasilan dengan mengajak orang bergabung')}
+                </p>
+              </div>
+              {!affiliateProfile && (
+                <Button
+                  onClick={() => setShowCreateAffiliateForm(true)}
+                  className="bg-pink-600 hover:bg-pink-700"
+                >
+                  <Gift className="mr-2 h-4 w-4" />
+                  {t('dashboard.joinAffiliate', 'Gabung Afiliasi')}
+                </Button>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {!affiliateProfile ? (
+              <div className="text-center py-12">
+                <Gift className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {t('dashboard.notAffiliateYet', 'Belum Bergabung Program Afiliasi')}
+                </h3>
+                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                  {t('dashboard.affiliateJoinDesc', 'Bergabunglah dengan program afiliasi kami dan dapatkan komisi dari setiap referral yang berhasil berlangganan')}
+                </p>
+                <Button
+                  onClick={() => setShowCreateAffiliateForm(true)}
+                  className="bg-pink-600 hover:bg-pink-700"
+                >
+                  <Gift className="mr-2 h-4 w-4" />
+                  {t('dashboard.joinAffiliateNow', 'Gabung Sekarang')}
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-8">
+                {/* Affiliate Profile Overview */}
+                <div className="p-6 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg border border-pink-200">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h3 className="text-lg font-semibold flex items-center gap-2">
+                        <Gift className="h-5 w-5 text-pink-600" />
+                        {t('dashboard.affiliateProfile', 'Profil Afiliasi Anda')}
+                      </h3>
+                      <div className="flex items-center gap-2 mt-2">
+                        <Badge variant={affiliateProfile.isActive ? 'default' : 'secondary'} className="bg-green-600 text-white">
+                          {affiliateProfile.isActive ? 'Aktif' : 'Tidak Aktif'}
+                        </Badge>
+                        <span className="text-sm text-gray-600">
+                          Kode: <span className="font-mono font-bold">{affiliateProfile.referralCode}</span>
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-gray-900">
+                        {(affiliateProfile.commissionRate * 100).toFixed(0)}%
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {t('dashboard.commissionRate', 'Rate Komisi')}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Referral Link */}
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-700">
+                        {t('dashboard.referralLink', 'Link Referral Anda')}
+                      </Label>
+                      <div className="flex gap-2 mt-1">
+                        <Input
+                          value={affiliateProfile.referralLink}
+                          readOnly
+                          className="bg-white/80 backdrop-blur-sm"
+                        />
+                        <Button
+                          onClick={handleCopyReferralLink}
+                          variant="outline"
+                          className="flex-shrink-0"
+                        >
+                          {copySuccess ? (
+                            <Check className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <Share2 className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Affiliate Statistics */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-blue-600 font-medium">
+                            {t('dashboard.totalReferrals', 'Total Referral')}
+                          </p>
+                          <p className="text-2xl font-bold text-blue-900">
+                            {affiliateProfile.totalReferrals}
+                          </p>
+                        </div>
+                        <Users2 className="h-8 w-8 text-blue-600 opacity-50" />
+                      </div>
+                      <div className="text-xs text-blue-700 mt-1">
+                        {affiliateProfile.activeReferrals} aktif
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-green-600 font-medium">
+                            {t('dashboard.totalEarnings', 'Total Penghasilan')}
+                          </p>
+                          <p className="text-2xl font-bold text-green-900">
+                            Rp {affiliateProfile.totalCommissions.toLocaleString('id-ID')}
+                          </p>
+                        </div>
+                        <TrendingUp className="h-8 w-8 text-green-600 opacity-50" />
+                      </div>
+                      <div className="text-xs text-green-700 mt-1">
+                        Dari {affiliateProfile.totalPayouts} pembayaran
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-yellow-600 font-medium">
+                            {t('dashboard.pendingCommissions', 'Komisi Pending')}
+                          </p>
+                          <p className="text-2xl font-bold text-yellow-900">
+                            Rp {affiliateProfile.pendingCommissions.toLocaleString('id-ID')}
+                          </p>
+                        </div>
+                        <Clock className="h-8 w-8 text-yellow-600 opacity-50" />
+                      </div>
+                      <div className="text-xs text-yellow-700 mt-1">
+                        Menunggu konfirmasi
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-purple-600 font-medium">
+                            {t('dashboard.paidCommissions', 'Sudah Dibayar')}
+                          </p>
+                          <p className="text-2xl font-bold text-purple-900">
+                            Rp {affiliateProfile.paidCommissions.toLocaleString('id-ID')}
+                          </p>
+                        </div>
+                        <CheckCircle className="h-8 w-8 text-purple-600 opacity-50" />
+                      </div>
+                      {affiliateProfile.lastPayoutAt && (
+                        <div className="text-xs text-purple-700 mt-1">
+                          Terakhir: {new Date(affiliateProfile.lastPayoutAt).toLocaleDateString('id-ID')}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Action Buttons */}
+                {affiliateProfile.pendingCommissions > 0 && (
+                  <div className="flex justify-center">
+                    <Button
+                      onClick={handleRequestPayout}
+                      className="bg-green-600 hover:bg-green-700"
+                    >
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      {t('dashboard.requestPayout', 'Ajukan Pencairan')}
+                      Rp {affiliateProfile.pendingCommissions.toLocaleString('id-ID')}
+                    </Button>
+                  </div>
+                )}
+
+                {/* Commissions History */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">
+                    {t('dashboard.commissionHistory', 'Riwayat Komisi')}
+                  </h3>
+                  {affiliateCommissions.length > 0 ? (
+                    <div className="bg-white rounded-lg border overflow-hidden">
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead className="bg-gray-50 border-b">
+                            <tr>
+                              <th className="text-left p-4 font-medium text-gray-900">{t('dashboard.date', 'Tanggal')}</th>
+                              <th className="text-left p-4 font-medium text-gray-900">{t('dashboard.type', 'Jenis')}</th>
+                              <th className="text-left p-4 font-medium text-gray-900">{t('dashboard.amount', 'Jumlah')}</th>
+                              <th className="text-left p-4 font-medium text-gray-900">{t('dashboard.commission', 'Komisi')}</th>
+                              <th className="text-left p-4 font-medium text-gray-900">{t('dashboard.status', 'Status')}</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200">
+                            {affiliateCommissions.map((commission) => (
+                              <tr key={commission.id} className="hover:bg-gray-50">
+                                <td className="p-4 text-sm">
+                                  {new Date(commission.createdAt).toLocaleDateString('id-ID')}
+                                </td>
+                                <td className="p-4 text-sm">
+                                  <Badge variant="outline" className="text-xs">
+                                    {commission.commissionType === 'subscription_signup' ? 'Pendaftaran' :
+                                     commission.commissionType === 'subscription_renewal' ? 'Perpanjangan' : 'Lainnya'}
+                                  </Badge>
+                                </td>
+                                <td className="p-4 text-sm font-medium">
+                                  Rp {commission.baseAmount.toLocaleString('id-ID')}
+                                </td>
+                                <td className="p-4 text-sm font-medium text-green-600">
+                                  Rp {commission.commissionAmount.toLocaleString('id-ID')}
+                                </td>
+                                <td className="p-4 text-sm">
+                                  <Badge
+                                    variant={
+                                      commission.status === 'completed' ? 'default' :
+                                      commission.status === 'pending' ? 'secondary' :
+                                      commission.status === 'approved' ? 'default' :
+                                      commission.status === 'rejected' ? 'destructive' : 'outline'
+                                    }
+                                    className="text-xs"
+                                  >
+                                    {commission.status === 'completed' ? 'Selesai' :
+                                     commission.status === 'pending' ? 'Menunggu' :
+                                     commission.status === 'approved' ? 'Disetujui' :
+                                     commission.status === 'rejected' ? 'Ditolak' : 'Lainnya'}
+                                  </Badge>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 bg-gray-50 rounded-lg">
+                      <Gift className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                      <p className="text-gray-600">{t('dashboard.noCommissions', 'Belum ada komisi')}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Payouts History */}
+                {affiliatePayouts.length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">
+                      {t('dashboard.payoutHistory', 'Riwayat Pencairan')}
+                    </h3>
+                    <div className="space-y-3">
+                      {affiliatePayouts.map((payout) => (
+                        <div key={payout.id} className="p-4 bg-gray-50 rounded-lg border">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="font-medium">
+                                Rp {payout.totalAmount.toLocaleString('id-ID')}
+                              </div>
+                              <div className="text-sm text-gray-600">
+                                {payout.commissionCount} komisi • {payout.paymentMethod || 'Bank Transfer'}
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <Badge
+                                variant={
+                                  payout.status === 'completed' ? 'default' :
+                                  payout.status === 'pending' ? 'secondary' :
+                                  payout.status === 'failed' ? 'destructive' : 'outline'
+                                }
+                                className="text-xs"
+                              >
+                                {payout.status === 'completed' ? 'Selesai' :
+                                 payout.status === 'pending' ? 'Menunggu' :
+                                 payout.status === 'failed' ? 'Gagal' : 'Lainnya'}
+                              </Badge>
+                              <div className="text-xs text-gray-500 mt-1">
+                                {new Date(payout.createdAt).toLocaleDateString('id-ID')}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Create Affiliate Form */}
+            {showCreateAffiliateForm && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                  <h3 className="text-lg font-semibold mb-4">
+                    {t('dashboard.createAffiliateProfile', 'Buat Profil Afiliasi')}
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    {t('dashboard.createAffiliateDesc', 'Dapatkan komisi 10% dari setiap referral yang berhasil berlangganan')}
+                  </p>
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={handleCreateAffiliateProfile}
+                      className="bg-pink-600 hover:bg-pink-700"
+                    >
+                      <Gift className="mr-2 h-4 w-4" />
+                      {t('dashboard.createAffiliate', 'Buat Sekarang')}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowCreateAffiliateForm(false)}
+                    >
+                      {t('dashboard.cancel', 'Batal')}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </section>

@@ -8,6 +8,10 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Badge } from '@/components/ui/badge'
 import { Send, Bot, RotateCcw } from 'lucide-react'
 import { ChatStorage } from '@/lib/chat-storage'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 
 interface Message {
   id: string
@@ -16,21 +20,41 @@ interface Message {
   timestamp: Date
 }
 
-// Simple markdown to HTML converter for basic formatting
-const formatMarkdown = (text: string): string => {
+// Function to clean and format AI response text
+const formatResponseText = (text: string): string => {
+  if (!text) return text
+
   return text
-    // Bold text: **text** -> <strong>text</strong>
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    // Italic text: *text* -> <em>text</em>
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    // Code blocks: `text` -> <code>text</code>
-    .replace(/`(.*?)`/g, '<code class="bg-gray-200 px-1 py-0.5 rounded text-sm">$1</code>')
-    // Line breaks
-    .replace(/\n/g, '<br>')
-    // Bullet points: - item -> • item
-    .replace(/^- (.*?)$/gm, '• $1')
-    // Numbered lists: 1. item -> 1. item
-    .replace(/^(\d+)\. (.*?)$/gm, '$1. $2')
+    // Normalize multiple spaces to single space
+    .replace(/\s+/g, ' ')
+    // Trim leading and trailing spaces
+    .trim()
+    // Fix space before punctuation
+    .replace(/\s+([,.!?;:])/g, '$1')
+    // Fix space after punctuation (but not before line breaks)
+    .replace(/([,.!?;:])(?![\s\n])/g, '$1 ')
+    // Fix multiple punctuation (keep maximum 2 for emphasis)
+    .replace(/([.!?])\1{2,}/g, '$1$1')
+    .replace(/([,;:])\1+/g, '$1')
+    // Fix spacing around parentheses
+    .replace(/\s*\(\s*/g, ' (')
+    .replace(/\s*\)\s*/g, ') ')
+    // Fix quotes spacing
+    .replace(/\s*"([^"]*?)"\s*/g, ' "$1" ')
+    .replace(/\s*'([^']*?)'\s*/g, " '$1' ")
+    // Ensure proper sentence endings (don't add if sentence ends with question/exclamation)
+    .replace(/([^.!?])\s*$/gm, (match, p1) => {
+      // Don't add period if the text ends with common closing phrases
+      const closingPhrases = ['terima kasih', 'thank you', ' Wassalam', 'wasalam', 'wassalam']
+      const lowerMatch = match.toLowerCase()
+      if (closingPhrases.some(phrase => lowerMatch.includes(phrase))) {
+        return match.trim()
+      }
+      return p1 + '.'
+    })
+    // Clean up extra spaces again
+    .replace(/\s{2,}/g, ' ')
+    .trim()
 }
 
 interface ChatInterfaceProps {
@@ -308,12 +332,78 @@ export default function ChatInterface({ personaOverride }: ChatInterfaceProps = 
                       : 'bg-white text-gray-800 rounded-bl-none border border-gray-100'
                   }`}
                 >
-                  <div 
-                    className="text-sm leading-relaxed"
-                    dangerouslySetInnerHTML={{ 
-                      __html: formatMarkdown(message.content) 
-                    }}
-                  />
+                  {message.role === 'user' ? (
+                    <div className="text-sm leading-relaxed whitespace-pre-wrap">
+                      {message.content}
+                    </div>
+                  ) : (
+                    <div className="prose prose-sm max-w-none prose-gray prose-headings:mb-2 prose-p:mb-2 prose-ul:mb-2 prose-ol:mb-2 prose-li:mb-1 prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                        components={{
+                          // Custom styling for list items
+                          ul: ({ children, ...props }) => (
+                            <ul className="list-disc list-inside space-y-1 my-2" {...props}>
+                              {children}
+                            </ul>
+                          ),
+                          ol: ({ children, ...props }) => (
+                            <ol className="list-decimal list-inside space-y-1 my-2" {...props}>
+                              {children}
+                            </ol>
+                          ),
+                          li: ({ children, ...props }) => (
+                            <li className="pl-1" {...props}>
+                              {children}
+                            </li>
+                          ),
+                          // Custom styling for paragraphs
+                          p: ({ children, ...props }) => (
+                            <p className="mb-2 last:mb-0" {...props}>
+                              {children}
+                            </p>
+                          ),
+                          // Custom styling for code blocks
+                          code: ({ inline, children, ...props }) => (
+                            inline ? (
+                              <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono" {...props}>
+                                {children}
+                              </code>
+                            ) : (
+                              <code className="block bg-gray-100 p-2 rounded text-sm font-mono overflow-x-auto my-2" {...props}>
+                                {children}
+                              </code>
+                            )
+                          ),
+                          // Custom styling for blockquotes
+                          blockquote: ({ children, ...props }) => (
+                            <blockquote className="border-l-4 border-gray-300 pl-4 my-2 italic text-gray-600" {...props}>
+                              {children}
+                            </blockquote>
+                          ),
+                          // Custom styling for headings
+                          h1: ({ children, ...props }) => (
+                            <h1 className="text-lg font-bold mb-2 mt-4" {...props}>
+                              {children}
+                            </h1>
+                          ),
+                          h2: ({ children, ...props }) => (
+                            <h2 className="text-base font-bold mb-2 mt-3" {...props}>
+                              {children}
+                            </h2>
+                          ),
+                          h3: ({ children, ...props }) => (
+                            <h3 className="text-sm font-bold mb-2 mt-2" {...props}>
+                              {children}
+                            </h3>
+                          ),
+                        }}
+                      >
+                        {formatResponseText(message.content)}
+                      </ReactMarkdown>
+                    </div>
+                  )}
                   <p className={`text-xs mt-2 md:mt-3 ${
                     message.role === 'user' ? 'text-green-100' : 'text-gray-400'
                   }`}>
@@ -338,9 +428,9 @@ export default function ChatInterface({ personaOverride }: ChatInterfaceProps = 
                 <div className="bg-white text-gray-800 rounded-2xl rounded-bl-none px-4 md:px-5 py-3 md:py-4 border border-gray-100 shadow-sm">
                   <div className="flex items-center gap-2">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-                      <div className="w-2 h-2 bg-teal-400 rounded-full"></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                     </div>
                     <span className="text-sm text-gray-500">{t('chat.typing')}</span>
                   </div>

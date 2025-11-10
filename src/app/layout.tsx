@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { I18nProvider } from "@/lib/i18n";
 import FloatingChat from "@/components/floating-chat";
 import CookieConsent from "@/components/CookieConsent";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,21 +24,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  title: "7 Connect - Platform Chatbot AI Indonesia",
+  description: "Platform chatbot AI terdepan di Indonesia untuk layanan pelanggan, engagement, dan otomasi bisnis. Dilengkapi dengan RAG system dan multi-channel integration.",
+  keywords: ["7 Connect", "Chatbot AI", "AI Indonesia", "Layanan Pelanggan", "Otomasi Bisnis", "RAG System", "WhatsApp Integration", "Multi-channel"],
+  authors: [{ name: "7 Connect Team" }],
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "7 Connect - Platform Chatbot AI Indonesia",
+    description: "Platform chatbot AI terdepan untuk solusi bisnis digital Anda",
+    url: "https://7connect.id",
+    siteName: "7 Connect",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "7 Connect - Platform Chatbot AI Indonesia",
+    description: "Platform chatbot AI terdepan untuk solusi bisnis digital Anda",
   },
   robots: {
     index: true,
@@ -56,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="id" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-background text-foreground`}
       >
         <LanguageProvider>
           <I18nProvider>

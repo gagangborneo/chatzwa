@@ -1,7 +1,15 @@
-'use client'
+import { Metadata } from 'next'
+import PricingClient from './pricing-client'
 
-import { useState } from 'react'
-import { useLanguage } from '@/contexts/LanguageContext'
+export const metadata: Metadata = {
+  title: "Harga - 7 Connect | Platform Chatbot AI Indonesia",
+  description: "Paket harga terbaik untuk platform chatbot AI 7 Connect. Mulai dari Starter hingga Enterprise dengan fitur lengkap untuk bisnis Anda.",
+  keywords: ["Harga Chatbot", "Pricing AI", "Paket Chatbot", "7 Connect Harga", "Platform AI Indonesia"],
+}
+
+export default function PricingPage() {
+  return <PricingClient />
+}
 import {
   Check,
   X,

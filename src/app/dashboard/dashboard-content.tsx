@@ -1,15 +1,8 @@
-import { Metadata } from 'next'
-import { DashboardContent } from './dashboard-content'
+'use client'
 
-export const metadata: Metadata = {
-  title: "Dashboard - 7 Connect | Platform Chatbot AI",
-  description: "Kelola chatbot AI Anda, monitor performa, dan konfigurasi integrasi multi-channel di dashboard 7 Connect.",
-  keywords: ["Dashboard Chatbot", "Manajemen AI", "7 Connect Dashboard", "Monitor Performa", "Integrasi WhatsApp"],
-}
-
-export default function DashboardPage() {
-  return <DashboardContent />
-}
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useI18n } from '@/lib/i18n'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -68,7 +61,7 @@ interface ChatbotData {
   updatedAt: string
   stats: {
     totalMessages: number
-  messagesThisMonth: number
+    messagesThisMonth: number
     webMessages: number
     whatsappMessages: number
     avgResponseTime: string
@@ -252,7 +245,7 @@ interface AffiliatePayout {
   updatedAt: string
 }
 
-export default function DashboardPage() {
+export function DashboardContent() {
   const router = useRouter()
   const { t } = useI18n()
 
@@ -268,7 +261,7 @@ export default function DashboardPage() {
   // Search state
   const [searchQuery, setSearchQuery] = useState('')
 
-  
+
   const [accountForm, setAccountForm] = useState<AccountFormData>({
     name: '',
     email: '',
@@ -503,7 +496,7 @@ export default function DashboardPage() {
   }
 
   // Form handlers
-  
+
   const handleAccountSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmittingAccount(true)
@@ -1064,7 +1057,7 @@ export default function DashboardPage() {
           {t('dashboard.welcome', 'Selamat Datang di Platform Chatbot AI 7 Connect')}
         </h1>
         <p className="text-xl opacity-90 max-w-2xl mx-auto">
-          {t('dashboard.welcomeSubtitle', 'Solusi chatbot AI lengkap untuk layanan pelanggan, keterlibatan, dan otomatisasi')}
+          {t('dashboard.welcomeSubtitle', 'Solusi chatbot AI lengkap untuk layanan pelanggan, keterlibatan, dan otomasi')}
         </p>
 
         {/* Search Bar */}

@@ -1,15 +1,15 @@
-'use client'
+import { Metadata } from 'next'
+import LoginClient from './login-client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-// import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
-import AuthSuspenseWrapper from '@/components/auth-suspense-wrapper'
+export const metadata: Metadata = {
+  title: "Login - 7 Connect | Platform Chatbot AI",
+  description: "Masuk ke dashboard 7 Connect untuk mengelola chatbot AI Anda. Akses analytics, integrasi, dan pengaturan platform.",
+  keywords: ["Login 7 Connect", "Masuk Chatbot", "Dashboard AI", "Platform Chatbot Indonesia"],
+}
+
+export default function LoginPage() {
+  return <LoginClient />
+}
 
 function LoginContent({ successMessage, setSuccessMessage }: { successMessage: string; setSuccessMessage: (msg: string) => void }) {
   const router = useRouter()

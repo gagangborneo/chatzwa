@@ -4,7 +4,7 @@ async function generateTestToken() {
   try {
     const token = await generateToken({
       userId: 'regular_user_id',
-      email: 'user@7connect.id',
+      email: 'user@chatzku.id',
       role: 'user',
       name: 'Regular User'
     })

@@ -24,20 +24,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "7 Connect - Platform Chatbot AI Indonesia",
+  title: "chatzku - Platform Chatbot AI Indonesia",
   description: "Platform chatbot AI terdepan di Indonesia untuk layanan pelanggan, engagement, dan otomasi bisnis. Dilengkapi dengan RAG system dan multi-channel integration.",
-  keywords: ["7 Connect", "Chatbot AI", "AI Indonesia", "Layanan Pelanggan", "Otomasi Bisnis", "RAG System", "WhatsApp Integration", "Multi-channel"],
-  authors: [{ name: "7 Connect Team" }],
+  keywords: ["chatzku", "Chatbot AI", "AI Indonesia", "Layanan Pelanggan", "Otomasi Bisnis", "RAG System", "WhatsApp Integration", "Multi-channel"],
+  authors: [{ name: "chatzku Team" }],
   openGraph: {
-    title: "7 Connect - Platform Chatbot AI Indonesia",
+    title: "chatzku - Platform Chatbot AI Indonesia",
     description: "Platform chatbot AI terdepan untuk solusi bisnis digital Anda",
-    url: "https://7connect.id",
-    siteName: "7 Connect",
+    url: "https://chatzku.id",
+    siteName: "chatzku",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "7 Connect - Platform Chatbot AI Indonesia",
+    title: "chatzku - Platform Chatbot AI Indonesia",
     description: "Platform chatbot AI terdepan untuk solusi bisnis digital Anda",
   },
   robots: {

@@ -9,14 +9,14 @@ async function testChatbotCRUD() {
 
     // Test creating a user first (if doesn't exist)
     let user = await prisma.user.findUnique({
-      where: { email: 'user@7connect.id' }
+      where: { email: 'user@chatzku.id' }
     })
 
     if (!user) {
       console.log('📝 Creating test user...')
       user = await prisma.user.create({
         data: {
-          email: 'user@7connect.id',
+          email: 'user@chatzku.id',
           name: 'Regular User',
           password: 'hashed_password',
           role: 'user',

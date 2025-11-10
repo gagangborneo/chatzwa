@@ -21,7 +21,7 @@ const TestimonialSection = () => {
       name: 'Sarah Johnson',
       role: 'CTO at TechCorp',
       company: 'TechCorp Solutions',
-      content: '7connect telah mengubah cara kami berkomunikasi dengan pelanggan. API-nya sangat kuat dan tim support luar biasa. Kami melihat peningkatan 300% dalam engagement pelanggan sejak implementasi.',
+      content: 'chatzku telah mengubah cara kami berkomunikasi dengan pelanggan. API-nya sangat kuat dan tim support luar biasa. Kami melihat peningkatan 300% dalam engagement pelanggan sejak implementasi.',
       rating: 5,
       avatar: 'SJ',
       gradient: 'from-blue-500 to-cyan-500'
@@ -39,7 +39,7 @@ const TestimonialSection = () => {
       name: 'Emily Rodriguez',
       role: 'Head of Customer Experience',
       company: 'RetailMax',
-      content: 'Kami butuh solusi yang bisa skalabel dengan pertumbuhan cepat kami. 7connect memberikan lebih dari ekspektasi. Multi-channel messaging dan real-time analytics menjadi game-changer untuk customer service kami.',
+      content: 'Kami butuh solusi yang bisa skalabel dengan pertumbuhan cepat kami. chatzku memberikan lebih dari ekspektasi. Multi-channel messaging dan real-time analytics menjadi game-changer untuk customer service kami.',
       rating: 5,
       avatar: 'ER',
       gradient: 'from-green-500 to-emerald-500'
@@ -73,7 +73,7 @@ const TestimonialSection = () => {
             <span className="text-gray-700">di Seluruh Dunia</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Lihat apa yang dikatakan pelanggan kami tentang pengalaman mereka dengan 7connect.
+            Lihat apa yang dikatakan pelanggan kami tentang pengalaman mereka dengan chatzku.
           </p>
         </div>
 

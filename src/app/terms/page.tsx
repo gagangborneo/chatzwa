@@ -40,7 +40,7 @@ const TermsPage = () => {
       title: 'Penerimaan Syarat & Ketentuan',
       icon: CheckCircle,
       content: [
-        'Dengan mendaftar dan menggunakan layanan 7connect, Anda menyetujui untuk terikat oleh syarat dan ketentuan ini',
+        'Dengan mendaftar dan menggunakan layanan chatzku, Anda menyetujui untuk terikat oleh syarat dan ketentuan ini',
         'Anda menyatakan bahwa Anda memiliki kapasitas hukum untuk mengikat diri dalam perjanjian ini',
         'Jika Anda menggunakan layanan atas nama entitas bisnis, Anda menyatakan memiliki wewenang untuk menerima syarat ini atas nama entitas tersebut',
         'Anda tidak boleh menggunakan layanan jika Anda dilarang atau tidak berwenang menerima syarat ini'
@@ -51,7 +51,7 @@ const TermsPage = () => {
       title: 'Deskripsi Layanan',
       icon: FileText,
       content: [
-        '7connect adalah platform CPaaS (Communications Platform as a Service) yang menyediakan layanan chatbot AI dan komunikasi digital',
+        'chatzku adalah platform CPaaS (Communications Platform as a Service) yang menyediakan layanan chatbot AI dan komunikasi digital',
         'Layanan mencakupi WhatsApp Business API, AI chatbot, analytics dashboard, dan integrasi dengan sistem pihak ketiga',
         'Kami berhak untuk mengubah atau menghentikan layanan sewaktu-waktu dengan pemberitahuan terlebih dahulu',
         'Fitur layanan dapat bervariasi antar paket berlangganan yang berbeda'
@@ -99,7 +99,7 @@ const TermsPage = () => {
       title: 'Kepemilikan Intelektual',
       icon: Shield,
       content: [
-        'Semua hak kekayaan intelektual layanan milik 7connect atau pemberi lisensi kami',
+        'Semua hak kekayaan intelektual layanan milik chatzku atau pemberi lisensi kami',
         'Anda tidak mendapatkan hak kepemilikan atas konten yang dihasilkan oleh AI',
         'Anda dilarang menggunakan merek, logo, atau hak kekayaan intelektual kami tanpa izin tertulis',
         'Kami memberikan Anda lisensi terbatas untuk menggunakan layanan sesuai syarat ini',
@@ -192,7 +192,7 @@ const TermsPage = () => {
               Syarat & Ketentuan
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Syarat dan ketentuan ini mengatur penggunaan layanan 7connect.
+              Syarat dan ketentuan ini mengatur penggunaan layanan chatzku.
               Dengan menggunakan layanan kami, Anda setuju untuk mematuhi semua syarat yang tercantum di bawah.
             </p>
             <div className="flex items-center justify-center gap-4 mt-8">
@@ -223,7 +223,7 @@ const TermsPage = () => {
                   <div>
                     <h3 className="text-lg font-bold text-red-900 mb-2">PENTING: BACA DENGAN SEKSAMA</h3>
                     <p className="text-red-700 leading-relaxed">
-                      Syarat dan ketentuan ini mengikat secara hukum. Dengan mendaftar dan menggunakan layanan 7connect,
+                      Syarat dan ketentuan ini mengikat secara hukum. Dengan mendaftar dan menggunakan layanan chatzku,
                       Anda mengakui telah membaca, memahami, dan menyetujui untuk terikat oleh syarat ini.
                       Jika Anda tidak menyetujui syarat ini, jangan menggunakan layanan kami.
                     </p>
@@ -395,7 +395,7 @@ const TermsPage = () => {
                   <FileText className="w-5 h-5 text-blue-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Email Legal</p>
-                    <p className="text-sm text-gray-700">legal@7connect.id</p>
+                    <p className="text-sm text-gray-700">legal@chatzku.id</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">

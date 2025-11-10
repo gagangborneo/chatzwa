@@ -1054,7 +1054,7 @@ export function DashboardContent() {
       {/* Welcome Section */}
       <div className="text-center bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white rounded-2xl p-12 mb-8">
         <h1 className="text-4xl font-bold mb-4">
-          {t('dashboard.welcome', 'Selamat Datang di Platform Chatbot AI 7 Connect')}
+          {t('dashboard.welcome', 'Selamat Datang di Platform Chatbot AI chatzku')}
         </h1>
         <p className="text-xl opacity-90 max-w-2xl mx-auto">
           {t('dashboard.welcomeSubtitle', 'Solusi chatbot AI lengkap untuk layanan pelanggan, keterlibatan, dan otomasi')}

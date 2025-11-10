@@ -47,7 +47,7 @@ const ContactPage = () => {
     {
       icon: Mail,
       title: 'Email Kami',
-      content: 'hello@7connect.id',
+      content: 'hello@chatzku.id',
       description: 'Dapatkan respons dalam 24 jam'
     },
     {
@@ -86,7 +86,7 @@ const ContactPage = () => {
               <span className="text-gray-700">Kami Siap Membantu</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Punya pertanyaan tentang platform 7connect? Tim ahli kami siap membantu Anda
+              Punya pertanyaan tentang platform chatzku? Tim ahli kami siap membantu Anda
             </p>
           </div>
 

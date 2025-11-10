@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import PricingClient from './pricing-client'
 
 export const metadata: Metadata = {
-  title: "Harga - 7 Connect | Platform Chatbot AI Indonesia",
-  description: "Paket harga terbaik untuk platform chatbot AI 7 Connect. Mulai dari Starter hingga Enterprise dengan fitur lengkap untuk bisnis Anda.",
-  keywords: ["Harga Chatbot", "Pricing AI", "Paket Chatbot", "7 Connect Harga", "Platform AI Indonesia"],
+  title: "Harga - chatzku | Platform Chatbot AI Indonesia",
+  description: "Paket harga terbaik untuk platform chatbot AI chatzku. Mulai dari Starter hingga Enterprise dengan fitur lengkap untuk bisnis Anda.",
+  keywords: ["Harga Chatbot", "Pricing AI", "Paket Chatbot", "chatzku Harga", "Platform AI Indonesia"],
 }
 
 export default function PricingPage() {
@@ -404,7 +404,7 @@ const PricingPage = () => {
               Dipercaya oleh Berbagai Bisnis
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Lihat bagaimana bisnis seperti Anda mendapatkan manfaat dari 7connect
+              Lihat bagaimana bisnis seperti Anda mendapatkan manfaat dari chatzku
             </p>
           </div>
 
@@ -437,7 +437,7 @@ const PricingPage = () => {
               Pertanyaan yang Sering Diajukan
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Temukan jawaban untuk pertanyaan umum tentang pricing dan fitur 7connect
+              Temukan jawaban untuk pertanyaan umum tentang pricing dan fitur chatzku
             </p>
           </div>
 

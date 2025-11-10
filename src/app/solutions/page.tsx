@@ -182,7 +182,7 @@ const SolutionsPage = () => {
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                Solusi 7connect
+                Solusi chatzku
               </span>
               <br />
               <span className="text-gray-700">Untuk Setiap Industri</span>
@@ -291,7 +291,7 @@ const SolutionsPage = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Mengapa Memilih 7connect?
+              Mengapa Memilih chatzku?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Platform yang kuat, aman, dan mudah digunakan untuk transformasi digital bisnis Anda
@@ -324,7 +324,7 @@ const SolutionsPage = () => {
                 Siap Transformasi Bisnis Anda?
               </h2>
               <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-                Bergabunglah dengan ratusan bisnis yang sudah menggunakan 7connect
+                Bergabunglah dengan ratusan bisnis yang sudah menggunakan chatzku
                 untuk meningkatkan efisiensi dan kepuasan pelanggan.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

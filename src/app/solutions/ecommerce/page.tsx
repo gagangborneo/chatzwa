@@ -299,7 +299,7 @@ const EcommerceSolution = () => {
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Bergabunglah dengan ribuan bisnis e-commerce yang telah meningkatkan customer experience
-              dan penjualan dengan AI chatbot dari 7connect
+              dan penjualan dengan AI chatbot dari chatzku
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">

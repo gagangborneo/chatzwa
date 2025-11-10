@@ -1,5 +1,5 @@
 /**
- * 7connect Embed Chat Script
+ * chatzku Embed Chat Script
  * Embed this script in any website to add AI chat functionality
  */
 
@@ -1464,10 +1464,10 @@
   function initializeWhenReady() {
     // Look for configuration in window.EMBED_CHAT_CONFIG
     if (window.EMBED_CHAT_CONFIG) {
-      console.log('7connect Embed Chat: Initializing with configuration:', window.EMBED_CHAT_CONFIG);
+      console.log('chatzku Embed Chat: Initializing with configuration:', window.EMBED_CHAT_CONFIG);
       initializeEmbedChat(window.EMBED_CHAT_CONFIG);
     } else {
-      console.log('7connect Embed Chat: No configuration found in window.EMBED_CHAT_CONFIG');
+      console.log('chatzku Embed Chat: No configuration found in window.EMBED_CHAT_CONFIG');
     }
   }
 

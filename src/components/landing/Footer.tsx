@@ -89,7 +89,7 @@ const Footer = () => {
                 <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center">
                   <MessageCircle className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-2xl font-bold text-white">7connect</span>
+                <span className="text-2xl font-bold text-white">chatzku</span>
               </Link>
 
               <p className="text-gray-300 mb-6 leading-relaxed">
@@ -206,7 +206,7 @@ const Footer = () => {
           <div className="pt-8 border-t border-white/10">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="text-gray-400 text-sm">
-                © 2024 7connect. All rights reserved.
+                © 2024 chatzku. All rights reserved.
               </div>
 
               <div className="flex items-center gap-6 text-sm text-gray-400">
@@ -233,7 +233,7 @@ const Footer = () => {
                 <Mail className="w-5 h-5 text-green-400" />
                 <div>
                   <div className="text-white font-medium">Email</div>
-                  <div className="text-gray-300 text-sm">hello@7connect.id</div>
+                  <div className="text-gray-300 text-sm">hello@chatzku.com</div>
                 </div>
               </div>
               <div className="flex items-center justify-center gap-3">

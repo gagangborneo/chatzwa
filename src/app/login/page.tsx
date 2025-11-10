@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import LoginClient from './login-client'
 
 export const metadata: Metadata = {
-  title: "Login - 7 Connect | Platform Chatbot AI",
-  description: "Masuk ke dashboard 7 Connect untuk mengelola chatbot AI Anda. Akses analytics, integrasi, dan pengaturan platform.",
-  keywords: ["Login 7 Connect", "Masuk Chatbot", "Dashboard AI", "Platform Chatbot Indonesia"],
+  title: "Login - chatzku | Platform Chatbot AI",
+  description: "Masuk ke dashboard chatzku untuk mengelola chatbot AI Anda. Akses analytics, integrasi, dan pengaturan platform.",
+  keywords: ["Login chatzku", "Masuk Chatbot", "Dashboard AI", "Platform Chatbot Indonesia"],
 }
 
 export default function LoginPage() {

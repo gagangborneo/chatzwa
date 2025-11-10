@@ -137,7 +137,7 @@ const AIChatbotPage = () => {
       name: 'Sarah Wijaya',
       role: 'Customer Service Manager',
       company: 'E-Commerce Store',
-      content: 'AI chatbot 7connect mengubah cara kami melayani pelanggan. Respon waktu turun drastis dan kepuasan pelanggan meningkat signifikan!',
+      content: 'AI chatbot chatzku mengubah cara kami melayani pelanggan. Respon waktu turun drastis dan kepuasan pelanggan meningkat signifikan!',
       rating: 5
     },
     {
@@ -205,7 +205,7 @@ const AIChatbotPage = () => {
 
   const faqs = [
     {
-      question: 'Bagaimana cara kerja AI chatbot 7connect?',
+      question: 'Bagaimana cara kerja AI chatbot chatzku?',
       answer: 'AI chatbot kami menggunakan teknologi NLP canggih untuk memahami pertanyaan pelanggan dalam bahasa natural. Sistem belajar dari data bisnis Anda dan memberikan jawaban yang relevan dan akurat.'
     },
     {
@@ -528,7 +528,7 @@ const AIChatbotPage = () => {
             Siap Meningkatkan Customer Service Anda?
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Bergabunglah dengan ratusan bisnis yang sudah merasakan manfaat AI chatbot 7connect
+            Bergabunglah dengan ratusan bisnis yang sudah merasakan manfaat AI chatbot chatzku
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-green-600 hover:bg-gray-100">

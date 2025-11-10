@@ -57,7 +57,7 @@ Lakukan beta testing, kumpulkan feedback, dan lakukan continuous improvement.
 - IBM Watson Assistant
 
 ### Local Solutions:
-- 7connect AI Chatbot
+- chatzku AI Chatbot
 - Botika
 - Kata.ai
 
@@ -67,7 +67,7 @@ Implementasi AI chatbot bukan lagi luxury item, melainkan necessity bagi bisnis 
 
 Mulailah dengan pilot project kecil, ukur kesuksesannya, dan scale up secara bertahap. Ingatlah bahwa customer experience yang excellent adalah kunci keberhasilan bisnis di era digital.
 
-**Ready to implement AI chatbot for your business? Contact 7connect team for consultation!**`,
+**Ready to implement AI chatbot for your business? Contact chatzku team for consultation!**`,
     metaTitle: 'Panduan Lengkap Implementasi AI Chatbot Indonesia 2024',
     metaDescription: 'Pelajari cara implementasi AI chatbot efektif untuk bisnis Indonesia. Tingkatkan layanan pelanggan dan efisiensi operasional dengan panduan lengkap ini.',
     metaKeywords: 'AI chatbot, implementasi chatbot, bisnis Indonesia, customer service automation, chatbot Indonesia, AI untuk bisnis',
@@ -134,7 +134,7 @@ Order updates, delivery tracking, dan customer support.
 
 WhatsApp Business API bukan sekadar tools komunikasi, melainkan strategic asset untuk UKM Indonesia. Dengan implementasi yang tepat, UKM dapat bersaing dengan perusahaan besar dalam hal customer engagement.
 
-**Contact 7connect for consultation and implementation support.**`,
+**Contact chatzku for consultation and implementation support.**`,
     metaTitle: 'WhatsApp Business API Indonesia: Strategi UKM 2024',
     metaDescription: 'Panduan lengkap WhatsApp Business API untuk UKM Indonesia. Pelajari strategi komunikasi efektif untuk mengembangkan bisnis Anda.',
     metaKeywords: 'WhatsApp Business API, UKM Indonesia, strategi komunikasi, customer engagement, marketing WhatsApp, bisnis online',
@@ -199,7 +199,7 @@ Teknologi computer vision untuk pengalaman belanja visual.
 
 AI-powered e-commerce bukan lagi future concept, melainkan current reality. Perusahaan Indonesia yang mengadopsi AI secara strategis akan memiliki competitive advantage yang signifikan.
 
-**Transform your digital shopping experience with 7connect AI Solutions.**`,
+**Transform your digital shopping experience with chatzku AI Solutions.**`,
     metaTitle: 'AI E-commerce Indonesia: Revolusi Digital Shopping 2024',
     metaDescription: 'Bagaimana AI mengubah e-commerce Indonesia. Pelajari teknologi AI untuk personalization, chatbot, dan optimasi bisnis online Anda.',
     metaKeywords: 'AI e-commerce, Indonesia, digital shopping, machine learning, personalization, chatbot, e-commerce technology',
@@ -259,7 +259,7 @@ AI systems untuk evaluasi otomatis dengan feedback instant.
 
 AI dalam pendidikan bukan tentang mengganti guru, melainkan memberikan tools powerful untuk meningkatkan efektivitas pengajaran dan pembelajaran.
 
-**Revolutionize learning experiences with 7connect Education AI Solutions.**`,
+**Revolutionize learning experiences with chatzku Education AI Solutions.**`,
     metaTitle: 'EdTech Indonesia: AI dalam Pendidikan Modern 2024',
     metaDescription: 'Eksplorasi transformasi AI dalam pendidikan Indonesia. Pelajari bagaimana teknologi AI menciptakan pengalaman belajar yang personalized.',
     metaKeywords: 'EdTech Indonesia, AI pendidikan, personalized learning, educational technology, digital learning, machine learning education',
@@ -319,7 +319,7 @@ IoT dan AI untuk monitoring pasien real-time.
 
 Digital health dengan AI dan telemedicine bukan lagi konsep masa depan, melainkan kebutuhan mendesak untuk sistem kesehatan Indonesia.
 
-**Revolutionize patient care with 7connect Health AI Solutions.**`,
+**Revolutionize patient care with chatzku Health AI Solutions.**`,
     metaTitle: 'Digital Health Indonesia: Telemedicine dan AI Patient Support 2024',
     metaDescription: 'Bagaimana AI dan telemedicine mengtransformasi layanan kesehatan Indonesia. Pelajari implementasi untuk meningkatkan patient outcomes.',
     metaKeywords: 'Digital health Indonesia, telemedicine, AI healthcare, patient support, medical technology, health informatics',
@@ -339,14 +339,14 @@ async function seedBlogPosts() {
   try {
     // Get or create admin user as author
     let adminUser = await prisma.user.findFirst({
-      where: { email: 'admin@7connect.id' }
+      where: { email: 'admin@chatzku.id' }
     })
 
     if (!adminUser) {
       adminUser = await prisma.user.create({
         data: {
-          email: 'admin@7connect.id',
-          name: '7connect Team',
+          email: 'admin@chatzku.id',
+          name: 'chatzku Team',
           password: 'hashed_password', // This would be properly hashed
           role: 'admin',
           isActive: true

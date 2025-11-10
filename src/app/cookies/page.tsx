@@ -70,8 +70,8 @@ const CookiePolicyPage = () => {
       ]
     },
     {
-      id: 'cookie-7connect',
-      title: 'Cookie Khusus 7connect',
+      id: 'cookie-chatzku',
+      title: 'Cookie Khusus chatzku',
       icon: Settings,
       content: [
         'Session ID: Untuk mengidentifikasi sesi login Anda',
@@ -99,7 +99,7 @@ const CookiePolicyPage = () => {
       title: 'Keamanan Cookie',
       icon: Shield,
       content: [
-        'Semua cookie 7connect dilindungi dengan enkripsi HTTPS',
+        'Semua cookie chatzku dilindungi dengan enkripsi HTTPS',
         'Kami menggunakan HttpOnly flag untuk cookie sensitif',
         'Cookie session memiliki waktu kadaluarsa yang terbatas',
         'Kami tidak menggunakan cookie untuk mengumpulkan informasi pribadi sensitif',
@@ -133,7 +133,7 @@ const CookiePolicyPage = () => {
         'Security settings'
       ],
       duration: 'Ses sampai browser ditutup',
-      provider: '7connect'
+      provider: 'chatzku'
     },
     {
       name: 'Analytics Cookies',
@@ -159,7 +159,7 @@ const CookiePolicyPage = () => {
         'Feature usage data'
       ],
       duration: '1 tahun',
-      provider: '7connect'
+      provider: 'chatzku'
     },
     {
       name: 'Advertising Cookies',
@@ -224,7 +224,7 @@ const CookiePolicyPage = () => {
               Kebijakan Cookie
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Kebijakan cookie 7connect menjelaskan bagaimana kami menggunakan cookie dan
+              Kebijakan cookie chatzku menjelaskan bagaimana kami menggunakan cookie dan
               teknologi pelacakan lainnya untuk meningkatkan pengalaman pengguna website kami.
             </p>
             <div className="flex items-center justify-center gap-4 mt-8">
@@ -507,21 +507,21 @@ const CookiePolicyPage = () => {
                   <Cookie className="w-5 h-5 text-amber-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Email Cookie</p>
-                    <p className="text-sm text-gray-700">privacy@7connect.id</p>
+                    <p className="text-sm text-gray-700">privacy@chatzku.id</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <BarChart3 className="w-5 h-5 text-amber-600" />
                   <div>
                     <p className="font-semibold text-gray-900">DPO</p>
-                    <p className="text-sm text-gray-700">dpo@7connect.id</p>
+                    <p className="text-sm text-gray-700">dpo@chatzku.id</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <AlertCircle className="w-5 h-5 text-amber-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Help Center</p>
-                    <p className="text-sm text-gray-700">help@7connect.id</p>
+                    <p className="text-sm text-gray-700">help@chatzku.id</p>
                   </div>
                 </div>
               </div>

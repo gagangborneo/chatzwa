@@ -198,7 +198,7 @@ export const validateSession = async (token: string): Promise<AuthUser | null> =
     },
     {
       userId: 'regular_user_id',
-      email: 'user@7connect.id',
+      email: 'user@chatzku.id',
       name: 'Regular User',
       role: 'user'
     }
@@ -349,7 +349,7 @@ export const unifiedAuth = {
         role: 'admin'
       },
       {
-        email: 'user@7connect.id',
+        email: 'user@chatzku.id',
         password: 'user123',
         userId: 'regular_user_id',
         name: 'Regular User',

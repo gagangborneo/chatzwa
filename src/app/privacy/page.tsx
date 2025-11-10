@@ -49,7 +49,7 @@ const PrivacyPolicyPage = () => {
       title: 'Penggunaan Data',
       icon: Globe,
       content: [
-        'Menyediakan dan mengoperasikan layanan 7connect',
+        'Menyediakan dan mengoperasikan layanan chatzku',
         'Memproses transaksi dan komunikasi pelanggan',
         'Mengirim informasi penting terkait layanan',
         'Menganalisis dan meningkatkan kualitas layanan',
@@ -145,7 +145,7 @@ const PrivacyPolicyPage = () => {
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Perlindungan data Anda adalah prioritas utama kami. Kebijakan ini menjelaskan
-              bagaimana 7connect mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.
+              bagaimana chatzku mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.
             </p>
             <div className="flex items-center justify-center gap-4 mt-8">
               <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -169,12 +169,12 @@ const PrivacyPolicyPage = () => {
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Komitmen Privasi Kami</h2>
               <p className="text-gray-700 leading-relaxed mb-4">
-                Di 7connect, kami berkomitmen untuk melindungi privasi dan keamanan data pribadi Anda.
+                Di chatzku, kami berkomitmen untuk melindungi privasi dan keamanan data pribadi Anda.
                 Kebijakan privasi ini berlaku untuk semua pengguna layanan kami dan menjelaskan praktik
                 privasi kami yang transparan dan dapat dipertanggungjawabkan.
               </p>
               <p className="text-gray-700 leading-relaxed">
-                Dengan menggunakan layanan 7connect, Anda menyetujui pengumpulan dan penggunaan data
+                Dengan menggunakan layanan chatzku, Anda menyetujui pengumpulan dan penggunaan data
                 sebagaimana dijelaskan dalam kebijakan ini.
               </p>
             </CardContent>
@@ -317,7 +317,7 @@ const PrivacyPolicyPage = () => {
                   <Mail className="w-5 h-5 text-green-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Email</p>
-                    <p className="text-sm text-gray-700">privacy@7connect.id</p>
+                    <p className="text-sm text-gray-700">privacy@chatzku.id</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">

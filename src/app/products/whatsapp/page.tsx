@@ -91,11 +91,11 @@ const WhatsAppPage = () => {
     },
     {
       step: 2,
-      title: 'Connect ke 7connect Platform',
-      description: 'Hubungkan WhatsApp API credentials ke dashboard 7connect Anda',
+      title: 'Connect ke chatzku Platform',
+      description: 'Hubungkan WhatsApp API credentials ke dashboard chatzku Anda',
       icon: Key,
       details: [
-        'Login ke dashboard 7connect',
+        'Login ke dashboard chatzku',
         'Masukkan API key dan secret',
         'Configure webhook URL',
         'Test connection'
@@ -237,7 +237,7 @@ const WhatsAppPage = () => {
       name: 'Ahmad Hidayat',
       role: 'Operations Manager',
       company: 'Fashion E-Commerce',
-      content: 'WhatsApp chatbot 7connect mengubah cara kami handle customer inquiries. Response time turun dari hours ke seconds!',
+      content: 'WhatsApp chatbot chatzku mengubah cara kami handle customer inquiries. Response time turun dari hours ke seconds!',
       rating: 5
     },
     {

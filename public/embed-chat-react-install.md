@@ -746,7 +746,7 @@ function ProductionChatWidget() {
 ### 16. Support
 
 Untuk bantuan lebih lanjut:
-- Documentation: https://docs.7connect.com/embed-chat-react
-- GitHub Issues: https://github.com/7connect/embed-chat-react/issues
-- Email: support@7connect.com
-- Discord: https://discord.gg/7connect
+- Documentation: https://docs.chatzku.com/embed-chat-react
+- GitHub Issues: https://github.com/chatzku/embed-chat-react/issues
+- Email: support@chatzku.com
+- Discord: https://discord.gg/chatzku

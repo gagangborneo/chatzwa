@@ -38,6 +38,7 @@ model User {
   knowledgeDocuments  KnowledgeDocument[]
   documentUploads     DocumentUpload[]
   wordpressIntegrations WordPressIntegration[]
+  blogPosts BlogPost[]
 
   // Subscription Relations
   subscriptions Subscription[]
@@ -74,14 +75,53 @@ model UserSession {
   @@index([isActive])
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String?  // Short description for SEO
+  content     String   // Full HTML content
+  authorId    String?  // Foreign key to User
+
+  // SEO Fields
+  metaTitle   String?  // Custom meta title
+  metaDescription String? // Meta description for SEO
+  metaKeywords String?  // Meta keywords
+  ogImage     String?  // Open Graph image URL
+  canonicalUrl String? // Canonical URL
+
+  // Categorization
+  category    String   @default("general") // Category slug
+  tags        String?  // Comma-separated tags
+
+  // Publishing
+  status      String   @default("draft") // draft, published, archived
+  featured    Boolean  @default(false) // Featured post
+  publishedAt DateTime?
+
+  // Analytics
+  viewCount   Int      @default(0)
+  readTime    Int      @default(0) // Estimated reading time in minutes
+
+  // Social Sharing
+  likeCount   Int      @default(0)
+  shareCount  Int      @default(0)
+  commentCount Int     @default(0)
+
+  // Metadata
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  author      User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([slug])
+  @@index([status])
+  @@index([publishedAt])
+  @@index([category])
+  @@index([featured])
+  @@index([viewCount])
+  @@index([authorId])
 }
 
 model Persona {

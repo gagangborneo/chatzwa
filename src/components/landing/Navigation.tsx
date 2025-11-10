@@ -45,6 +45,7 @@ const Navigation = () => {
   const navigation = [
     { name: t('nav.products'), href: '#', hasDropdown: true },
     { name: 'Solusi', href: '/solutions', hasDropdown: false },
+    { name: 'Blog', href: '/blog', hasDropdown: false },
     { name: t('nav.contact'), href: '/contact', hasDropdown: false },
     { name: t('nav.pricing'), href: '/pricing', hasDropdown: false, external: true }
   ]

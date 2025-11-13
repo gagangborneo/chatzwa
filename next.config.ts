@@ -23,10 +23,6 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
-  eslint: {
-    // 构建时忽略ESLint错误
-    ignoreDuringBuilds: true,
-  },
   // Turbopack configuration untuk development yang lebih cepat
   turbopack: {
     // Turbopack-specific settings

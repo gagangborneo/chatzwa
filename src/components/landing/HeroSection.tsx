@@ -77,7 +77,7 @@ const HeroSection = () => {
                 transition={{ delay: 0.8, duration: 0.8 }}
               >
                 <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-green-600 bg-clip-text text-transparent">
-                  chatzku
+                  Chatzwa
                 </span>
               </motion.h1>
             </div>

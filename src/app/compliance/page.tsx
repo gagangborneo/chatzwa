@@ -80,7 +80,7 @@ const CompliancePage = () => {
       title: 'Komitmen Keamanan Data',
       icon: Shield,
       content: [
-        'chatzku berkomitmen untuk melindungi data pelanggan kami dengan standar keamanan tertinggi',
+        'Chatzwa berkomitmen untuk melindungi data pelanggan kami dengan standar keamanan tertinggi',
         'Kami menggunakan enkripsi end-to-end untuk semua data yang dikirim dan disimpan',
         'Kami memiliki tim keamanan khusus yang memantau ancaman keamanan 24/7',
         'Kami melakukan audit keamanan rutin dengan pihak ketiga yang independen',
@@ -262,7 +262,7 @@ const CompliancePage = () => {
               Compliance & Keamanan
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              chatzku berkomitmen untuk memenuhi standar keamanan dan kepatuhan tertinggi.
+              Chatzwa berkomitmen untuk memenuhi standar keamanan dan kepatuhan tertinggi.
               Keamanan data dan privasi pengguna adalah prioritas utama kami.
             </p>
             <div className="flex items-center justify-center gap-6 mt-8">
@@ -505,21 +505,21 @@ const CompliancePage = () => {
                   <Shield className="w-5 h-5 text-purple-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Email Compliance</p>
-                    <p className="text-sm text-gray-700">compliance@chatzku.id</p>
+                    <p className="text-sm text-gray-700">compliance@Chatzwa.id</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Users className="w-5 h-5 text-purple-600" />
                   <div>
                     <p className="font-semibold text-gray-900">DPO</p>
-                    <p className="text-sm text-gray-700">dpo@chatzku.id</p>
+                    <p className="text-sm text-gray-700">dpo@Chatzwa.id</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Gavel className="w-5 h-5 text-purple-600" />
                   <div>
                     <p className="font-semibold text-gray-900">Legal Counsel</p>
-                    <p className="text-sm text-gray-700">legal@chatzku.id</p>
+                    <p className="text-sm text-gray-700">legal@Chatzwa.id</p>
                   </div>
                 </div>
               </div>

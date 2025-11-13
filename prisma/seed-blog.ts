@@ -115,7 +115,7 @@ Pastikan chatbot dapat terintegrasi dengan:
 - IBM Watson Assistant
 
 ### Local Solutions:
-- chatzku AI Chatbot
+- Chatzwa AI Chatbot
 - Botika
 - Kata.ai
 
@@ -125,7 +125,7 @@ Implementasi AI chatbot bukan lagi luxury item, melainkan necessity bagi bisnis 
 
 Mulailah dengan pilot project kecil, ukur kesuksesannya, dan scale up secara bertahap. Ingatlah bahwa customer experience yang excellent adalah kunci keberhasilan bisnis di era digital.
 
-**Ready to implement AI chatbot for your business? Contact chatzku team for consultation!**`,
+**Ready to implement AI chatbot for your business? Contact Chatzwa team for consultation!**`,
     metaTitle: 'Panduan Lengkap Implementasi AI Chatbot Indonesia 2024',
     metaDescription: 'Pelajari cara implementasi AI chatbot efektif untuk bisnis Indonesia. Tingkatkan layanan pelanggan dan efisiensi operasional dengan panduan lengkap ini.',
     metaKeywords: 'AI chatbot, implementasi chatbot, bisnis Indonesia, customer service automation, chatbot Indonesia, AI untuk bisnis',
@@ -283,7 +283,7 @@ Siap menikmati hidangan favorit Anda! 😊
 ## Tools & Platforms
 
 ### WhatsApp Business API Providers:
-1. **chatzku**: Local provider dengan support bahasa Indonesia
+1. **Chatzwa**: Local provider dengan support bahasa Indonesia
 2. **Twilio**: Global provider dengan robust features
 3. **MessageBird**: European provider dengan competitive pricing
 4. **Clickatell**: Enterprise-focused solutions
@@ -367,7 +367,7 @@ WhatsApp Business API bukan sekadar tools komunikasi, melainkan strategic asset 
 
 Ready to transform your business communication? Partner with experienced WhatsApp Business API provider who understands Indonesian market!
 
-**Contact chatzku for consultation and implementation support.**`,
+**Contact Chatzwa for consultation and implementation support.**`,
     metaTitle: 'WhatsApp Business API Indonesia: Strategi UKM 2024',
     metaDescription: 'Panduan lengkap WhatsApp Business API untuk UKM Indonesia. Pelajari strategi komunikasi efektif untuk mengembangkan bisnis Anda.',
     metaKeywords: 'WhatsApp Business API, UKM Indonesia, strategi komunikasi, customer engagement, marketing WhatsApp, bisnis online',
@@ -714,7 +714,7 @@ AI-powered e-commerce bukan lagi future concept, melainkan current reality yang 
 
 Ready to revolutionize your e-commerce business with AI? Partner with experienced AI implementation partner who understands Indonesian market dynamics!
 
-**Transform your digital shopping experience with chatzku AI Solutions.**`,
+**Transform your digital shopping experience with Chatzwa AI Solutions.**`,
     metaTitle: 'AI E-commerce Indonesia: Revolusi Digital Shopping 2024',
     metaDescription: 'Bagaimana AI mengubah e-commerce Indonesia. Pelajari teknologi AI untuk personalization, chatbot, dan optimasi bisnis online Anda.',
     metaKeywords: 'AI e-commerce, Indonesia, digital shopping, machine learning, personalization, chatbot, e-commerce technology',
@@ -1051,7 +1051,7 @@ AI dalam pendidikan bukan tentang mengganti guru, melainkan memberikan tools yan
 
 Ready to transform education with AI? Partner with experienced EdTech solution provider who understands Indonesian education landscape!
 
-**Revolutionize learning experiences with chatzku Education AI Solutions.**`,
+**Revolutionize learning experiences with Chatzwa Education AI Solutions.**`,
     metaTitle: 'EdTech Indonesia: AI dalam Pendidikan Modern 2024',
     metaDescription: 'Eksplorasi transformasi AI dalam pendidikan Indonesia. Pelajari bagaimana teknologi AI menciptakan pengalaman belajar yang personalized.',
     metaKeywords: 'EdTech Indonesia, AI pendidikan, personalized learning, educational technology, digital learning, machine learning education',
@@ -1421,7 +1421,7 @@ Digital health dengan AI dan telemedicine bukan lagi konsep masa depan, melainka
 
 Ready to transform healthcare delivery with AI? Partner with experienced digital health solution provider who understands Indonesian healthcare ecosystem!
 
-**Revolutionize patient care with chatzku Health AI Solutions.**`,
+**Revolutionize patient care with Chatzwa Health AI Solutions.**`,
     metaTitle: 'Digital Health Indonesia: Telemedicine dan AI Patient Support 2024',
     metaDescription: 'Bagaimana AI dan telemedicine mengtransformasi layanan kesehatan Indonesia. Pelajari implementasi untuk meningkatkan patient outcomes.',
     metaKeywords: 'Digital health Indonesia, telemedicine, AI healthcare, patient support, medical technology, health informatics',
@@ -1441,14 +1441,14 @@ async function seedBlogPosts() {
   try {
     // Get or create admin user as author
     let adminUser = await prisma.user.findFirst({
-      where: { email: 'admin@chatzku.id' }
+      where: { email: 'admin@Chatzwa.id' }
     })
 
     if (!adminUser) {
       adminUser = await prisma.user.create({
         data: {
-          email: 'admin@chatzku.id',
-          name: 'chatzku Team',
+          email: 'admin@Chatzwa.id',
+          name: 'Chatzwa Team',
           password: 'hashed_password', // This would be properly hashed
           role: 'admin',
           isActive: true

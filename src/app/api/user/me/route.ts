@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
       // Use mock data when database is not available
       userData = {
         id: user.id,
-        email: user.email || 'user@chatzku.id',
+        email: user.email || 'user@Chatzwa.id',
         name: user.name || 'Regular User',
         role: user.role || 'user',
         isActive: true,

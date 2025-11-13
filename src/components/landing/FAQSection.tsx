@@ -22,8 +22,8 @@ const FAQSection = () => {
 
   const faqs = [
     {
-      question: "Apa itu chatzku?",
-      answer: "chatzku adalah platform CPaaS (Communications Platform as a Service) yang menyediakan solusi chatbot AI untuk WhatsApp. Kami membantu bisnis mengotomasi layanan pelanggan dengan AI yang cerdas dan responsif.",
+      question: "Apa itu Chatzwa?",
+      answer: "Chatzwa adalah platform CPaaS (Communications Platform as a Service) yang menyediakan solusi chatbot AI untuk WhatsApp. Kami membantu bisnis mengotomasi layanan pelanggan dengan AI yang cerdas dan responsif.",
       icon: MessageCircle
     },
     {
@@ -32,12 +32,12 @@ const FAQSection = () => {
       icon: Zap
     },
     {
-      question: "Apakah chatzku aman untuk data bisnis?",
+      question: "Apakah Chatzwa aman untuk data bisnis?",
       answer: "Ya, kami menggunakan enkripsi end-to-end dan keamanan enterprise-grade untuk melindungi data bisnis Anda. Semua percakapan tersimpan dengan aman dan mematuhi standar keamanan internasional.",
       icon: Shield
     },
     {
-      question: "Berapa biaya untuk menggunakan chatzku?",
+      question: "Berapa biaya untuk menggunakan Chatzwa?",
       answer: "Kami menawarkan beberapa paket harga mulai dari Rp 499.000/bulan untuk Starter, Rp 1.499.000/bulan untuk Professional, dan khusus untuk Enterprise. Ada pilihan pembayaran bulanan dan tahunan dengan diskon.",
       icon: BarChart3
     },
@@ -48,7 +48,7 @@ const FAQSection = () => {
     },
     {
       question: "Bagaimana integrasi dengan sistem yang sudah ada?",
-      answer: "chatzku mudah diintegrasikan dengan sistem CRM, website, dan aplikasi yang sudah Anda gunakan melalui API yang komprehensif. Tim kami juga membantu proses integrasi jika diperlukan.",
+      answer: "Chatzwa mudah diintegrasikan dengan sistem CRM, website, dan aplikasi yang sudah Anda gunakan melalui API yang komprehensif. Tim kami juga membantu proses integrasi jika diperlukan.",
       icon: Globe
     },
     {
@@ -57,7 +57,7 @@ const FAQSection = () => {
       icon: Users
     },
     {
-      question: "Bagaimana cara memulai menggunakan chatzku?",
+      question: "Bagaimana cara memulai menggunakan Chatzwa?",
       answer: "Anda bisa mulai dengan mendaftar akun gratis, konfigurasi chatbot sesuai kebutuhan bisnis Anda, dan integrasikan dengan WhatsApp dalam hitungan menit. Tidak memerlukan pengetahuan teknis yang mendalam.",
       icon: HelpCircle
     }
@@ -78,7 +78,7 @@ const FAQSection = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Temukan jawaban untuk pertanyaan umum tentang chatzku dan layanan kami
+            Temukan jawaban untuk pertanyaan umum tentang Chatzwa dan layanan kami
           </p>
         </div>
 
@@ -138,7 +138,7 @@ const FAQSection = () => {
                 Masih Ada Pertanyaan?
               </h3>
               <p className="text-xl text-green-100 mb-8">
-                Tim support kami siap membantu Anda menjawab semua pertanyaan tentang chatzku
+                Tim support kami siap membantu Anda menjawab semua pertanyaan tentang Chatzwa
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a

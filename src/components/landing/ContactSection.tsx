@@ -90,7 +90,7 @@ const ContactSection = () => {
             <span className="text-gray-700">Kami Siap Membantu</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Punya pertanyaan tentang platform chatzku? Tim ahli kami siap membantu Anda.
+            Punya pertanyaan tentang platform Chatzwa? Tim ahli kami siap membantu Anda.
           </p>
         </motion.div>
 

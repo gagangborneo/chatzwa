@@ -125,16 +125,16 @@ export default function EmbedChatIntegration() {
 
     switch (integrationType) {
       case 'javascript':
-        code = `<!-- chatzku Embed Chat Widget -->
+        code = `<!-- Chatzwa Embed Chat Widget -->
 <script>
   window.EMBED_CHAT_CONFIG = ${JSON.stringify(config, null, 2)};
 </script>
 <script src="${domain}/embed-chat.js" async></script>
-<!-- End chatzku Embed Chat Widget -->`;
+<!-- End Chatzwa Embed Chat Widget -->`;
         break;
 
       case 'vue':
-        code = `<!-- chatzku Vue.js Embed Chat Widget -->
+        code = `<!-- Chatzwa Vue.js Embed Chat Widget -->
 <!-- Step 1: Download the Vue component -->
 <!-- Download: ${domain}/embed-chat-vue.vue -->
 
@@ -179,11 +179,11 @@ export default {
   }
 }
 </script>
-<!-- End chatzku Vue.js Embed Chat Widget -->`;
+<!-- End Chatzwa Vue.js Embed Chat Widget -->`;
         break;
 
       case 'react':
-        code = `// chatzku React Embed Chat Widget
+        code = `// Chatzwa React Embed Chat Widget
 // Step 1: Download the React component
 // Download: ${domain}/embed-chat-react.jsx
 
@@ -223,16 +223,16 @@ function App() {
 }
 
 export default App;
-// End chatzku React Embed Chat Widget`;
+// End Chatzwa React Embed Chat Widget`;
         break;
 
       default:
-        code = `<!-- chatzku Embed Chat Widget -->
+        code = `<!-- Chatzwa Embed Chat Widget -->
 <script>
   window.EMBED_CHAT_CONFIG = ${JSON.stringify(config, null, 2)};
 </script>
 <script src="${domain}/embed-chat.js" async></script>
-<!-- End chatzku Embed Chat Widget -->`;
+<!-- End Chatzwa Embed Chat Widget -->`;
     }
 
     setEmbedCode(code)
@@ -1006,7 +1006,7 @@ export default App;
                   <div className="p-4 border rounded-lg">
                     <h4 className="font-medium mb-2">WordPress</h4>
                     <ol className="text-sm text-muted-foreground space-y-1">
-                      <li>1. Install plugin chatzku</li>
+                      <li>1. Install plugin Chatzwa</li>
                       <li>2. Masukkan API key</li>
                       <li>3. Konfigurasi widget</li>
                       <li>4. Publish</li>

@@ -7,13 +7,13 @@ import FAQSection from '@/components/landing/FAQSection'
 import Footer from '@/components/landing/Footer'
 
 export const metadata: Metadata = {
-  title: "chatzku - Platform Chatbot AI Indonesia | Solusi Bisnis Digital",
+  title: "Chatzwa - Platform Chatbot AI Indonesia | Solusi Bisnis Digital",
   description: "Platform chatbot AI terdepan di Indonesia untuk customer service, engagement, dan otomasi bisnis. Integrasi WhatsApp, website, dan multi-channel.",
-  keywords: ["Platform Chatbot AI", "AI Indonesia", "Customer Service", "Otomasi Bisnis", "WhatsApp Bot", "chatzku"],
+  keywords: ["Platform Chatbot AI", "AI Indonesia", "Customer Service", "Otomasi Bisnis", "WhatsApp Bot", "Chatzwa"],
   openGraph: {
-    title: "chatzku - Platform Chatbot AI Indonesia",
+    title: "Chatzwa - Platform Chatbot AI Indonesia",
     description: "Platform chatbot AI terdepan untuk customer service dan otomasi bisnis",
-    url: "https://chatzku.id",
+    url: "https://chatzwa.id",
     type: "website",
   },
 }

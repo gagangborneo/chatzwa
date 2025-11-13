@@ -382,6 +382,6 @@ export interface ChatWidgetProps {
 ### 15. Support
 
 Untuk bantuan lebih lanjut, hubungi:
-- Email: support@chatzku.com
-- Documentation: https://docs.chatzku.com/embed-chat
-- GitHub Issues: https://github.com/chatzku/embed-chat-vue/issues
+- Email: support@Chatzwa.com
+- Documentation: https://docs.Chatzwa.com/embed-chat
+- GitHub Issues: https://github.com/Chatzwa/embed-chat-vue/issues

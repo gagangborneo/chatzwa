@@ -71,14 +71,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   if (!post) {
     return {
-      title: 'Artikel Tidak Ditemukan - chatzku',
+      title: 'Artikel Tidak Ditemukan - Chatzwa',
       description: 'Artikel yang Anda cari tidak ditemukan.',
     }
   }
 
   const title = post.metaTitle || post.title
-  const description = post.metaDescription || post.excerpt || `Baca artikel ${post.title} di blog chatzku`
-  const keywords = post.metaKeywords || `${post.category}, ${post.tags}, AI chatbot, chatzku, blog Indonesia`
+  const description = post.metaDescription || post.excerpt || `Baca artikel ${post.title} di blog Chatzwa`
+  const keywords = post.metaKeywords || `${post.category}, ${post.tags}, AI chatbot, Chatzwa, blog Indonesia`
 
   return {
     title,
@@ -88,15 +88,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       title,
       description,
       type: 'article',
-      url: `https://chatzku.id/blog/${post.slug}`,
+      url: `https://Chatzwa.id/blog/${post.slug}`,
       publishedTime: post.publishedAt?.toISOString(),
       modifiedTime: post.updatedAt.toISOString(),
-      authors: [post.author?.name || 'chatzku Team'],
+      authors: [post.author?.name || 'Chatzwa Team'],
       section: post.category,
       tags: post.tags?.split(',').map(tag => tag.trim()) || [],
       images: [
         {
-          url: post.ogImage || 'https://chatzku.id/og-image-default.jpg',
+          url: post.ogImage || 'https://Chatzwa.id/og-image-default.jpg',
           width: 1200,
           height: 630,
           alt: post.title,
@@ -107,10 +107,10 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       card: 'summary_large_image',
       title,
       description,
-      images: [post.ogImage || 'https://chatzku.id/og-image-default.jpg'],
+      images: [post.ogImage || 'https://Chatzwa.id/og-image-default.jpg'],
     },
     alternates: {
-      canonical: `https://chatzku.id/blog/${post.slug}`,
+      canonical: `https://Chatzwa.id/blog/${post.slug}`,
     },
   }
 }
@@ -271,7 +271,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                   <BlogShareButtons
-                    url={`https://chatzku.id/blog/${post.slug}`}
+                    url={`https://Chatzwa.id/blog/${post.slug}`}
                     title={post.title}
                     description={post.excerpt || ''}
                   />
@@ -292,7 +292,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="text-center md:text-left">
                     <p className="text-sm text-gray-600 mb-2">
-                      Ditulis oleh <span className="font-semibold text-gray-900">{post.author?.name || 'chatzku Team'}</span>
+                      Ditulis oleh <span className="font-semibold text-gray-900">{post.author?.name || 'Chatzwa Team'}</span>
                     </p>
                     <p className="text-sm text-gray-500">
                       Terakhir diperbarui: {formatDate(post.updatedAt)}
@@ -300,7 +300,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </div>
                   <div className="flex items-center gap-4">
                     <BlogShareButtons
-                      url={`https://chatzku.id/blog/${post.slug}`}
+                      url={`https://Chatzwa.id/blog/${post.slug}`}
                       title={post.title}
                       description={post.excerpt || ''}
                       variant="compact"

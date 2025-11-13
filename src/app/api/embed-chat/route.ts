@@ -104,7 +104,7 @@ const DEFAULT_WIDGET_CONFIG = {
   apiKey: 'default_api_key',
   name: 'Customer Support',
   welcomeMessage: 'Halo! Selamat datang di layanan customer support kami.',
-  businessName: 'chatzku'
+  businessName: 'Chatzwa'
 }
 
 // Get widget configuration or return default
@@ -214,7 +214,7 @@ function generateSystemPrompt(persona: any, widgetConfig: any, user?: any): stri
 - Preferensi: ${JSON.stringify(user.preferences || {}, null, 2)}
 ${user.id !== 'anonymous' ? '- Ini adalah user terdaftar, berikan layanan yang lebih personalized' : '- Ini adalah user tamu, berikan layanan standar'}` : ''
 
-    return `Anda adalah asisten AI dari ${widgetConfig.businessName || 'chatzku'} yang profesional, ramah, dan berpengetahuan luas.${userContext}
+    return `Anda adalah asisten AI dari ${widgetConfig.businessName || 'Chatzwa'} yang profesional, ramah, dan berpengetahuan luas.${userContext}
 
     Tugas Anda adalah membantu pengguna seputar:
     1. **AI Chatbot**: Layanan customer service 24/7 dengan AI
@@ -226,7 +226,7 @@ ${user.id !== 'anonymous' ? '- Ini adalah user terdaftar, berikan layanan yang l
 
     **Guidelines:**
     - Gunakan bahasa Indonesia yang profesional namun hangat
-    - Berikan informasi yang akurat tentang ${widgetConfig.businessName || 'chatzku'}
+    - Berikan informasi yang akurat tentang ${widgetConfig.businessName || 'Chatzwa'}
     - Jika tidak tahu jawabannya, katakan dengan jujur dan tawarkan bantuan alternatif
     - Bersikap sabar, empatik, dan profesional
     - Sertakan informasi kontak jika diperlukan
@@ -264,7 +264,7 @@ ${user.id !== 'anonymous' ? '- Ini adalah user terdaftar, berikan layanan yang l
     high: 'sangat empatik dan peduli'
   }
 
-  const systemPrompt = `Anda adalah ${persona.name}, asisten AI profesional dari ${widgetConfig.businessName || 'chatzku'} yang berdedikasi untuk membantu pengguna.${userContext}
+  const systemPrompt = `Anda adalah ${persona.name}, asisten AI profesional dari ${widgetConfig.businessName || 'Chatzwa'} yang berdedikasi untuk membantu pengguna.${userContext}
 
 **Kepribadian Anda:**
 - Nama: ${persona.name}
@@ -286,7 +286,7 @@ ${persona.welcomeMessage}
 - ${user?.id !== 'anonymous' ? 'Ini adalah user terdaftar, berikan layanan yang lebih personalized dan perhatian khusus' : 'Ini adalah user tamu, berikan layanan standar yang ramah'}
 
 **Tugas Utama:**
-Bantu pengguna seputar layanan ${widgetConfig.businessName || 'chatzku'}:
+Bantu pengguna seputar layanan ${widgetConfig.businessName || 'Chatzwa'}:
 1. **AI Chatbot**: Layanan customer service 24/7 dengan AI
 2. **WhatsApp Business API**: Integrasi WhatsApp untuk bisnis
 3. **WordPress Plugin**: Plugin chat untuk website WordPress
@@ -298,7 +298,7 @@ Bantu pengguna seputar layanan ${widgetConfig.businessName || 'chatzku'}:
 - Berikan informasi yang akurat dan bermanfaat
 - Jika tidak tahu jawabannya, katakan dengan jujur
 - Bersikap sabar, empatik, dan profesional
-- Berikan informasi kontak ${widgetConfig.businessName || 'chatzku'} jika diperlukan
+- Berikan informasi kontak ${widgetConfig.businessName || 'Chatzwa'} jika diperlukan
 
 Jawablah sesuai kepribadian Anda di atas!`
 
@@ -333,7 +333,7 @@ async function callOpenRouterAPI(message: string, persona: any, widgetConfig: an
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
         'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-        'X-Title': process.env.NEXT_PUBLIC_APP_NAME || 'chatzku AI Chatbot'
+        'X-Title': process.env.NEXT_PUBLIC_APP_NAME || 'Chatzwa AI Chatbot'
       },
       body: JSON.stringify(openRouterRequest)
     })
@@ -378,7 +378,7 @@ async function generateAIResponse(message: string, widgetConfig: any, persona: a
     } else {
       console.error('Embed Chat: No AI service configured. Please set OLLAMA_BASE_URL & OLLAMA_MODEL for Ollama or OPENROUTER_API_KEY for OpenRouter.')
       // Fallback to simple response
-      return `Terima kasih atas pesan Anda. Saya dari ${widgetConfig.businessName || 'chatzku'} siap membantu Anda dengan informasi tentang layanan kami. Mohon maaf, layanan AI sedang dalam konfigurasi. Silakan hubungi tim support kami untuk bantuan lebih lanjut.`
+      return `Terima kasih atas pesan Anda. Saya dari ${widgetConfig.businessName || 'Chatzwa'} siap membantu Anda dengan informasi tentang layanan kami. Mohon maaf, layanan AI sedang dalam konfigurasi. Silakan hubungi tim support kami untuk bantuan lebih lanjut.`
     }
 
     // Simulate response time based on persona settings
@@ -394,7 +394,7 @@ async function generateAIResponse(message: string, widgetConfig: any, persona: a
     return response
   } catch (error) {
     console.error('Embed Chat: AI Error:', error)
-    return `Maaf, terjadi kesalahan pada sistem AI. Silakan coba lagi nanti atau hubungi tim support ${widgetConfig.businessName || 'chatzku'}.`
+    return `Maaf, terjadi kesalahan pada sistem AI. Silakan coba lagi nanti atau hubungi tim support ${widgetConfig.businessName || 'Chatzwa'}.`
   }
 }
 
@@ -625,7 +625,7 @@ export async function GET(request: NextRequest) {
   }
 
   return NextResponse.json({
-    message: 'chatzku Embed Chat API',
+    message: 'Chatzwa Embed Chat API',
     version: '1.0.0',
     endpoints: {
       chat: 'POST /api/embed-chat',

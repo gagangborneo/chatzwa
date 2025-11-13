@@ -69,7 +69,7 @@ const Navigation = () => {
               <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <MessageCircle className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900 transition-colors duration-300">chatzku</span>
+              <span className="text-xl font-bold text-gray-900 transition-colors duration-300">Chatzwa</span>
             </Link>
 
             {/* Desktop Navigation */}

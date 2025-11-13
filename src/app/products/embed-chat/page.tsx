@@ -85,7 +85,7 @@ const EmbedChatPage = () => {
     {
       step: 1,
       title: 'Get API Key',
-      description: 'Daftar di chatzku platform dan generate API key',
+      description: 'Daftar di Chatzwa platform dan generate API key',
       icon: Key,
       code: `// Get your API key from dashboard
 const API_KEY = 'your-api-key-here';`
@@ -95,7 +95,7 @@ const API_KEY = 'your-api-key-here';`
       title: 'Add Script Tag',
       description: 'Embed JavaScript ke HTML website Anda',
       icon: Code,
-      code: `<script src="https://chat.chatzku.id/widget.js"
+      code: `<script src="https://chat.Chatzwa.id/widget.js"
         data-api-key="your-api-key-here"
         data-position="bottom-right"
         async></script>`
@@ -106,7 +106,7 @@ const API_KEY = 'your-api-key-here';`
       description: 'Konfigurasi widget sesuai preferensi Anda',
       icon: Settings,
       code: `// Advanced configuration
-window.chatzkuWidget = {
+window.ChatzwaWidget = {
   position: 'bottom-right',
   primaryColor: '#10b981',
   welcomeMessage: 'Halo! Ada yang bisa kami bantu?',
@@ -138,8 +138,8 @@ window.chatzkuWidget = {
 <body>
     <h1>Welcome to Our Website</h1>
 
-    <!-- chatzku Chat Widget -->
-    <script src="https://chat.chatzku.id/widget.js"
+    <!-- Chatzwa Chat Widget -->
+    <script src="https://chat.Chatzwa.id/widget.js"
             data-api-key="your-api-key-here"
             async></script>
 </body>
@@ -155,7 +155,7 @@ window.chatzkuWidget = {
 const ChatWidget = () => {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://chat.chatzku.id/widget.js';
+    script.src = 'https://chat.Chatzwa.id/widget.js';
     script.setAttribute('data-api-key', 'your-api-key-here');
     script.async = true;
     document.body.appendChild(script);
@@ -189,7 +189,7 @@ export default {
   methods: {
     loadChatWidget() {
       const script = document.createElement('script');
-      script.src = 'https://chat.chatzku.id/widget.js';
+      script.src = 'https://chat.Chatzwa.id/widget.js';
       script.setAttribute('data-api-key', 'your-api-key-here');
       script.async = true;
       document.body.appendChild(script);
@@ -203,7 +203,7 @@ export default {
       title: 'Advanced Configuration',
       description: 'Konfigurasi lanjutan dengan options',
       language: 'javascript',
-      code: `window.chatzkuWidget = {
+      code: `window.ChatzwaWidget = {
   apiKey: 'your-api-key-here',
   position: 'bottom-right',
   primaryColor: '#10b981',
@@ -421,7 +421,7 @@ export default {
     },
     {
       question: 'Bagaimana cara monitor performa widget?',
-      answer: 'Anda bisa monitor performa melalui dashboard chatzku dengan real-time analytics, conversation data, dan user behavior insights.'
+      answer: 'Anda bisa monitor performa melalui dashboard Chatzwa dengan real-time analytics, conversation data, dan user behavior insights.'
     },
     {
       question: 'Apakah bisa integrate dengan existing systems?',

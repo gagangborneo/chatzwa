@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         },
         {
           userId: 'regular_user_id',
-          email: 'user@chatzku.id',
+          email: 'user@Chatzwa.id',
           password: 'user123'
         }
       ]

@@ -222,7 +222,7 @@ const FeaturesSection = () => {
                 Siap Transformasi Layanan Pelanggan Anda?
               </h3>
               <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-                Bergabunglah dengan ratusan bisnis yang sudah menggunakan chatzku untuk layanan pelanggan yang luar biasa.
+                Bergabunglah dengan ratusan bisnis yang sudah menggunakan Chatzwa untuk layanan pelanggan yang luar biasa.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="px-8 py-4 text-lg font-semibold bg-white text-green-600 hover:bg-gray-100 rounded-xl">

@@ -53,7 +53,7 @@ const WordPressPage = () => {
     {
       icon: Key,
       title: 'Easy API Key Setup',
-      description: 'Connect dengan chatzku platform menggunakan API key yang simple'
+      description: 'Connect dengan Chatzwa platform menggunakan API key yang simple'
     },
     {
       icon: Palette,
@@ -81,10 +81,10 @@ const WordPressPage = () => {
     {
       step: 1,
       title: 'Download Plugin',
-      description: 'Download chatzku Chatbot Plugin dari WordPress.org atau dashboard kami',
+      description: 'Download Chatzwa Chatbot Plugin dari WordPress.org atau dashboard kami',
       icon: Download,
       details: [
-        'Go to WordPress.org/plugins/chatzku-chatbot',
+        'Go to WordPress.org/plugins/Chatzwa-chatbot',
         'Atau download dari customer dashboard',
         'Save file ZIP ke komputer Anda',
         'File size: ~2MB'
@@ -110,17 +110,17 @@ const WordPressPage = () => {
       details: [
         'Click "Activate Plugin" setelah upload',
         'Plugin akan muncul di activated plugins list',
-        'Go to chatzku Chatbot settings',
+        'Go to Chatzwa Chatbot settings',
         'Configure basic preferences'
       ]
     },
     {
       step: 4,
       title: 'Connect API Key',
-      description: 'Hubungkan dengan chatzku platform menggunakan API key',
+      description: 'Hubungkan dengan Chatzwa platform menggunakan API key',
       icon: Key,
       details: [
-        'Get API key dari chatzku dashboard',
+        'Get API key dari Chatzwa dashboard',
         'Enter API key di plugin settings',
         'Save dan test connection',
         'Chat widget siap digunakan'
@@ -362,7 +362,7 @@ const WordPressPage = () => {
     },
     {
       question: 'Bagaimana cara mendapatkan API key?',
-      answer: 'Anda bisa signup gratis di chatzku platform untuk mendapatkan API key. Setelah signup, Anda akan mendapatkan dashboard access untuk generate API keys.'
+      answer: 'Anda bisa signup gratis di Chatzwa platform untuk mendapatkan API key. Setelah signup, Anda akan mendapatkan dashboard access untuk generate API keys.'
     },
     {
       question: 'Apakah plugin mengganggu website performance?',
@@ -398,7 +398,7 @@ const WordPressPage = () => {
               <Globe className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              chatzku WordPress Plugin
+              Chatzwa WordPress Plugin
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
               Plugin WordPress yang mudah untuk mengintegrasikan AI chatbot ke website Anda.

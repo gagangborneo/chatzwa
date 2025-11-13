@@ -47,13 +47,13 @@ const HelpCenterPage = () => {
       id: 'getting-started',
       title: 'Memulai',
       icon: Zap,
-      description: 'Panduan awal untuk memulai menggunakan chatzku',
+      description: 'Panduan awal untuk memulai menggunakan Chatzwa',
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
       faqs: [
         {
-          question: 'Bagaimana cara mendaftar akun chatzku?',
-          answer: 'Mendaftar akun chatzku sangat mudah. Kunjungi halaman pendaftaran, isi formulir dengan email dan password Anda, verifikasi email, dan Anda bisa langsung mulai menggunakan layanan kami.'
+          question: 'Bagaimana cara mendaftar akun Chatzwa?',
+          answer: 'Mendaftar akun Chatzwa sangat mudah. Kunjungi halaman pendaftaran, isi formulir dengan email dan password Anda, verifikasi email, dan Anda bisa langsung mulai menggunakan layanan kami.'
         },
         {
           question: 'Apa saja yang saya butuhkan untuk memulai?',
@@ -73,7 +73,7 @@ const HelpCenterPage = () => {
       id: 'products',
       title: 'Produk & Fitur',
       icon: Smartphone,
-      description: 'Informasi lengkap tentang produk dan fitur chatzku',
+      description: 'Informasi lengkap tentang produk dan fitur Chatzwa',
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       faqs: [
@@ -82,8 +82,8 @@ const HelpCenterPage = () => {
           answer: 'AI Chatbot adalah sistem otomatisasi percakapan, sedangkan WhatsApp Business adalah platform komunikasi. Keduanya dapat digabungkan untuk customer service yang optimal.'
         },
         {
-          question: 'Apakah chatzku bisa terintegrasi dengan sistem yang sudah ada?',
-          answer: 'Ya, chatzku memiliki API yang lengkap untuk integrasi dengan CRM, e-commerce platform, dan sistem bisnis lainnya.'
+          question: 'Apakah Chatzwa bisa terintegrasi dengan sistem yang sudah ada?',
+          answer: 'Ya, Chatzwa memiliki API yang lengkap untuk integrasi dengan CRM, e-commerce platform, dan sistem bisnis lainnya.'
         },
         {
           question: 'Bagaimana cara install WordPress Plugin?',
@@ -195,9 +195,9 @@ const HelpCenterPage = () => {
     {
       icon: Mail,
       title: 'Email Support',
-      description: 'support@chatzku.id',
+      description: 'support@Chatzwa.id',
       action: 'Kirim Email',
-      href: 'mailto:support@chatzku.id',
+      href: 'mailto:support@Chatzwa.id',
       color: 'text-green-600',
       bgColor: 'bg-green-50'
     },
@@ -240,7 +240,7 @@ const HelpCenterPage = () => {
               Kami Bantu?
             </h1>
             <p className="text-xl text-emerald-100 mb-8 max-w-2xl mx-auto">
-              Temukan jawaban, panduan, dan bantuan untuk semua produk dan layanan chatzku
+              Temukan jawaban, panduan, dan bantuan untuk semua produk dan layanan Chatzwa
             </p>
 
             {/* Search Bar */}
@@ -301,7 +301,7 @@ const HelpCenterPage = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-            <p className="text-gray-600">Pertanyaan yang sering diajukan tentang chatzku</p>
+            <p className="text-gray-600">Pertanyaan yang sering diajukan tentang Chatzwa</p>
           </div>
 
           <div className="max-w-4xl mx-auto">

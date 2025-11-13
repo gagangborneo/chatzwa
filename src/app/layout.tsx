@@ -24,20 +24,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "chatzku - Platform Chatbot AI Indonesia",
+  title: "Chatzwa - Platform Chatbot AI Indonesia",
   description: "Platform chatbot AI terdepan di Indonesia untuk layanan pelanggan, engagement, dan otomasi bisnis. Dilengkapi dengan RAG system dan multi-channel integration.",
-  keywords: ["chatzku", "Chatbot AI", "AI Indonesia", "Layanan Pelanggan", "Otomasi Bisnis", "RAG System", "WhatsApp Integration", "Multi-channel"],
-  authors: [{ name: "chatzku Team" }],
+  keywords: ["Chatzwa", "Chatbot AI", "AI Indonesia", "Layanan Pelanggan", "Otomasi Bisnis", "RAG System", "WhatsApp Integration", "Multi-channel"],
+  authors: [{ name: "Chatzwa Team" }],
   openGraph: {
-    title: "chatzku - Platform Chatbot AI Indonesia",
+    title: "Chatzwa - Platform Chatbot AI Indonesia",
     description: "Platform chatbot AI terdepan untuk solusi bisnis digital Anda",
-    url: "https://chatzku.id",
-    siteName: "chatzku",
+    url: "https://chatzwa.id",
+    siteName: "Chatzwa",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "chatzku - Platform Chatbot AI Indonesia",
+    title: "Chatzwa - Platform Chatbot AI Indonesia",
     description: "Platform chatbot AI terdepan untuk solusi bisnis digital Anda",
   },
   robots: {

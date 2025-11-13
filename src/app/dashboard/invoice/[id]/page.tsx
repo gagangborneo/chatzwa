@@ -510,7 +510,7 @@ export default function InvoicePage() {
                 {t('dashboard.companyInfo', 'Informasi Perusahaan')}
               </h3>
               <div className="space-y-2">
-                <p className="font-medium">Chatbot AI Platform chatzku</p>
+                <p className="font-medium">Chatbot AI Platform Chatzwa</p>
                 <p className="text-sm text-gray-600">support@chatbot.ai</p>
                 <p className="text-sm text-gray-600">+62 21 1234 5678</p>
                 <p className="text-sm text-gray-600">Jakarta, Indonesia</p>

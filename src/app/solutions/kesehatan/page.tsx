@@ -301,7 +301,7 @@ const KesehatanSolution = () => {
             </h2>
             <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
               Bergabunglah dengan rumah sakit dan klinik yang telah meningkatkan patient experience
-              dan operational efficiency dengan AI healthcare assistant dari chatzku
+              dan operational efficiency dengan AI healthcare assistant dari Chatzwa
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">

@@ -104,36 +104,36 @@ export async function generateMetadata({ searchParams }: BlogPageProps): Promise
   const { posts, categories } = await getBlogPosts(resolvedParams)
 
   const title = resolvedParams.category
-    ? `Blog ${resolvedParams.category} - chatzku`
+    ? `Blog ${resolvedParams.category} - Chatzwa`
     : resolvedParams.search
-    ? `Pencarian: ${resolvedParams.search} - Blog chatzku`
-    : 'Blog - chatzku | Platform Chatbot AI Indonesia'
+    ? `Pencarian: ${resolvedParams.search} - Blog Chatzwa`
+    : 'Blog - Chatzwa | Platform Chatbot AI Indonesia'
 
   const description = resolvedParams.category
-    ? `Temukan artikel terbaik seputar ${resolvedParams.category} di blog chatzku. Pelajari implementasi AI chatbot untuk berbagai industri.`
+    ? `Temukan artikel terbaik seputar ${resolvedParams.category} di blog Chatzwa. Pelajari implementasi AI chatbot untuk berbagai industri.`
     : resolvedParams.search
-    ? `Hasil pencarian untuk "${resolvedParams.search}" di blog chatzku. Temukan artikel tentang AI chatbot dan implementasinya.`
-    : 'Blog chatzku - Temukan artikel terbaru tentang AI chatbot, implementasi bisnis, tips, dan panduan lengkap untuk mengoptimalkan layanan pelanggan Anda.'
+    ? `Hasil pencarian untuk "${resolvedParams.search}" di blog Chatzwa. Temukan artikel tentang AI chatbot dan implementasinya.`
+    : 'Blog Chatzwa - Temukan artikel terbaru tentang AI chatbot, implementasi bisnis, tips, dan panduan lengkap untuk mengoptimalkan layanan pelanggan Anda.'
 
   return {
     title,
     description,
     keywords: resolvedParams.category
-      ? `${resolvedParams.category}, AI chatbot, blog chatzku, implementasi AI`
+      ? `${resolvedParams.category}, AI chatbot, blog Chatzwa, implementasi AI`
       : resolvedParams.search
-      ? `${resolvedParams.search}, AI chatbot, blog chatzku`
-      : 'blog chatzku, AI chatbot, implementasi AI, panduan chatbot, tips bisnis',
+      ? `${resolvedParams.search}, AI chatbot, blog Chatzwa`
+      : 'blog Chatzwa, AI chatbot, implementasi AI, panduan chatbot, tips bisnis',
     openGraph: {
       title,
       description,
       type: 'website',
-      url: `https://chatzku.id/blog${resolvedParams.category ? `?category=${resolvedParams.category}` : ''}${resolvedParams.search ? `?search=${resolvedParams.search}` : ''}`,
+      url: `https://Chatzwa.id/blog${resolvedParams.category ? `?category=${resolvedParams.category}` : ''}${resolvedParams.search ? `?search=${resolvedParams.search}` : ''}`,
       images: [
         {
-          url: 'https://chatzku.id/og-image-blog.jpg',
+          url: 'https://Chatzwa.id/og-image-blog.jpg',
           width: 1200,
           height: 630,
-          alt: 'Blog chatzku - AI Chatbot Indonesia',
+          alt: 'Blog Chatzwa - AI Chatbot Indonesia',
         },
       ],
     },
@@ -141,10 +141,10 @@ export async function generateMetadata({ searchParams }: BlogPageProps): Promise
       card: 'summary_large_image',
       title,
       description,
-      images: ['https://chatzku.id/og-image-blog.jpg'],
+      images: ['https://Chatzwa.id/og-image-blog.jpg'],
     },
     alternates: {
-      canonical: `https://chatzku.id/blog${resolvedParams.category ? `?category=${resolvedParams.category}` : ''}${resolvedParams.search ? `?search=${resolvedParams.search}` : ''}`,
+      canonical: `https://Chatzwa.id/blog${resolvedParams.category ? `?category=${resolvedParams.category}` : ''}${resolvedParams.search ? `?search=${resolvedParams.search}` : ''}`,
     },
   }
 }
@@ -187,7 +187,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
               Blog & Artikel
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              {resolvedParams.category ? `Blog: ${resolvedParams.category}` : 'Blog chatzku'}
+              {resolvedParams.category ? `Blog: ${resolvedParams.category}` : 'Blog Chatzwa'}
             </h1>
             <p className="text-xl md:text-2xl text-green-100 max-w-3xl mx-auto mb-8">
               {resolvedParams.category

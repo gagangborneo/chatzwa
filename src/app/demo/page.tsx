@@ -28,7 +28,7 @@ const DemoPage = () => {
   const [demoMode, setDemoMode] = useState('live')
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const embedCode = `<!-- chatzku Embed Chat Widget -->
+  const embedCode = `<!-- Chatzwa Embed Chat Widget -->
 <script>
   window.EMBED_CHAT_CONFIG = {
     widgetId: "demo_widget_123",
@@ -37,7 +37,7 @@ const DemoPage = () => {
     primaryColor: "#22c55e",
     title: "Customer Support",
     subtitle: "Kami siap membantu Anda",
-    welcomeMessage: "Halo! Selamat datang di demo chatzku. Ada yang bisa saya bantu?",
+    welcomeMessage: "Halo! Selamat datang di demo Chatzwa. Ada yang bisa saya bantu?",
     placeholder: "Ketik pesan Anda...",
     showOnLoad: false,
     delay: 3000,
@@ -45,7 +45,7 @@ const DemoPage = () => {
   };
 </script>
 <script src="${typeof window !== 'undefined' ? window.location.origin : ''}/embed-chat.js" async></script>
-<!-- End chatzku Embed Chat Widget -->`
+<!-- End Chatzwa Embed Chat Widget -->`
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(embedCode)
@@ -57,9 +57,9 @@ const DemoPage = () => {
     {
       name: 'WordPress',
       icon: '📝',
-      description: 'Install plugin chatzku dari WordPress repository',
+      description: 'Install plugin Chatzwa dari WordPress repository',
       steps: [
-        'Search "chatzku Chat" in WordPress plugins',
+        'Search "Chatzwa Chat" in WordPress plugins',
         'Install and activate the plugin',
         'Enter your API key from dashboard',
         'Configure widget appearance and behavior'
@@ -85,7 +85,7 @@ const DemoPage = () => {
       icon: '⚛️',
       description: 'Integrate with modern JavaScript frameworks',
       steps: [
-        'Install via npm: npm install chatzku-embed',
+        'Install via npm: npm install Chatzwa-embed',
         'Import and configure the component',
         'Add to your application layout',
         'Customize props and styling'
@@ -153,7 +153,7 @@ const DemoPage = () => {
       name: 'Sarah Smith',
       role: 'E-commerce Manager',
       company: 'Online Store',
-      content: 'Our customer satisfaction increased by 40% after implementing the chatzku chat widget.',
+      content: 'Our customer satisfaction increased by 40% after implementing the Chatzwa chat widget.',
       rating: 5
     },
     {
@@ -175,7 +175,7 @@ const DemoPage = () => {
         primaryColor: "#22c55e",
         title: "Customer Support",
         subtitle: "Kami siap membantu Anda",
-        welcomeMessage: "Halo! Selamat datang di demo chatzku. Ada yang bisa saya bantu?",
+        welcomeMessage: "Halo! Selamat datang di demo Chatzwa. Ada yang bisa saya bantu?",
         placeholder: "Ketik pesan Anda...",
         showOnLoad: false,
         delay: 3000,
@@ -215,7 +215,7 @@ const DemoPage = () => {
               Live Demo
             </h1>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Lihat bagaimana chatzku embed chat bekerja dan meningkatkan customer experience
+              Lihat bagaimana Chatzwa embed chat bekerja dan meningkatkan customer experience
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -443,7 +443,7 @@ const DemoPage = () => {
               Ready to Add Chat to Your Website?
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Join thousands of businesses using chatzku to provide exceptional customer support
+              Join thousands of businesses using Chatzwa to provide exceptional customer support
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/dashboard">

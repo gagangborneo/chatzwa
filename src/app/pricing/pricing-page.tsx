@@ -1,26 +1,15 @@
-import { Metadata } from 'next'
-import PricingClient from './pricing-client'
+'use client'
 
-export const metadata: Metadata = {
-  title: "Harga - Chatzwa | Platform Chatbot AI Indonesia",
-  description: "Paket harga terbaik untuk platform chatbot AI Chatzwa. Mulai dari Starter hingga Enterprise dengan fitur lengkap untuk bisnis Anda.",
-  keywords: ["Harga Chatbot", "Pricing AI", "Paket Chatbot", "Chatzwa Harga", "Platform AI Indonesia"],
-}
-
-export default function PricingPage() {
-  return <PricingClient />
-}
+import { useState } from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
 import {
   Check,
   X,
   Star,
-  ChevronLeft,
-  ChevronRight,
   Users,
   Building,
   Zap,
   ArrowRight,
-  MessageCircle,
   BarChart3,
   Shield,
   Clock,
@@ -38,9 +27,8 @@ import { Badge } from '@/components/ui/badge'
 import Navigation from '@/components/landing/Navigation'
 import Footer from '@/components/landing/Footer'
 
-const PricingPage = () => {
+export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(false)
-  const { t } = useLanguage()
 
   const plans = [
     {
@@ -514,5 +502,3 @@ const PricingPage = () => {
     </div>
   )
 }
-
-export default PricingPage

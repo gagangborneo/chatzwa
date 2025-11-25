@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Get authenticated user
@@ -37,7 +37,7 @@ export async function GET(
       )
     }
 
-    const transactionId = params.id
+    const { id: transactionId } = await params
 
     const transaction = await prisma.transaction.findFirst({
       where: {
@@ -93,7 +93,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Get authenticated user
@@ -123,7 +123,7 @@ export async function PATCH(
       )
     }
 
-    const transactionId = params.id
+    const { id: transactionId } = await params
     const body = await request.json()
     const {
       status,

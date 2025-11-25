@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { integrationId: string } }
+  { params }: { params: Promise<{ integrationId: string }> }
 ) {
   try {
     // Get authenticated user
@@ -37,7 +37,7 @@ export async function GET(
       )
     }
 
-    const integrationId = params.integrationId
+    const { integrationId } = await params
 
     // Get WordPress integration
     const wordpressIntegration = await prisma.wordpressIntegration.findFirst({
@@ -93,7 +93,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { integrationId: string } }
+  { params }: { params: Promise<{ integrationId: string }> }
 ) {
   try {
     // Get authenticated user
@@ -123,7 +123,7 @@ export async function PUT(
       )
     }
 
-    const integrationId = params.integrationId
+    const { integrationId } = await params
     const body = await request.json()
     const {
       name,
@@ -222,7 +222,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { integrationId: string } }
+  { params }: { params: Promise<{ integrationId: string }> }
 ) {
   try {
     // Get authenticated user
@@ -252,7 +252,7 @@ export async function DELETE(
       )
     }
 
-    const integrationId = params.integrationId
+    const { integrationId } = await params
 
     // Check if integration exists and belongs to user
     const existingIntegration = await prisma.wordpressIntegration.findFirst({

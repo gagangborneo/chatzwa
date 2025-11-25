@@ -37,7 +37,7 @@ const getUserFromRequest = async (request: NextRequest) => {
 // POST toggle chatbot active status
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getUserFromRequest(request)

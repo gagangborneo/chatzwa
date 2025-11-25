@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { integrationId: string } }
+  { params }: { params: Promise<{ integrationId: string }> }
 ) {
   try {
     // Get authenticated user
@@ -38,7 +38,7 @@ export async function GET(
       )
     }
 
-    const integrationId = params.integrationId
+    const { integrationId } = await params
 
     // Get WordPress integration
     const wordpressIntegration = await prisma.wordpressIntegration.findFirst({

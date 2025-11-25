@@ -2,13 +2,50 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getActivePersona } from '@/lib/persona-service'
 import { chatStorage } from '@/lib/chat-storage'
 
-// Check if we should use Ollama or OpenRouter based on environment variables
-const USE_OLLAMA = process.env.OLLAMA_BASE_URL && process.env.OLLAMA_MODEL
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
-const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://localhost:11434'
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama2'
-const OPENROUTER_MODEL = process.env.DEFAULT_AI_MODEL || process.env.OPENROUTER_MODEL || 'openai/gpt-oss-20b:free'
-const OPENROUTER_BASE_URL = process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1'
+// AI Service Configuration with Priority Fallback
+const getAIServiceConfig = () => {
+  const services = process.env.AI_SERVICE_PRIORITY?.split(',').map(s => s.trim()) || ['openrouter', 'zai', 'ollama']
+
+  const configs = {
+    openrouter: {
+      available: !!process.env.OPENROUTER_API_KEY,
+      apiKey: process.env.OPENROUTER_API_KEY,
+      baseUrl: process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1',
+      model: process.env.OPENROUTER_MODEL || 'deepseek/deepseek-chat-v3.1:free',
+      maxTokens: parseInt(process.env.OPENROUTER_MAX_TOKENS || '4000'),
+      temperature: parseFloat(process.env.OPENROUTER_TEMPERATURE || '0.7'),
+      fallbackModel: process.env.OPENROUTER_FALLBACK_MODEL
+    },
+    zai: {
+      available: !!process.env.ZAI_API_KEY,
+      apiKey: process.env.ZAI_API_KEY,
+      baseUrl: process.env.ZAI_API_URL || 'https://api.z.ai/v1',
+      model: process.env.ZAI_MODEL || 'zai-gpt-4',
+      maxTokens: parseInt(process.env.ZAI_MAX_TOKENS || '4000'),
+      temperature: parseFloat(process.env.ZAI_TEMPERATURE || '0.7')
+    },
+    ollama: {
+      available: !!process.env.OLLAMA_BASE_URL && !!process.env.OLLAMA_MODEL,
+      baseUrl: process.env.OLLAMA_BASE_URL || 'http://localhost:11434',
+      model: process.env.OLLAMA_MODEL || 'llama2',
+      maxTokens: parseInt(process.env.OLLAMA_MAX_TOKENS || '4000'),
+      temperature: parseFloat(process.env.OLLAMA_TEMPERATURE || '0.7'),
+      timeout: parseInt(process.env.OLLAMA_TIMEOUT || '60000')
+    }
+  }
+
+  // Find first available service based on priority
+  for (const service of services) {
+    if (configs[service] && configs[service].available) {
+      return { service: service.toUpperCase(), config: configs[service] }
+    }
+  }
+
+  throw new Error('No AI service configured. Please set OPENROUTER_API_KEY, ZAI_API_KEY, or OLLAMA_BASE_URL & OLLAMA_MODEL')
+}
+
+// Get active AI service configuration
+const activeAI = getAIServiceConfig()
 
 
 interface OllamaMessage {
@@ -222,12 +259,12 @@ Jawablah sesuai kepribadian Anda di atas!`
 }
 
 // Function to call OpenRouter API
-async function callOpenRouterAPI(message: string, persona: any): Promise<string> {
+async function callOpenRouterAPI(message: string, persona: any, config: any): Promise<string> {
   try {
     const systemPrompt = generateSystemPrompt(persona)
 
     const openRouterRequest: OpenRouterRequest = {
-      model: OPENROUTER_MODEL,
+      model: config.model,
       messages: [
         {
           role: 'system',
@@ -238,23 +275,40 @@ async function callOpenRouterAPI(message: string, persona: any): Promise<string>
           content: message
         }
       ],
-      temperature: 0.7,
-      max_tokens: persona?.maxLength || 500,
+      temperature: config.temperature,
+      max_tokens: Math.min(persona?.maxLength || 500, config.maxTokens),
       stream: false
     }
 
-    const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${config.apiKey}`,
+      'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'https://chatzwa.com',
+      'X-Title': process.env.NEXT_PUBLIC_APP_NAME || 'Chatzwa AI Assistant'
+    }
+
+    const response = await fetch(`${config.baseUrl}/chat/completions`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-        'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-        'X-Title': process.env.NEXT_PUBLIC_APP_NAME || 'AI Chatbot'
-      },
+      headers,
       body: JSON.stringify(openRouterRequest)
     })
 
     if (!response.ok) {
+      // Try fallback model if available and this was the primary model failure
+      if (config.fallbackModel && openRouterRequest.model !== config.fallbackModel) {
+        console.warn(`Primary model ${config.model} failed, trying fallback: ${config.fallbackModel}`)
+        const fallbackRequest = { ...openRouterRequest, model: config.fallbackModel }
+        const fallbackResponse = await fetch(`${config.baseUrl}/chat/completions`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(fallbackRequest)
+        })
+
+        if (fallbackResponse.ok) {
+          const fallbackData: OpenRouterResponse = await fallbackResponse.json()
+          return fallbackData.choices[0]?.message?.content || 'Maaf, saya tidak dapat merespons saat ini.'
+        }
+      }
       throw new Error(`OpenRouter API error: ${response.status} ${response.statusText}`)
     }
 
@@ -290,31 +344,54 @@ export async function POST(request: NextRequest) {
       console.warn('No active persona found, using default settings')
     }
 
+    // Get current AI service configuration (this will throw if no service is configured)
+    let aiService
+    try {
+      aiService = getAIServiceConfig()
+    } catch (error) {
+      console.error('AI Service Configuration Error:', error)
+      return NextResponse.json(
+        {
+          error: 'Service configuration error',
+          response: 'Maaf, layanan AI belum dikonfigurasi. Silakan hubungi administrator.',
+          sessionId
+        },
+        { status: 503 }
+      )
+    }
+
+    console.log(`Using ${aiService.service} API with model: ${aiService.config.model} and persona:`, activePersona?.name || 'Default')
+
     let response: string
 
-    // Use Ollama if environment variables are set, otherwise use OpenRouter
-    if (USE_OLLAMA) {
-      console.log('Using Ollama API with persona:', activePersona?.name || 'Default')
-      const systemPrompt = generateSystemPrompt(activePersona)
+    // Route to appropriate AI service
+    switch (aiService.service) {
+      case 'OPENROUTER':
+        response = await callOpenRouterAPI(message, activePersona, aiService.config)
+        break
 
-      const messages: OllamaMessage[] = [
-        {
-          role: 'system',
-          content: systemPrompt
-        },
-        {
-          role: 'user',
-          content: message
-        }
-      ]
+      case 'ZAI':
+        // TODO: Implement ZAI API call if needed
+        throw new Error('ZAI API integration not yet implemented')
 
-      response = await callOllamaAPI(messages)
-    } else if (OPENROUTER_API_KEY) {
-      console.log('Using OpenRouter API with persona:', activePersona?.name || 'Default')
-      response = await callOpenRouterAPI(message, activePersona)
-    } else {
-      console.error('No AI service configured. Please set OLLAMA_BASE_URL & OLLAMA_MODEL for Ollama or OPENROUTER_API_KEY for OpenRouter.')
-      throw new Error('No AI service configured')
+      case 'OLLAMA':
+        // TODO: Update Ollama API call to use config
+        const systemPrompt = generateSystemPrompt(activePersona)
+        const messages: OllamaMessage[] = [
+          {
+            role: 'system',
+            content: systemPrompt
+          },
+          {
+            role: 'user',
+            content: message
+          }
+        ]
+        response = await callOllamaAPI(messages)
+        break
+
+      default:
+        throw new Error(`Unsupported AI service: ${aiService.service}`)
     }
 
     // Simulate response time based on persona settings
@@ -347,6 +424,12 @@ export async function POST(request: NextRequest) {
       persona: {
         name: activePersona?.name || 'Default Assistant',
         profile: activePersona?.selectedProfile || 'default'
+      },
+      aiService: {
+        provider: aiService.service,
+        model: aiService.config.model,
+        maxTokens: aiService.config.maxTokens,
+        temperature: aiService.config.temperature
       },
       sessionId, // Return session ID for client-side tracking
       processingTime: Date.now() - startTime

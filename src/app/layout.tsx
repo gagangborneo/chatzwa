@@ -4,7 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { I18nProvider } from "@/lib/i18n";
 import FloatingChat from "@/components/floating-chat";
-import CookieConsent from "@/components/CookieConsent";
+// import CookieConsent from "@/components/CookieConsent";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const inter = Inter({
@@ -68,7 +68,6 @@ export default function RootLayout({
           <I18nProvider>
             {children}
             <FloatingChat />
-            <CookieConsent />
             <Toaster />
           </I18nProvider>
         </LanguageProvider>

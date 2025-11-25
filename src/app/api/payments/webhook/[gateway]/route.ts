@@ -3,10 +3,10 @@ import { createPaymentService } from '@/lib/payment/service'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { gateway: string } }
+  { params }: { params: Promise<{ gateway: string }> }
 ) {
   try {
-    const gateway = params.gateway
+    const { gateway } = await params
     const body = await request.text()
     const signature = request.headers.get('x-signature') || request.headers.get('signature') || ''
 

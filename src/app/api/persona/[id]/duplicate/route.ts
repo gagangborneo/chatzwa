@@ -4,7 +4,7 @@ import { duplicatePersona } from '@/lib/persona-service'
 // POST - Duplicate persona
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json()

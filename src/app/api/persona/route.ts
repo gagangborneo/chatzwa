@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { savePersona, getAllPersonas, getActivePersona, searchPersonas, getPersonaBySlug } from '@/lib/persona-service'
+import { savePersona, getAllPersonas, getActivePersona, searchPersonas, getPersonaBySlug, getPersonasByProfile } from '@/lib/persona-service'
 
 // GET - Fetch personas
 export async function GET(request: NextRequest) {
@@ -26,7 +26,6 @@ export async function GET(request: NextRequest) {
       personas = await searchPersonas(search, userId || undefined)
     } else if (profile) {
       // Get personas by profile
-      const { getPersonasByProfile } = await import('@/lib/persona-service')
       personas = await getPersonasByProfile(profile, userId || undefined)
     } else {
       // Get all personas

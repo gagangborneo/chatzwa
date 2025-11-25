@@ -127,35 +127,152 @@ function LoginContent({ successMessage, setSuccessMessage }: { successMessage: s
   if (showOTP) {
     return (
       <AuthSuspenseWrapper>
+        {({ successMessage, setSuccessMessage }) => (
+          <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 flex items-center justify-center p-4">
+            <Card className="w-full max-w-md">
+              <CardHeader className="text-center">
+                <div className="mx-auto h-12 w-12 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full flex items-center justify-center mb-4">
+                  <Lock className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-2xl font-bold text-gray-900">Verifikasi OTP</CardTitle>
+                <CardDescription>
+                  Masukkan kode 6 digit yang dikirim ke {formData.email}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleOTPSubmit} className="space-y-6">
+                  <div className="flex justify-center gap-2">
+                    {otpCode.map((digit, index) => (
+                      <input
+                        key={index}
+                        id={`otp-${index}`}
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleOTPChange(index, e.target.value)}
+                        onKeyDown={(e) => handleOTPKeyDown(index, e)}
+                        className="w-12 h-12 text-center text-lg font-semibold border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        autoFocus={index === 0}
+                      />
+                    ))}
+                  </div>
+
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+
+                  {successMessage && (
+                    <Alert>
+                      <AlertDescription>{successMessage}</AlertDescription>
+                    </Alert>
+                  )}
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-green-600 hover:bg-green-700"
+                    disabled={isLoading || otpCode.join('').length !== 6}
+                  >
+                    {isLoading ? 'Verifying...' : 'Verify OTP'}
+                  </Button>
+
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      onClick={() => setShowOTP(false)}
+                      className="text-sm text-green-600 hover:text-green-700"
+                    >
+                      Kembali ke login
+                    </button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </AuthSuspenseWrapper>
+    )
+  }
+
+  return (
+    <AuthSuspenseWrapper>
+      {({ successMessage, setSuccessMessage }) => (
         <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 flex items-center justify-center p-4">
           <Card className="w-full max-w-md">
             <CardHeader className="text-center">
               <div className="mx-auto h-12 w-12 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full flex items-center justify-center mb-4">
-                <Lock className="h-6 w-6 text-white" />
+                <Bot className="h-6 w-6 text-white" />
               </div>
-              <CardTitle className="text-2xl font-bold text-gray-900">Verifikasi OTP</CardTitle>
+              <CardTitle className="text-2xl font-bold text-gray-900">
+                {isLogin ? 'Selamat Datang Kembali' : 'Buat Akun Baru'}
+              </CardTitle>
               <CardDescription>
-                Masukkan kode 6 digit yang dikirim ke {formData.email}
+                {isLogin
+                  ? 'Masuk ke dashboard 7 Connect Anda'
+                  : 'Bergabung dengan platform chatbot AI terdepan'
+                }
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleOTPSubmit} className="space-y-6">
-                <div className="flex justify-center gap-2">
-                  {otpCode.map((digit, index) => (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {!isLogin && (
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Nama Lengkap</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <input
+                        id="name"
+                        type="text"
+                        placeholder="Masukkan nama lengkap"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <input
-                      key={index}
-                      id={`otp-${index}`}
-                      type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]"
-                      maxLength={1}
-                      value={digit}
-                      onChange={(e) => handleOTPChange(index, e.target.value)}
-                      onKeyDown={(e) => handleOTPKeyDown(index, e)}
-                      className="w-12 h-12 text-center text-lg font-semibold border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                      autoFocus={index === 0}
+                      id="email"
+                      type="email"
+                      placeholder="email@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                      required
                     />
-                  ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="••••••••"
+                      value={formData.password}
+                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                      className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
                 </div>
 
                 {error && (
@@ -173,154 +290,41 @@ function LoginContent({ successMessage, setSuccessMessage }: { successMessage: s
                 <Button
                   type="submit"
                   className="w-full bg-green-600 hover:bg-green-700"
-                  disabled={isLoading || otpCode.join('').length !== 6}
+                  disabled={isLoading}
                 >
-                  {isLoading ? 'Verifying...' : 'Verify OTP'}
+                  {isLoading ? 'Loading...' : (isLogin ? 'Masuk' : 'Daftar')}
                 </Button>
 
                 <div className="text-center">
                   <button
                     type="button"
-                    onClick={() => setShowOTP(false)}
+                    onClick={() => {
+                      setIsLogin(!isLogin)
+                      setError('')
+                      setSuccessMessage('')
+                    }}
                     className="text-sm text-green-600 hover:text-green-700"
                   >
-                    Kembali ke login
+                    {isLogin
+                      ? 'Belum punya akun? Daftar sekarang'
+                      : 'Sudah punya akun? Masuk'
+                    }
                   </button>
                 </div>
               </form>
+
+              <div className="mt-6 text-center">
+                <Link
+                  href="/demo"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Coba demo →
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </div>
-      </AuthSuspenseWrapper>
-    )
-  }
-
-  return (
-    <AuthSuspenseWrapper>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="mx-auto h-12 w-12 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full flex items-center justify-center mb-4">
-              <Bot className="h-6 w-6 text-white" />
-            </div>
-            <CardTitle className="text-2xl font-bold text-gray-900">
-              {isLogin ? 'Selamat Datang Kembali' : 'Buat Akun Baru'}
-            </CardTitle>
-            <CardDescription>
-              {isLogin
-                ? 'Masuk ke dashboard 7 Connect Anda'
-                : 'Bergabung dengan platform chatbot AI terdepan'
-              }
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {!isLogin && (
-                <div className="space-y-2">
-                  <Label htmlFor="name">Nama Lengkap</Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                    <input
-                      id="name"
-                      type="text"
-                      placeholder="Masukkan nama lengkap"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                      required
-                    />
-                  </div>
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="email@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
-                </div>
-              </div>
-
-              {error && (
-                <Alert variant="destructive">
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-
-              {successMessage && (
-                <Alert>
-                  <AlertDescription>{successMessage}</AlertDescription>
-                </Alert>
-              )}
-
-              <Button
-                type="submit"
-                className="w-full bg-green-600 hover:bg-green-700"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Loading...' : (isLogin ? 'Masuk' : 'Daftar')}
-              </Button>
-
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsLogin(!isLogin)
-                    setError('')
-                    setSuccessMessage('')
-                  }}
-                  className="text-sm text-green-600 hover:text-green-700"
-                >
-                  {isLogin
-                    ? 'Belum punya akun? Daftar sekarang'
-                    : 'Sudah punya akun? Masuk'
-                  }
-                </button>
-              </div>
-            </form>
-
-            <div className="mt-6 text-center">
-              <Link
-                href="/demo"
-                className="text-sm text-gray-600 hover:text-gray-900"
-              >
-                Coba demo →
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      )}
     </AuthSuspenseWrapper>
   )
 }

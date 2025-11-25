@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getActivePersona } from '@/lib/persona-service'
 import { chatStorage } from '@/lib/chat-storage'
 
+// Force dynamic rendering for this API route
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 // AI Service Configuration with Priority Fallback
 const getAIServiceConfig = () => {
   const services = process.env.AI_SERVICE_PRIORITY?.split(',').map(s => s.trim()) || ['openrouter', 'zai', 'ollama']
@@ -44,8 +48,14 @@ const getAIServiceConfig = () => {
   throw new Error('No AI service configured. Please set OPENROUTER_API_KEY, ZAI_API_KEY, or OLLAMA_BASE_URL & OLLAMA_MODEL')
 }
 
-// Get active AI service configuration
-const activeAI = getAIServiceConfig()
+// Get active AI service configuration (moved to runtime)
+const getActiveAI = () => {
+  try {
+    return getAIServiceConfig()
+  } catch (error) {
+    throw new Error('No AI service configured. Please set OPENROUTER_API_KEY, ZAI_API_KEY, or OLLAMA_BASE_URL & OLLAMA_MODEL')
+  }
+}
 
 
 interface OllamaMessage {
@@ -102,14 +112,20 @@ interface OpenRouterResponse {
 
 // Function to call Ollama API
 async function callOllamaAPI(messages: OllamaMessage[]): Promise<string> {
+  const activeAI = getActiveAI()
+
+  if (activeAI.service !== 'OLLAMA') {
+    throw new Error('Ollama API called but active service is not Ollama')
+  }
+
   const ollamaRequest: OllamaRequest = {
-    model: OLLAMA_MODEL,
+    model: activeAI.config.model,
     messages: messages,
     stream: false
   }
 
   try {
-    const response = await fetch(`${OLLAMA_BASE_URL}/api/chat`, {
+    const response = await fetch(`${activeAI.config.baseUrl}/api/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

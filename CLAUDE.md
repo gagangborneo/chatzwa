@@ -91,9 +91,11 @@ docker-compose build
 - Loading states and error handling
 
 #### API Routes
-- `src/app/api/chat/route.ts`: Main chat endpoint with AI service integration
+- `src/app/api/chat/route.ts`: Main chat endpoint with multi-service AI integration
 - `src/app/api/health/route.ts`: Health check endpoint for monitoring
-- Smart switching between ZAI API and Ollama based on environment configuration
+- Smart service prioritization with automatic fallback between OpenRouter, ZAI API, and Ollama
+- Response includes AI service metadata for monitoring and debugging
+- Supports model-specific configuration and fallback models for reliability
 
 #### Database (`src/lib/db.ts`, `prisma/schema.prisma`)
 - SQLite database with Prisma ORM
@@ -144,10 +146,45 @@ docker-compose build
 - Persistent volumes for logs and data
 
 #### Environment Variables
-The application supports optional Ollama integration:
+The application supports multiple AI service providers with automatic fallback:
+
+**AI Service Priority Configuration:**
+- `AI_SERVICE_PRIORITY`: Comma-separated priority list (default: openrouter,zai,ollama)
+- The app will try services in order until it finds an available one
+
+**OpenRouter (Recommended - Multi-Model Gateway):**
+- `OPENROUTER_API_KEY`: Your OpenRouter API key
+- `OPENROUTER_MODEL`: Model name (default: deepseek/deepseek-chat-v3.1:free)
+- `OPENROUTER_BASE_URL`: API endpoint (default: https://openrouter.ai/api/v1)
+- `OPENROUTER_MAX_TOKENS`: Maximum tokens (default: 4000)
+- `OPENROUTER_TEMPERATURE`: Response creativity 0-1 (default: 0.7)
+- `OPENROUTER_FALLBACK_MODEL`: Backup model if primary fails
+
+**ZAI API (Alternative Cloud Service):**
+- `ZAI_API_KEY`: Your ZAI API key
+- `ZAI_API_URL`: API endpoint (default: https://api.z.ai/v1)
+- `ZAI_MODEL`: Model name (default: zai-gpt-4)
+- `ZAI_MAX_TOKENS`: Maximum tokens (default: 4000)
+- `ZAI_TEMPERATURE`: Response creativity 0-1 (default: 0.7)
+
+**Ollama (Local Service):**
 - `OLLAMA_BASE_URL`: Ollama service URL (default: http://localhost:11434)
 - `OLLAMA_MODEL`: Model name (default: llama2)
-- If unset, falls back to ZAI API
+- `OLLAMA_MAX_TOKENS`: Maximum tokens (default: 4000)
+- `OLLAMA_TEMPERATURE`: Response creativity 0-1 (default: 0.7)
+- `OLLAMA_TIMEOUT`: Request timeout in milliseconds (default: 60000)
+
+**Example Configuration:**
+```bash
+# Primary: OpenRouter with DeepSeek model
+OPENROUTER_API_KEY=sk-or-v1-your-api-key
+OPENROUTER_MODEL=deepseek/deepseek-chat-v3.1:free
+AI_SERVICE_PRIORITY=openrouter,ollama,zai
+
+# Fallback: Local Ollama
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama2
+```
 
 ### Project Structure
 ```

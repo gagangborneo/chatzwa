@@ -14,7 +14,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 
   // Turbopack configuration for Next.js 16
-  turbopack: {}, // Use empty config to enable Turbopack
+  turbopack: {
+    // Module resolution for better compatibility
+    resolveAlias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
 
   // Webpack configuration with path aliases
   webpack: (config, { dev, isServer }) => {

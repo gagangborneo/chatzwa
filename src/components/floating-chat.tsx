@@ -20,7 +20,7 @@ import {
   MapPin
 } from 'lucide-react'
 import { useI18n } from '@/lib/i18n'
-import { localStorageClient } from '@/lib/local-storage-client'
+import { localStorageClient } from '../lib/local-storage-client'
 
 interface Message {
   id: string

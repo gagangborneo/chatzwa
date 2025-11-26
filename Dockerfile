@@ -1,5 +1,5 @@
 # Use official Node.js runtime as base image
-FROM node:18-alpine AS base
+FROM node:22-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN npm ci && npm cache clean --force
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -19,9 +19,10 @@ COPY . .
 
 # Environment variables for build
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build the application
-RUN npm run build
+# Build the application with webpack (to avoid Turbopack issues)
+RUN npm run build -- --webpack
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -55,8 +56,11 @@ ENV HOSTNAME "0.0.0.0"
 # Memory management and performance optimizations
 ENV NODE_OPTIONS="--max-old-space-size=512 --optimize-for-size --max-executable-size=96"
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node healthcheck.js
+# Install curl for health check and tsx for TypeScript execution
+RUN apk add --no-cache curl
 
-CMD ["node", "server.js"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:3000/api/health || exit 1
+
+CMD ["npx", "tsx", "server.ts"]

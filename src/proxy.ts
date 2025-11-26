@@ -44,7 +44,7 @@ const publicPageRoutes = [
 ]
 
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Special case: root route is public
